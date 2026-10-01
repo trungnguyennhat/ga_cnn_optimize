@@ -2,7 +2,7 @@
 
 Chỉ đánh dấu `[x]` sau khi người dùng tự chạy, kiểm thử và xác nhận. Chỉ thực hiện một stage tại một thời điểm.
 
-## [ ] Stage 1 — Baseline và model builder
+## [x] Stage 1 — Baseline và model builder
 
 - Giữ loader, pipeline huấn luyện và kết quả baseline hiện tại.
 - Biểu diễn baseline bằng chromosome kiến trúc.
@@ -12,7 +12,11 @@ Chỉ đánh dấu `[x]` sau khi người dùng tự chạy, kiểm thử và x�
 
 Xác nhận khi baseline vẫn chạy và model builder tạo output `(batch, 7)` cho kiến trúc hợp lệ.
 
-## [ ] Stage 2 — Search space và NSGA-II độc lập
+Người dùng đã xác nhận hoàn thành Stage 1 và yêu cầu chuyển sang Stage 2 ngày 2026-10-01.
+
+## [x] Stage 2 — Search space và NSGA-II độc lập
+
+Người dùng đã xác nhận Stage 2 chạy thành công và yêu cầu chuyển sang Stage 3 ngày 2026-10-01.
 
 - Sinh, canonicalize, validate và repair chromosome.
 - Triển khai dominance, nondominated sorting, crowding distance và tournament selection.
@@ -23,7 +27,9 @@ Xác nhận khi toán tử luôn sinh kiến trúc hợp lệ và NSGA-II dừng
 
 ## [ ] Stage 3 — Tích hợp NAS với CNN
 
-- Train mỗi kiến trúc 5 epoch với training hyperparameters cố định.
+Stage hiện tại: người dùng đã chạy cấu hình GA 5 epoch; đã điều chỉnh baseline và GA cùng 25 epoch theo yêu cầu, chờ chạy lại và xác nhận kết quả.
+
+- Train mỗi kiến trúc 25 epoch (cùng baseline theo yêu cầu người dùng) với training hyperparameters cố định.
 - Fitness gồm validation macro AUC và số tham số.
 - Cache theo canonical architecture và seed; cache hit không train lại.
 - Log từng evaluation vào `results/ga_search/`.
@@ -33,7 +39,7 @@ Xác nhận khi pipeline `NSGA-II → CNN → Pareto objectives` chạy đúng v
 ## [ ] Stage 4 — Random Architecture Search và thực nghiệm
 
 - Thêm Random Architecture Search dùng cùng search space.
-- Chạy GA-NAS và Random Search với cùng budget 80, 5 epoch và seed `1, 2, 3`.
+- Chạy GA-NAS và Random Search với cùng budget 80, 25 epoch và seed `1, 2, 3`.
 - Log cấu hình, metrics, runtime, Pareto rank, crowding và best-so-far.
 
 Xác nhận khi hai phương pháp dừng đúng budget và log đủ để tái lập.

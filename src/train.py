@@ -1,4 +1,4 @@
-"""Train and validate the Stage 1 DermaMNIST baseline."""
+"""Train and validate the DermaMNIST baseline."""
 
 import argparse
 import json
@@ -12,10 +12,12 @@ from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
-from model import BaselineCNN
+from src.model import BaselineCNN
 
 
-DATA_PATH = Path("data/dermamnist_64.npz")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATA_PATH = PROJECT_ROOT / "data" / "dermamnist_64.npz"
+DEFAULT_EPOCHS = 25
 EXPECTED = {
     "train_images": (7007, 64, 64, 3),
     "train_labels": (7007, 1),
@@ -84,32 +86,15 @@ def resolve_device(name: str) -> torch.device:
     return device
 
 
-def train_baseline(
-    *,
-    learning_rate: float = 0.001,
-    batch_size: int = 64,
-    dropout: float = 0.3,
-    optimizer_name: str = "Adam",
-    filters: int = 32,
-    epochs: int = 15,
-    seed: int = 42,
-    device_name: str = "auto",
-    data_path: Path = DATA_PATH,
-    output_dir: Path | None = None,
-) -> dict[str, float | int | str]:
-    if learning_rate <= 0 or batch_size <= 0 or epochs <= 0:
-        raise ValueError("learning_rate, batch_size, and epochs must be positive")
-
-    set_seed(seed)
-    device = resolve_device(device_name)
-    train_data, val_data, class_weights = load_data(data_path)
+def train_model(model, loaded_data, *, learning_rate, batch_size, optimizer_name, epochs, seed, device):
+    train_data, val_data, class_weights = loaded_data
     generator = torch.Generator().manual_seed(seed)
     train_loader = DataLoader(
         train_data, batch_size=batch_size, shuffle=True, generator=generator
     )
     val_loader = DataLoader(val_data, batch_size=batch_size)
 
-    model = BaselineCNN(filters=filters, dropout=dropout).to(device)
+    model = model.to(device)
     criterion = nn.CrossEntropyLoss(weight=class_weights.to(device))
     optimizers = {"Adam": torch.optim.Adam, "AdamW": torch.optim.AdamW}
     if optimizer_name not in optimizers:
@@ -159,6 +144,34 @@ def train_baseline(
         "seed": seed,
         "device": str(device),
     }
+    return metrics, train_loss_history, time.perf_counter() - started
+
+
+def train_baseline(
+    *,
+    learning_rate: float = 0.001,
+    batch_size: int = 64,
+    dropout: float = 0.3,
+    optimizer_name: str = "Adam",
+    filters: int = 32,
+    epochs: int = DEFAULT_EPOCHS,
+    seed: int = 42,
+    device_name: str = "auto",
+    data_path: Path = DATA_PATH,
+    output_dir: Path | None = None,
+) -> dict[str, float | int | str]:
+    if learning_rate <= 0 or batch_size <= 0 or epochs <= 0:
+        raise ValueError("learning_rate, batch_size, and epochs must be positive")
+
+    set_seed(seed)
+    device = resolve_device(device_name)
+    train_data, val_data, class_weights = load_data(data_path)
+    model = BaselineCNN(filters=filters, dropout=dropout)
+    metrics, train_loss_history, runtime = train_model(
+        model, (train_data, val_data, class_weights), learning_rate=learning_rate,
+        batch_size=batch_size, optimizer_name=optimizer_name, epochs=epochs,
+        seed=seed, device=device,
+    )
     if output_dir is not None:
         output_dir.mkdir(parents=True, exist_ok=True)
         result_path = output_dir / f"seed_{seed}.json"
@@ -177,7 +190,7 @@ def train_baseline(
             },
             "history": {"train_loss": train_loss_history},
             "metrics": metrics,
-            "runtime_seconds": time.perf_counter() - started,
+            "runtime_seconds": runtime,
         }
         result_path.write_text(json.dumps(result, indent=2), encoding="utf-8")
         print(f"result={result_path}")
@@ -192,10 +205,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dropout", type=float, default=0.3)
     parser.add_argument("--optimizer", choices=("Adam", "AdamW"), default="Adam")
     parser.add_argument("--filters", type=int, default=32)
-    parser.add_argument("--epochs", type=int, default=15)
+    parser.add_argument("--epochs", type=int, default=DEFAULT_EPOCHS)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--device", default="auto", help="auto, cpu, cuda, or cuda:N")
-    parser.add_argument("--output-dir", type=Path, default=Path("results/baseline"))
+    parser.add_argument("--output-dir", type=Path, default=PROJECT_ROOT / "results" / "baseline")
     return parser.parse_args()
 
 

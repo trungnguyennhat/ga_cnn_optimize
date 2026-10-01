@@ -16,9 +16,13 @@ So sánh CNN baseline thiết kế thủ công, Random Architecture Search và G
 
 ## CNN baseline
 
-Baseline gồm ba block `Conv2D → ReLU → MaxPool`, filters `32, 64, 128`, dropout `0.3` và classifier 7 lớp. Huấn luyện bằng Adam, learning rate `0.001`, batch size `64`, weighted cross-entropy, 15 epoch và seed `42`.
+Baseline gồm ba block `Conv2D → ReLU → MaxPool`, filters `32, 64, 128`, dropout `0.3` và classifier 7 lớp. Huấn luyện bằng Adam, learning rate `0.001`, batch size `64`, weighted cross-entropy, 25 epoch và seed `42`.
+
+Baseline và mỗi CNN trong GA mặc định train 25 epoch, dùng chung `DEFAULT_EPOCHS` trong `src/train.py`; cả hai lệnh hỗ trợ `--epochs`. Các kết quả cũ 15/5 epoch chưa được chạy lại.
 
 Kết quả baseline hiện tại được giữ tại `results/baseline/seed_42.json`.
+
+Code Python nằm trong `src/`: `train.py` huấn luyện baseline và cung cấp luồng train dùng chung, `model.py` xây dựng CNN, `search_space.py` chứa chromosome và toán tử, `nsga2.py` triển khai NSGA-II, `ga_search.py` tìm kiếm bằng fitness CNN thực tế. Chạy `python -m src.train` hoặc `python -m src.ga_search`; lệnh PowerShell đầy đủ nằm trong `GUIDE.md`.
 
 ## Không gian kiến trúc
 
@@ -54,7 +58,7 @@ tournament_size: 3
 crossover: uniform_by_block
 crossover_rate: 0.8
 mutation_probability: 0.15
-fitness_epochs: 5
+fitness_epochs: 25
 objectives:
   - maximize: validation_macro_auc_ovr
   - minimize: parameter_count

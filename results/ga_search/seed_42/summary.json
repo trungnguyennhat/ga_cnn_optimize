@@ -1,0 +1,2553 @@
+{
+  "experiment": "ga_search",
+  "config": {
+    "epochs": 25,
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "optimizer": "Adam",
+    "seed": 42,
+    "device": "cuda",
+    "train_val_sha256": "85ae22678d3470426d0b7af4fff268eb5e6c90ede2f110fd8fc41ff274bfdc39",
+    "training_version": 1,
+    "budget": 80,
+    "population_size": 10,
+    "tournament_size": 3,
+    "crossover_rate": 0.8,
+    "mutation_probability": 0.15
+  },
+  "evaluations": 80,
+  "generations": 7,
+  "new_trainings": 80,
+  "cache_hits": 0,
+  "runtime_seconds": 1763.0508521999998,
+  "pareto_front": [
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9185661500913422,
+      "parameter_count": 37079
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8581379196943979,
+      "parameter_count": 13063
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.9106968929763131,
+      "parameter_count": 14135
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9087600702941288,
+      "parameter_count": 13095
+    }
+  ],
+  "evaluated": [
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.5
+      },
+      "val_macro_auc_ovr": 0.8911848204948277,
+      "parameter_count": 82567
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 32,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8880057650018348,
+      "parameter_count": 51719
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.9035672455576977,
+      "parameter_count": 21287
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.8529464535668091,
+      "parameter_count": 43959
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.4
+      },
+      "val_macro_auc_ovr": 0.885418398418602,
+      "parameter_count": 42903
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 64,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8706247280357778,
+      "parameter_count": 67623
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 64,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8934076490998442,
+      "parameter_count": 394599
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8395081271948195,
+      "parameter_count": 334407
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 64,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 32,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.5
+      },
+      "val_macro_auc_ovr": 0.9088447220896326,
+      "parameter_count": 174823
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.4
+      },
+      "val_macro_auc_ovr": 0.8777174563038586,
+      "parameter_count": 42855
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.4
+      },
+      "val_macro_auc_ovr": 0.8808570214683238,
+      "parameter_count": 116311
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8902102325884113,
+      "parameter_count": 256759
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.5
+      },
+      "val_macro_auc_ovr": 0.9123956496232358,
+      "parameter_count": 138359
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8785075075903565,
+      "parameter_count": 59319
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.5
+      },
+      "val_macro_auc_ovr": 0.8988010517995181,
+      "parameter_count": 332455
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9048065216217561,
+      "parameter_count": 53319
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.5
+      },
+      "val_macro_auc_ovr": 0.905326912059477,
+      "parameter_count": 74823
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9140146288700983,
+      "parameter_count": 467079
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9085213762285852,
+      "parameter_count": 37079
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 64,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.5
+      },
+      "val_macro_auc_ovr": 0.902120494272404,
+      "parameter_count": 338535
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8996280877108019,
+      "parameter_count": 146519
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9024947872181824,
+      "parameter_count": 37111
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8926362819334553,
+      "parameter_count": 21255
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 32,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.8923872744938037,
+      "parameter_count": 245799
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.4
+      },
+      "val_macro_auc_ovr": 0.9014749625992268,
+      "parameter_count": 101447
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8740389154472844,
+      "parameter_count": 34135
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9185661500913422,
+      "parameter_count": 37079
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.8948331661189323,
+      "parameter_count": 208919
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.894582361928482,
+      "parameter_count": 59703
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9003307655369914,
+      "parameter_count": 467079
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8771630047717237,
+      "parameter_count": 44199
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8987955604249677,
+      "parameter_count": 28935
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8906072631054818,
+      "parameter_count": 14167
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.891501214797645,
+      "parameter_count": 21255
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.8881143001444027,
+      "parameter_count": 74855
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.862609914886513,
+      "parameter_count": 21255
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9015177160132506,
+      "parameter_count": 191159
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.5
+      },
+      "val_macro_auc_ovr": 0.9057199195217519,
+      "parameter_count": 22327
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8913667665312076,
+      "parameter_count": 41143
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8759864901024658,
+      "parameter_count": 20567
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 32,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8925109754849478,
+      "parameter_count": 26647
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9163580088989131,
+      "parameter_count": 467079
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8940340748142598,
+      "parameter_count": 36951
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8581379196943979,
+      "parameter_count": 13063
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9062388400581952,
+      "parameter_count": 17191
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8605183729159805,
+      "parameter_count": 18199
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8952883943663016,
+      "parameter_count": 50503
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8735077305959457,
+      "parameter_count": 14103
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.5
+      },
+      "val_macro_auc_ovr": 0.9047507304430881,
+      "parameter_count": 41175
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8880573553889656,
+      "parameter_count": 21559
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.841501937788172,
+      "parameter_count": 40423
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8906273447007946,
+      "parameter_count": 17191
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8803147501934231,
+      "parameter_count": 17159
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.4
+      },
+      "val_macro_auc_ovr": 0.8920813695900885,
+      "parameter_count": 17159
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9099339027412608,
+      "parameter_count": 67671
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.9106968929763131,
+      "parameter_count": 14135
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9063684821690796,
+      "parameter_count": 96199
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8877056624692864,
+      "parameter_count": 79511
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9074566454481834,
+      "parameter_count": 40167
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8966835734346656,
+      "parameter_count": 20727
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8424603939166503,
+      "parameter_count": 78199
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.8977980365422257,
+      "parameter_count": 13127
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8818927299345141,
+      "parameter_count": 14103
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.9025669135578906,
+      "parameter_count": 18263
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.9095386773077269,
+      "parameter_count": 77287
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.889907166045362,
+      "parameter_count": 40103
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8748053468356725,
+      "parameter_count": 17191
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.901109178713851,
+      "parameter_count": 13095
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9068396221477603,
+      "parameter_count": 41207
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8467716243354568,
+      "parameter_count": 319063
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 64,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9027263496430072,
+      "parameter_count": 33159
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.884059376899038,
+      "parameter_count": 137095
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8931345002036929,
+      "parameter_count": 79479
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9087600702941288,
+      "parameter_count": 13095
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8970675850887667,
+      "parameter_count": 70727
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.8591687749207777,
+      "parameter_count": 728967
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 32,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          }
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.8948848209229908,
+      "parameter_count": 17687
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 128,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.8824304833882588,
+      "parameter_count": 112007
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 32,
+            "kernel_size": 5,
+            "pooling": "avg",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 32,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 64,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9134248106386762,
+      "parameter_count": 45751
+    },
+    {
+      "architecture": {
+        "blocks": [
+          {
+            "filters": 64,
+            "kernel_size": 5,
+            "pooling": "max",
+            "batch_norm": true
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "avg",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": false
+          },
+          {
+            "filters": 16,
+            "kernel_size": 3,
+            "pooling": "max",
+            "batch_norm": true
+          }
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9074807621149565,
+      "parameter_count": 20695
+    }
+  ]
+}
