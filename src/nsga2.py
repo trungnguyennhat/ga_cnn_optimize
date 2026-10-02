@@ -165,8 +165,10 @@ def run_nsga2(
         generations += 1
     # Archive Pareto front covers all evaluations, including discarded individuals.
     archive = deepcopy(list(evaluated.values()))
-    pareto = nondominated_sort(archive)[0]
-    crowding_distance(pareto)
+    fronts = nondominated_sort(archive)
+    for front in fronts:
+        crowding_distance(front)
+    pareto = fronts[0]
     return {
         "seed": seed,
         "evaluations": len(evaluated),

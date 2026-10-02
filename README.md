@@ -4,7 +4,7 @@
 
 Xây dựng Neural Architecture Search dùng NSGA-II để đồng thời tối đa hóa validation macro ROC AUC và tối thiểu hóa số tham số của CNN phân loại tổn thương da trên DermaMNIST 64×64.
 
-So sánh CNN baseline thiết kế thủ công, Random Architecture Search và GA-NAS trong cùng không gian kiến trúc, split, số epoch và ngân sách đánh giá. GA không bắt buộc phải thắng Random Search; kết luận dựa trên nhiều seed, Pareto front và chi phí tìm kiếm.
+So sánh CNN baseline thiết kế thủ công, Random Architecture Search và GA-NAS trong cùng không gian kiến trúc, split, số epoch, seed và ngân sách đánh giá. GA không bắt buộc phải thắng Random Search; kết luận dựa trên Pareto front, chi phí tìm kiếm và đánh giá cuối nhiều seed.
 
 ## Dataset
 
@@ -18,11 +18,11 @@ So sánh CNN baseline thiết kế thủ công, Random Architecture Search và G
 
 Baseline gồm ba block `Conv2D → ReLU → MaxPool`, filters `32, 64, 128`, dropout `0.3` và classifier 7 lớp. Huấn luyện bằng Adam, learning rate `0.001`, batch size `64`, weighted cross-entropy, 25 epoch và seed `42`.
 
-Baseline và mỗi CNN trong GA mặc định train 25 epoch, dùng chung `DEFAULT_EPOCHS` trong `src/train.py`; cả hai lệnh hỗ trợ `--epochs`. Các kết quả cũ 15/5 epoch chưa được chạy lại.
+Baseline và mỗi CNN trong GA mặc định train 25 epoch, dùng chung `DEFAULT_EPOCHS` trong `src/train.py`; các lệnh baseline, GA và Random Search đều hỗ trợ `--epochs`.
 
 Kết quả baseline hiện tại được giữ tại `results/baseline/seed_42.json`.
 
-Code Python nằm trong `src/`: `train.py` huấn luyện baseline và cung cấp luồng train dùng chung, `model.py` xây dựng CNN, `search_space.py` chứa chromosome và toán tử, `nsga2.py` triển khai NSGA-II, `ga_search.py` tìm kiếm bằng fitness CNN thực tế. Chạy `python -m src.train` hoặc `python -m src.ga_search`; lệnh PowerShell đầy đủ nằm trong `GUIDE.md`.
+Code Python nằm trong `src/`: `train.py` huấn luyện baseline và cung cấp luồng train dùng chung, `model.py` xây dựng CNN, `search_space.py` chứa chromosome và toán tử, `nsga2.py` triển khai NSGA-II, `search_runtime.py` dùng chung việc train/cache/log, `ga_search.py` chạy GA-NAS và `random_search.py` chạy Random Architecture Search. Lệnh PowerShell đầy đủ nằm trong `GUIDE.md`.
 
 ## Không gian kiến trúc
 
@@ -67,12 +67,13 @@ objectives:
 - NSGA-II dùng nondominated sorting và crowding distance, không gộp hai mục tiêu bằng hệ số phạt.
 - Cache dùng canonical architecture và seed; cache hit không tăng evaluation budget.
 - GA-NAS và Random Architecture Search dùng cùng search space và ngân sách 80 kiến trúc thực sự được train.
-- Mỗi phương pháp chạy với seed `1, 2, 3`.
+- GA-NAS và Random Architecture Search cùng chạy một lần với seed `42` để so sánh trực tiếp.
+- Mỗi evaluation được log cùng best AUC, số tham số nhỏ nhất và kích thước Pareto front tính đến thời điểm đó; summary cuối chứa Pareto rank và crowding distance.
 
 ## Đánh giá cuối
 
-Từ Pareto front của mỗi phương pháp, chọn kiến trúc AUC cao nhất, nhỏ nhất và knee point. Train lại tối đa 25 epoch với seed `1, 2, 3`, early stopping patience 5, sau đó mới đánh giá test.
+Từ Pareto front validation của mỗi phương pháp, chọn kiến trúc AUC cao nhất, knee point và model nhỏ nhất có AUC không thấp hơn baseline. Train lại tối đa 25 epoch với seed `1, 2, 3`, early stopping patience 5, lưu checkpoint, sau đó mới đánh giá test.
 
-Báo cáo mean ± standard deviation của loss, accuracy, macro F1, macro AUC, số tham số và runtime; kèm confusion matrix, đường hội tụ, độ đa dạng và Pareto AUC–model size.
+Báo cáo mean ± standard deviation của loss, accuracy, macro F1, macro AUC, số tham số và runtime. So sánh GA-NAS với Random Search bằng Hypervolume chung, Coverage hai chiều, đường hội tụ và Pareto AUC–model size có điểm baseline; kèm confusion matrix và độ ổn định của các model được chọn. Không dùng IGD vì không có Pareto front chuẩn đáng tin cậy.
 
 Tiến độ và lệnh chạy được quy định trong `CHECKPOINTS.md`, `AGENTS.md` và `GUIDE.md`.

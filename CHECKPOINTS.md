@@ -25,9 +25,9 @@ Người dùng đã xác nhận Stage 2 chạy thành công và yêu cầu chuy�
 
 Xác nhận khi toán tử luôn sinh kiến trúc hợp lệ và NSGA-II dừng đúng budget thực tế.
 
-## [ ] Stage 3 — Tích hợp NAS với CNN
+## [x] Stage 3 — Tích hợp NAS với CNN
 
-Stage hiện tại: người dùng đã chạy cấu hình GA 5 epoch; đã điều chỉnh baseline và GA cùng 25 epoch theo yêu cầu, chờ chạy lại và xác nhận kết quả.
+Người dùng đã xác nhận Stage 3 hoàn thành và yêu cầu chuyển sang Stage 4 ngày 2026-10-02. Lần chạy seed 42 đã đánh giá đủ 80 kiến trúc, mỗi kiến trúc 25 epoch, và xuất Pareto front từ validation.
 
 - Train mỗi kiến trúc 25 epoch (cùng baseline theo yêu cầu người dùng) với training hyperparameters cố định.
 - Fitness gồm validation macro AUC và số tham số.
@@ -38,28 +38,34 @@ Xác nhận khi pipeline `NSGA-II → CNN → Pareto objectives` chạy đúng v
 
 ## [ ] Stage 4 — Random Architecture Search và thực nghiệm
 
+Stage hiện tại: đã viết Random Architecture Search và đồng bộ log so sánh với GA-NAS; chờ người dùng chạy seed `42` và xác nhận.
+
 - Thêm Random Architecture Search dùng cùng search space.
-- Chạy GA-NAS và Random Search với cùng budget 80, 25 epoch và seed `1, 2, 3`.
-- Log cấu hình, metrics, runtime, Pareto rank, crowding và best-so-far.
+- Chạy GA-NAS và Random Search với cùng budget 80, 25 epoch và seed `42`.
+- Log cấu hình, metrics, runtime, Pareto rank, crowding, best AUC, model nhỏ nhất và kích thước Pareto front theo từng evaluation.
 
 Xác nhận khi hai phương pháp dừng đúng budget và log đủ để tái lập.
 
 ## [ ] Stage 5 — Chọn kiến trúc và đánh giá cuối
 
-- Chọn AUC cao nhất, model nhỏ nhất và knee point từ Pareto front mỗi phương pháp.
+- Từ Pareto front validation của mỗi phương pháp, chọn ba đại diện theo quy tắc cố định: AUC cao nhất, knee point trên hai mục tiêu đã chuẩn hóa, và model nhỏ nhất có AUC không thấp hơn baseline.
 - Train lại tối đa 25 epoch với seed `1, 2, 3`, early stopping patience 5.
 - Chỉ tại stage này mới đọc test split.
-- Lưu kết quả vào `results/final_eval/`.
+- Lưu checkpoint model, cấu hình, lịch sử train, validation/test metrics và prediction dùng cho confusion matrix vào `results/final_eval/`.
 
-Xác nhận khi test không tham gia chọn kiến trúc và có đủ kết quả nhiều seed.
+Xác nhận khi test không tham gia chọn kiến trúc, ba quy tắc chọn cho kết quả tái lập và có đủ checkpoint/kết quả cho ba seed.
 
 ## [ ] Stage 6 — Phân tích nghiên cứu
 
 - Tổng hợp mean ± standard deviation, loss, accuracy, macro F1, macro AUC, số tham số và runtime.
-- Tạo confusion matrix, đường hội tụ, biểu đồ độ đa dạng và Pareto AUC–model size.
-- So sánh baseline, GA-NAS và Random Architecture Search.
+- Tính Hypervolume cuối và Hypervolume theo evaluation cho GA-NAS/Random Search sau khi chuẩn hóa chung; dùng cùng một reference point cố định suy ra từ giới hạn số tham số của search space.
+- Tính Coverage hai chiều `C(GA, Random)` và `C(Random, GA)` để đo tỷ lệ điểm Pareto của phương pháp này bị phương pháp kia thống trị.
+- So sánh AUC cao nhất, knee point, model nhỏ nhất đạt AUC baseline, mức giảm tham số và chi phí tìm kiếm của baseline, GA-NAS và Random Architecture Search.
+- Tạo Pareto AUC–model size có điểm baseline, Hypervolume theo evaluation, best AUC theo evaluation, model nhỏ nhất đạt AUC baseline theo evaluation, confusion matrix và biểu đồ độ ổn định qua các seed retrain.
+- Nêu rõ giới hạn: search Stage 4 chỉ dùng seed 42; nhiều seed ở Stage 5 đánh giá độ ổn định của model được chọn, không chứng minh độ ổn định của thuật toán search.
+- Không dùng IGD vì không có Pareto front chuẩn đáng tin cậy.
 
-Xác nhận khi bảng và biểu đồ phản ánh đúng log thí nghiệm.
+Xác nhận khi Hypervolume/Coverage dùng cùng chuẩn hóa và reference point, bảng/biểu đồ truy ngược đúng log, và kết luận không vượt quá bằng chứng một search seed.
 
 ## [ ] Stage 7 — Hoàn thiện và bàn giao
 

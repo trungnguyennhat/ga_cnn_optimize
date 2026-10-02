@@ -1,0 +1,82 @@
+{
+  "architecture": {
+    "blocks": [
+      {
+        "filters": 64,
+        "kernel_size": 5,
+        "pooling": "avg",
+        "batch_norm": true
+      },
+      {
+        "filters": 64,
+        "kernel_size": 5,
+        "pooling": "max",
+        "batch_norm": false
+      },
+      {
+        "filters": 32,
+        "kernel_size": 5,
+        "pooling": "max",
+        "batch_norm": false
+      },
+      {
+        "filters": 32,
+        "kernel_size": 3,
+        "pooling": "avg",
+        "batch_norm": true
+      }
+    ],
+    "dropout": 0.5
+  },
+  "config": {
+    "epochs": 25,
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "optimizer": "Adam",
+    "seed": 42,
+    "device": "cuda",
+    "train_val_sha256": "85ae22678d3470426d0b7af4fff268eb5e6c90ede2f110fd8fc41ff274bfdc39",
+    "training_version": 1
+  },
+  "metrics": {
+    "train_loss": 0.865688513013288,
+    "val_loss": 1.0529164484704836,
+    "val_accuracy": 0.5882352941176471,
+    "val_macro_f1": 0.4675550235225007,
+    "val_macro_auc_ovr": 0.9141281066850505,
+    "epochs": 25,
+    "seed": 42,
+    "device": "cuda"
+  },
+  "parameter_count": 171591,
+  "history": {
+    "train_loss": [
+      1.6994338202479904,
+      1.5123442559945222,
+      1.433404905472466,
+      1.3798987875060278,
+      1.3286028822257412,
+      1.2958527509438358,
+      1.2459129056798521,
+      1.2422491987778794,
+      1.2046564383600005,
+      1.1740855699737622,
+      1.1426452825833986,
+      1.1150275163615126,
+      1.1020908010181183,
+      1.0663920637457793,
+      1.0658588635354949,
+      1.0374587874993015,
+      1.0089022998924142,
+      1.0122051323567713,
+      1.002628639163892,
+      0.9829076817427992,
+      0.9268371318978013,
+      0.940422144496902,
+      0.8870663024464909,
+      0.8728321923055441,
+      0.865688513013288
+    ]
+  },
+  "runtime_seconds": 28.475033599999733
+}
