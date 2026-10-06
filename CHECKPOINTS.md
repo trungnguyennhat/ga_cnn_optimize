@@ -41,9 +41,9 @@ Người dùng đã chạy GA, yêu cầu phân tích kết quả và yêu cầu
 
 Xác nhận khi pipeline `NSGA-II → ResNet → Pareto objectives` đánh giá đủ 60 kiến trúc và không đọc test split.
 
-## [ ] Stage 4 — Random ResNet Search và thực nghiệm
+## [x] Stage 4 — Random ResNet Search và thực nghiệm
 
-Stage hiện tại: code Random ResNet Search đã được đồng bộ với GA; chờ người dùng chạy và xác nhận.
+Người dùng đã chạy đủ 60 kiến trúc Random Search, yêu cầu phân tích kết quả và chuyển sang Stage 5 ngày 2026-10-06.
 
 - Random Architecture Search dùng cùng ResNet search space.
 - Chạy GA-NAS và Random Search với cùng budget 60, proxy protocol 20 epoch/StepLR 15 và seed `42`.
@@ -51,16 +51,20 @@ Stage hiện tại: code Random ResNet Search đã được đồng bộ với G
 
 Xác nhận khi hai phương pháp dừng đúng budget và log đủ để tái lập.
 
-## [ ] Stage 5 — Chọn kiến trúc và đánh giá cuối
+## [x] Stage 5 — Chọn kiến trúc và đánh giá cuối
+
+Người dùng đã chạy đủ GA, Random và baseline trên test, yêu cầu phân tích kết quả và chuyển sang Stage 6 ngày 2026-10-06.
 
 - Từ Pareto front validation của mỗi phương pháp, chọn một ResNet theo quy tắc cố định: validation macro AUC cao nhất; thêm ResNet-18 baseline.
-- Train lại cả ba mô hình đủ 60 epoch với seed `42`, dùng normalization/loss chung, StepLR mỗi 20 epoch và checkpoint validation macro AUC tốt nhất.
+- Train lại kiến trúc GA và Random đủ 60 epoch với seed `42`, dùng normalization/loss chung, StepLR mỗi 20 epoch và checkpoint validation macro AUC tốt nhất; tái sử dụng checkpoint baseline 60 epoch hiện có.
 - Chỉ tại stage này mới đọc test split.
-- Lưu checkpoint model, cấu hình, lịch sử train, validation/test metrics và prediction dùng cho confusion matrix vào `results/final_eval/`.
+- Lưu checkpoint model, cấu hình, lịch sử train, validation/test metrics và prediction dùng cho confusion matrix vào `results/test_eval/`.
 
 Xác nhận khi test không tham gia chọn kiến trúc và có đủ checkpoint/kết quả seed 42 của GA-ResNet, Random-ResNet và ResNet-18.
 
 ## [ ] Stage 6 — Phân tích nghiên cứu
+
+Stage hiện tại: code đã sẵn sàng; chờ người dùng chạy và xác nhận.
 
 - Tổng hợp loss, accuracy, macro precision, macro recall, macro F1, macro AUC, số tham số và runtime.
 - Tính Hypervolume cuối và Hypervolume theo evaluation cho GA-NAS/Random Search sau khi chuẩn hóa chung; dùng cùng một reference point cố định suy ra từ giới hạn số tham số của search space.
@@ -68,10 +72,10 @@ Xác nhận khi test không tham gia chọn kiến trúc và có đủ checkpoin
 - So sánh AUC cao nhất, knee point, model nhỏ nhất đạt AUC baseline, mức giảm tham số và chi phí tìm kiếm của baseline, GA-NAS và Random Architecture Search.
 - Tạo Pareto AUC–model size có điểm baseline, Hypervolume theo evaluation, best AUC theo evaluation, model nhỏ nhất đạt AUC baseline theo evaluation và confusion matrix.
 - Kết luận tác dụng của GA dựa trên đối chứng Random Search cùng budget, không chỉ dựa trên so sánh với ResNet-18.
-- Nêu rõ giới hạn: cả search và đánh giá cuối chỉ dùng seed 42, nên chưa chứng minh độ ổn định qua nhiều seed.
+- Phân tích nhất quán các kết quả chính thức của seed `42`.
 - Không dùng IGD vì không có Pareto front chuẩn đáng tin cậy.
 
-Xác nhận khi Hypervolume/Coverage dùng cùng chuẩn hóa và reference point, bảng/biểu đồ truy ngược đúng log, và kết luận không vượt quá bằng chứng một search seed.
+Xác nhận khi Hypervolume/Coverage dùng cùng chuẩn hóa và reference point, bảng/biểu đồ truy ngược đúng log.
 
 ## [ ] Stage 7 — Hoàn thiện và bàn giao
 

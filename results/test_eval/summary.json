@@ -1,0 +1,75 @@
+{
+  "experiment": "test_evaluation",
+  "seed": 42,
+  "selection_uses": "validation_only",
+  "test_uses": "test_evaluation_only",
+  "baseline_training": "reused_saved_checkpoint",
+  "results": [
+    {
+      "model": "ga",
+      "parameter_count": 2768199,
+      "best_epoch": 21,
+      "validation_metrics": {
+        "val_loss": 0.6077221700344104,
+        "val_accuracy": 0.7856430707876371,
+        "val_macro_precision": 0.6387827789071218,
+        "val_macro_recall": 0.54236767304683,
+        "val_macro_f1": 0.5653815155175099,
+        "val_macro_auc_ovr": 0.942466207501853
+      },
+      "test_metrics": {
+        "test_loss": 0.6109421094902733,
+        "test_accuracy": 0.7880299251870324,
+        "test_macro_precision": 0.6366287154044779,
+        "test_macro_recall": 0.5673822206106681,
+        "test_macro_f1": 0.5918960981377831,
+        "test_macro_auc_ovr": 0.9364258284147579
+      },
+      "result": "results\\test_eval\\ga\\seed_42\\result.json"
+    },
+    {
+      "model": "random",
+      "parameter_count": 5820743,
+      "best_epoch": 22,
+      "validation_metrics": {
+        "val_loss": 0.6220649215778111,
+        "val_accuracy": 0.7776669990029911,
+        "val_macro_precision": 0.6807818302411744,
+        "val_macro_recall": 0.5438045613689642,
+        "val_macro_f1": 0.555369291046374,
+        "val_macro_auc_ovr": 0.9380229995085213
+      },
+      "test_metrics": {
+        "test_loss": 0.5984177315621602,
+        "test_accuracy": 0.7910224438902743,
+        "test_macro_precision": 0.6980693630160545,
+        "test_macro_recall": 0.5617592612905046,
+        "test_macro_f1": 0.5866390189628502,
+        "test_macro_auc_ovr": 0.9400891376366679
+      },
+      "result": "results\\test_eval\\random\\seed_42\\result.json"
+    },
+    {
+      "model": "baseline",
+      "parameter_count": 11172423,
+      "best_epoch": 22,
+      "validation_metrics": {
+        "val_loss": 0.5913214525458582,
+        "val_accuracy": 0.7986041874376869,
+        "val_macro_precision": 0.5693395925951711,
+        "val_macro_recall": 0.5427197799563139,
+        "val_macro_f1": 0.5540691396407952,
+        "val_macro_auc_ovr": 0.9395289252651529
+      },
+      "test_metrics": {
+        "test_loss": 0.5942013139736623,
+        "test_accuracy": 0.7770573566084789,
+        "test_macro_precision": 0.6385050907456471,
+        "test_macro_recall": 0.5328906938560791,
+        "test_macro_f1": 0.5519352578240238,
+        "test_macro_auc_ovr": 0.9374347150577719
+      },
+      "result": "results\\test_eval\\baseline\\seed_42\\result.json"
+    }
+  ]
+}

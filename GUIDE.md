@@ -2,7 +2,7 @@
 
 AI agent cập nhật phần tương ứng sau mỗi stage nhưng không tự chạy huấn luyện hoặc kiểm thử.
 
-> **Thiết kế hiện tại từ 2026-10-04:** dự án bắt đầu lại với ResNet-18. Stage 1–4 đã có code và lệnh ResNet thực tế; Stage 5 chưa được triển khai lại.
+> **Thiết kế hiện tại từ 2026-10-04:** dự án bắt đầu lại với ResNet-18. Stage 1–6 đã có code và lệnh ResNet thực tế.
 
 ## Kế hoạch GA-ResNet mới
 
@@ -18,10 +18,10 @@ Trước khi chạy ResNet lần đầu, người dùng sẽ xóa chính xác c�
 Remove-Item -LiteralPath "results\baseline\seed_42" -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath "results\ga_search\seed_42" -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath "results\random_search\seed_42" -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item -LiteralPath "results\final_eval" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath "results\test_eval" -Recurse -Force -ErrorAction SilentlyContinue
 ```
 
-Các file/thư mục ResNet mới sẽ được tạo lại đúng tại `results/baseline/seed_42/`, `results/ga_search/seed_42/`, `results/random_search/seed_42/` và `results/final_eval/`.
+Các file/thư mục ResNet mới sẽ được tạo lại đúng tại `results/baseline/seed_42/`, `results/ga_search/seed_42/`, `results/random_search/seed_42/` và `results/test_eval/`.
 
 Toàn bộ code Python nằm trong `src/`. Chạy các lệnh bên dưới từ thư mục gốc dự án bằng `python -m src.<module>`. Đường dẫn dataset và thư mục kết quả mặc định được xác định theo vị trí code: `data/dermamnist_64.npz` và `results/baseline/` ở thư mục gốc. Đường dẫn tương đối truyền qua `--data-path` hoặc `--output-dir` được tính từ thư mục đang chạy lệnh.
 
@@ -176,38 +176,73 @@ $ga.pareto_front
 $random.pareto_front
 ```
 
-Mỗi summary phải có `evaluations: 60`. GA đã có đủ cache nên lần chạy cập nhật dự kiến có `new_trainings: 0`, `cache_hits: 60`; Random Search mới hoàn toàn có `new_trainings: 60`, `cache_hits: 0`. Stage 4 đạt yêu cầu khi hai search seed 42 hoàn tất cùng budget/cấu hình, log đủ để tái lập và Pareto front được tạo chỉ từ validation. Chờ bạn xác nhận trước khi chuyển Stage 5.
+Mỗi summary phải có `evaluations: 60`. GA và Random Search seed 42 đã hoàn tất cùng budget/cấu hình, log đủ để tái lập và Pareto front chỉ được tạo từ validation. Người dùng đã xác nhận chuyển sang Stage 5 ngày 2026-10-06.
 
-## 7. Stage 5 — Chọn ResNet và đánh giá cuối (kế hoạch, chưa triển khai lại)
+## 7. Stage 5 — Chọn ResNet và đánh giá cuối
 
-Stage 5 chọn kiến trúc có validation macro AUC cao nhất từ Pareto front của GA và Random Search, rồi so sánh với kiến trúc baseline cố định. Cả ba được khởi tạo và train lại từ đầu với seed `42`, đủ 60 epoch theo đúng giao thức Stage 1, rồi khôi phục checkpoint có validation macro AUC tốt nhất. Kiến trúc được chọn hoàn toàn bằng validation; test chỉ được đọc sau khi lựa chọn đã cố định.
+Stage 5 chọn kiến trúc có validation macro AUC cao nhất từ Pareto front của GA và Random Search. Hai kiến trúc này được train lại từ đầu với seed `42`, đủ 60 epoch theo đúng giao thức Stage 1, rồi khôi phục checkpoint có validation macro AUC tốt nhất. ResNet-18 baseline không train lại mà dùng `results/baseline/seed_42/checkpoint.pt`, vì checkpoint này đã được train bằng cùng seed và protocol. Kiến trúc được chọn hoàn toàn bằng validation; test chỉ được đọc sau khi lựa chọn đã cố định.
 
-Chạy đánh giá cuối:
+Nếu lần chạy bị dừng sau khi một mô hình đã có đủ `checkpoint.pt` và `result.json`, chạy lại cùng lệnh sẽ tái sử dụng kết quả đó thay vì train lại. Chỉ dùng lệnh xóa dưới đây khi muốn chủ động train lại cả GA và Random từ đầu.
+
+Xóa output cũ chỉ khi muốn chủ động train lại cả hai mô hình từ đầu:
 
 ```powershell
-.\.venv\Scripts\python.exe -m src.final_eval --seed 42 --epochs 60 --device auto --output-dir "results\final_eval"
+Remove-Item -LiteralPath "results\test_eval" -Recurse -Force -ErrorAction SilentlyContinue
+```
+
+Chạy hoặc tiếp tục đánh giá cuối:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.test_eval --seed 42 --epochs 60 --device auto --output-dir "results\test_eval"
 ```
 
 Chương trình phải yêu cầu hai file `results/ga_search/seed_42/summary.json` và `results/random_search/seed_42/summary.json` đều có đủ 60 evaluation. Output gồm:
 
-- `results/final_eval/<ga|random|baseline>/seed_42/checkpoint.pt`: trọng số ở epoch có validation macro AUC tốt nhất.
-- `results/final_eval/<ga|random|baseline>/seed_42/result.json`: kiến trúc, quy tắc chọn, lịch sử train, validation/test metrics, nhãn thật và dự đoán test.
-- `results/final_eval/summary.json`: bảng kết quả gọn của cả ba mô hình.
+- `results/test_eval/<ga|random>/seed_42/checkpoint.pt`: trọng số sau khi train lại, ở epoch có validation macro AUC tốt nhất.
+- `results/test_eval/baseline/seed_42/checkpoint.pt`: bản sao checkpoint baseline hiện có, không train lại.
+- `results/test_eval/<ga|random|baseline>/seed_42/result.json`: kiến trúc, quy tắc chọn, lịch sử train, validation/test metrics, nhãn thật và dự đoán test.
+- `results/test_eval/summary.json`: bảng kết quả gọn của cả ba mô hình.
 
 Kiểm tra thủ công sau khi lệnh hoàn tất:
 
 ```powershell
-$final = Get-Content -Raw "results\final_eval\summary.json" | ConvertFrom-Json
+$final = Get-Content -Raw "results\test_eval\summary.json" | ConvertFrom-Json
 $final | Select-Object experiment, seed, selection_uses, test_uses
 $final.results | Select-Object model, parameter_count, best_epoch, validation_metrics, test_metrics
-Get-ChildItem "results\final_eval" -Recurse -File
+Get-ChildItem "results\test_eval" -Recurse -File
 ```
 
-Kết quả hợp lệ khi có đúng ba model `ga`, `random`, `baseline`; mỗi model có `checkpoint.pt` và `result.json`; summary ghi `selection_uses: validation_only`, `test_uses: final_evaluation_only`. Stage 5 chưa được coi là hoàn thành cho đến khi bạn chạy và xác nhận.
+Kết quả hợp lệ khi có đúng ba model `ga`, `random`, `baseline`; mỗi model có `checkpoint.pt` và `result.json`; summary ghi `selection_uses: validation_only`, `test_uses: test_evaluation_only`. Stage 5 chưa được coi là hoàn thành cho đến khi bạn chạy và xác nhận.
 
 ## 8. Stage 6 — Phân tích GA-ResNet
 
-Chưa có code. Stage 6 giữ Hypervolume, Coverage, Pareto front, convergence, confusion matrix và các metrics cũ, nhưng đối tượng so sánh sẽ là ResNet-18, GA-ResNet và Random-ResNet.
+Stage 6 chỉ đọc kết quả đã có, không train hoặc chạy inference lại. Chạy:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.analyze --output-dir "results\visualizations"
+```
+
+Output gồm:
+
+- `analysis.json`: Hypervolume, Coverage hai chiều, knee point, model nhỏ nhất đạt AUC baseline, runtime và dữ liệu hội tụ.
+- `test_metrics.csv`: loss, accuracy, macro precision/recall/F1/AUC, số tham số và runtime của GA, Random, baseline.
+- `pareto_front.png`: toàn bộ điểm search, Pareto front và baseline.
+- `convergence.png`: best AUC, Hypervolume và model nhỏ nhất đạt AUC baseline theo evaluation.
+- `test_metrics.png`: so sánh các metrics test.
+- `confusion_matrices.png`: confusion matrix test của ba mô hình.
+
+Kiểm tra thủ công:
+
+```powershell
+$analysis = Get-Content -Raw "results\visualizations\analysis.json" | ConvertFrom-Json
+$analysis.normalization
+$analysis.coverage
+$analysis.search | Format-List
+Import-Csv "results\visualizations\test_metrics.csv" | Format-Table
+Get-ChildItem "results\visualizations" -File
+```
+
+Stage 6 đạt yêu cầu khi có đủ sáu file trên, Hypervolume của hai phương pháp dùng cùng normalization/reference point và Coverage được tính trên Pareto front cuối.
 
 ## 9. Stage 7 — Hoàn thiện và bàn giao
 

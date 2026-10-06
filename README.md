@@ -73,9 +73,11 @@ objectives:
 
 ## Đánh giá cuối
 
-Từ Pareto front validation của mỗi phương pháp, chọn một ResNet có AUC cao nhất; đồng thời dùng ResNet-18 baseline. Train lại ba mô hình đủ 60 epoch với seed `42`, giữ normalization/loss nhưng dùng final scheduler step 20 và checkpoint validation tốt nhất, sau đó mới đánh giá test.
+Từ Pareto front validation của mỗi phương pháp, chọn một ResNet có AUC cao nhất. Train lại kiến trúc GA và Random đủ 60 epoch với seed `42`, giữ normalization/loss nhưng dùng final scheduler step 20 và checkpoint validation tốt nhất; tái sử dụng checkpoint ResNet-18 baseline đã train cùng protocol. Sau khi lựa chọn đã cố định mới đánh giá cả ba mô hình trên test.
 
 Báo cáo loss, accuracy, macro precision, macro recall, macro F1, macro AUC, số tham số và runtime. So sánh GA-NAS với Random Search bằng Hypervolume chung, Coverage hai chiều, đường hội tụ và Pareto AUC–model size có điểm baseline; kèm confusion matrix. Không dùng IGD vì không có Pareto front chuẩn đáng tin cậy.
+
+Stage 6 đọc cả output validation của search và output test cuối, sau đó ghi `analysis.json`, `test_metrics.csv`, Pareto front, đường hội tụ, bảng metrics và confusion matrix vào `results/visualizations/`; không train hoặc chạy inference lại.
 
 Tiến độ và lệnh chạy được quy định trong `CHECKPOINTS.md`, `AGENTS.md` và `GUIDE.md`.
 
