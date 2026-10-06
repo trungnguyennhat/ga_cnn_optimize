@@ -12,12 +12,12 @@ from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
-from src.model import BaselineCNN
+from src.model import BASELINE_ARCHITECTURE, BaselineResNet, count_parameters
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_PATH = PROJECT_ROOT / "data" / "dermamnist_64.npz"
-DEFAULT_EPOCHS = 25
+DEFAULT_EPOCHS = 60
 EXPECTED = {
     "train_images": (7007, 64, 64, 3),
     "train_labels": (7007, 1),
@@ -36,7 +36,7 @@ def set_seed(seed: int) -> None:
     torch.backends.cudnn.benchmark = False
 
 
-def load_data(path: Path = DATA_PATH) -> tuple[TensorDataset, TensorDataset, torch.Tensor]:
+def load_data(path: Path = DATA_PATH) -> tuple[TensorDataset, TensorDataset]:
     if not path.is_file():
         raise FileNotFoundError(f"Dataset not found: {path}")
 
@@ -61,19 +61,16 @@ def load_data(path: Path = DATA_PATH) -> tuple[TensorDataset, TensorDataset, tor
         if np.any((labels < 0) | (labels > 6)):
             raise ValueError(f"{name} must contain only class IDs 0 through 6")
 
-    counts = np.bincount(train_labels, minlength=7)
-    if np.any(counts == 0):
-        raise ValueError("Every class must occur in the training split")
-    class_weights = torch.tensor(len(train_labels) / (7 * counts), dtype=torch.float32)
-
     def dataset(images: np.ndarray, labels: np.ndarray) -> TensorDataset:
-        image_tensor = torch.from_numpy(images).permute(0, 3, 1, 2).float().div_(255)
+        image_tensor = (
+            torch.from_numpy(images).permute(0, 3, 1, 2).float()
+            .div_(255).sub_(0.5).div_(0.5)
+        )
         return TensorDataset(image_tensor, torch.from_numpy(labels).long())
 
     return (
         dataset(arrays["train_images"], train_labels),
         dataset(arrays["val_images"], val_labels),
-        class_weights,
     )
 
 
@@ -86,27 +83,61 @@ def resolve_device(name: str) -> torch.device:
     return device
 
 
-def train_model(model, loaded_data, *, learning_rate, batch_size, optimizer_name, epochs, seed, device):
-    train_data, val_data, class_weights = loaded_data
+def evaluate_model(model, dataset, criterion, *, batch_size, device):
+    loader = DataLoader(dataset, batch_size=batch_size)
+    model.eval()
+    loss_sum = 0.0
+    labels_all, probabilities_all = [], []
+    with torch.inference_mode():
+        for images, labels in loader:
+            images, labels = images.to(device), labels.to(device)
+            logits = model(images)
+            loss_sum += criterion(logits, labels).item() * labels.size(0)
+            labels_all.append(labels.cpu().numpy())
+            probabilities_all.append(torch.softmax(logits, dim=1).cpu().numpy())
+
+    labels_np = np.concatenate(labels_all)
+    probabilities_np = np.concatenate(probabilities_all)
+    predictions_np = probabilities_np.argmax(axis=1)
+    return {
+        "val_loss": loss_sum / len(dataset),
+        "val_accuracy": accuracy_score(labels_np, predictions_np),
+        "val_macro_f1": f1_score(labels_np, predictions_np, average="macro"),
+        "val_macro_auc_ovr": roc_auc_score(
+            labels_np, probabilities_np, average="macro", multi_class="ovr"
+        ),
+    }
+
+
+def train_model(
+    model, loaded_data, *, learning_rate, batch_size, optimizer_name, epochs,
+    seed, device, scheduler_step_size=20,
+):
+    train_data, val_data = loaded_data
     generator = torch.Generator().manual_seed(seed)
     train_loader = DataLoader(
         train_data, batch_size=batch_size, shuffle=True, generator=generator
     )
-    val_loader = DataLoader(val_data, batch_size=batch_size)
 
     model = model.to(device)
-    criterion = nn.CrossEntropyLoss(weight=class_weights.to(device))
+    criterion = nn.CrossEntropyLoss()
     optimizers = {"Adam": torch.optim.Adam, "AdamW": torch.optim.AdamW}
     if optimizer_name not in optimizers:
         raise ValueError(f"optimizer must be one of {sorted(optimizers)}")
     optimizer = optimizers[optimizer_name](model.parameters(), lr=learning_rate)
+    scheduler = torch.optim.lr_scheduler.StepLR(
+        optimizer, step_size=scheduler_step_size, gamma=0.1,
+    )
 
     started = time.perf_counter()
-    train_loss_history = []
-    train_loss = 0.0
+    history = []
+    best_auc = -1.0
+    best_epoch = 0
+    best_state = None
     for epoch in range(1, epochs + 1):
         model.train()
         loss_sum = 0.0
+        current_learning_rate = optimizer.param_groups[0]["lr"]
         for images, labels in train_loader:
             images, labels = images.to(device), labels.to(device)
             optimizer.zero_grad()
@@ -115,45 +146,51 @@ def train_model(model, loaded_data, *, learning_rate, batch_size, optimizer_name
             optimizer.step()
             loss_sum += loss.item() * labels.size(0)
         train_loss = loss_sum / len(train_data)
-        train_loss_history.append(train_loss)
-        print(f"epoch={epoch}/{epochs} train_loss={train_loss:.6f}")
+        val_metrics = evaluate_model(
+            model, val_data, criterion, batch_size=batch_size, device=device,
+        )
+        history.append({
+            "epoch": epoch,
+            "learning_rate": current_learning_rate,
+            "train_loss": train_loss,
+            **val_metrics,
+        })
+        if val_metrics["val_macro_auc_ovr"] > best_auc:
+            best_auc = val_metrics["val_macro_auc_ovr"]
+            best_epoch = epoch
+            best_state = {
+                key: value.detach().cpu().clone()
+                for key, value in model.state_dict().items()
+            }
+        print(
+            f"epoch={epoch}/{epochs} lr={current_learning_rate:.6g} "
+            f"train_loss={train_loss:.6f} "
+            f"val_auc={val_metrics['val_macro_auc_ovr']:.6f}",
+            flush=True,
+        )
+        scheduler.step()
 
-    model.eval()
-    val_loss_sum = 0.0
-    labels_all, probabilities_all = [], []
-    with torch.inference_mode():
-        for images, labels in val_loader:
-            images, labels = images.to(device), labels.to(device)
-            logits = model(images)
-            val_loss_sum += criterion(logits, labels).item() * labels.size(0)
-            labels_all.append(labels.cpu().numpy())
-            probabilities_all.append(torch.softmax(logits, dim=1).cpu().numpy())
-
-    labels_np = np.concatenate(labels_all)
-    probabilities_np = np.concatenate(probabilities_all)
-    predictions_np = probabilities_np.argmax(axis=1)
+    model.load_state_dict(best_state)
+    best_record = history[best_epoch - 1]
     metrics = {
-        "train_loss": train_loss,
-        "val_loss": val_loss_sum / len(val_data),
-        "val_accuracy": accuracy_score(labels_np, predictions_np),
-        "val_macro_f1": f1_score(labels_np, predictions_np, average="macro"),
-        "val_macro_auc_ovr": roc_auc_score(
-            labels_np, probabilities_np, average="macro", multi_class="ovr"
-        ),
+        "train_loss": best_record["train_loss"],
+        "val_loss": best_record["val_loss"],
+        "val_accuracy": best_record["val_accuracy"],
+        "val_macro_f1": best_record["val_macro_f1"],
+        "val_macro_auc_ovr": best_record["val_macro_auc_ovr"],
         "epochs": epochs,
+        "best_epoch": best_epoch,
         "seed": seed,
         "device": str(device),
     }
-    return metrics, train_loss_history, time.perf_counter() - started
+    return metrics, history, time.perf_counter() - started
 
 
 def train_baseline(
     *,
     learning_rate: float = 0.001,
     batch_size: int = 64,
-    dropout: float = 0.3,
     optimizer_name: str = "Adam",
-    filters: int = 32,
     epochs: int = DEFAULT_EPOCHS,
     seed: int = 42,
     device_name: str = "auto",
@@ -165,33 +202,49 @@ def train_baseline(
 
     set_seed(seed)
     device = resolve_device(device_name)
-    train_data, val_data, class_weights = load_data(data_path)
-    model = BaselineCNN(filters=filters, dropout=dropout)
-    metrics, train_loss_history, runtime = train_model(
-        model, (train_data, val_data, class_weights), learning_rate=learning_rate,
+    loaded_data = load_data(data_path)
+    model = BaselineResNet()
+    metrics, history, runtime = train_model(
+        model, loaded_data, learning_rate=learning_rate,
         batch_size=batch_size, optimizer_name=optimizer_name, epochs=epochs,
         seed=seed, device=device,
     )
     if output_dir is not None:
-        output_dir.mkdir(parents=True, exist_ok=True)
-        result_path = output_dir / f"seed_{seed}.json"
+        seed_dir = output_dir / f"seed_{seed}"
+        seed_dir.mkdir(parents=True, exist_ok=True)
+        result_path = seed_dir / "result.json"
+        checkpoint_path = seed_dir / "checkpoint.pt"
         result = {
             "experiment": "baseline",
             "config": {
                 "learning_rate": learning_rate,
+                "scheduler": {"name": "StepLR", "step_size": 20, "gamma": 0.1},
                 "batch_size": batch_size,
-                "dropout": dropout,
                 "optimizer": optimizer_name,
-                "filters": filters,
+                "loss": "unweighted_cross_entropy",
+                "normalization": {"mean": [0.5, 0.5, 0.5], "std": [0.5, 0.5, 0.5]},
                 "epochs": epochs,
                 "seed": seed,
                 "device": str(device),
                 "data_path": str(data_path),
             },
-            "history": {"train_loss": train_loss_history},
+            "architecture": BASELINE_ARCHITECTURE,
+            "parameter_count": count_parameters(model),
+            "history": history,
             "metrics": metrics,
+            "checkpoint": str(checkpoint_path),
             "runtime_seconds": runtime,
         }
+        checkpoint = {
+            "state_dict": {
+                key: value.detach().cpu()
+                for key, value in model.state_dict().items()
+            },
+            "architecture": BASELINE_ARCHITECTURE,
+            "best_epoch": metrics["best_epoch"],
+            "val_macro_auc_ovr": metrics["val_macro_auc_ovr"],
+        }
+        torch.save(checkpoint, checkpoint_path)
         result_path.write_text(json.dumps(result, indent=2), encoding="utf-8")
         print(f"result={result_path}")
     return metrics
@@ -202,9 +255,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--data-path", type=Path, default=DATA_PATH)
     parser.add_argument("--learning-rate", type=float, default=0.001)
     parser.add_argument("--batch-size", type=int, default=64)
-    parser.add_argument("--dropout", type=float, default=0.3)
     parser.add_argument("--optimizer", choices=("Adam", "AdamW"), default="Adam")
-    parser.add_argument("--filters", type=int, default=32)
     parser.add_argument("--epochs", type=int, default=DEFAULT_EPOCHS)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--device", default="auto", help="auto, cpu, cuda, or cuda:N")
@@ -217,9 +268,7 @@ if __name__ == "__main__":
     metrics = train_baseline(
         learning_rate=args.learning_rate,
         batch_size=args.batch_size,
-        dropout=args.dropout,
         optimizer_name=args.optimizer,
-        filters=args.filters,
         epochs=args.epochs,
         seed=args.seed,
         device_name=args.device,

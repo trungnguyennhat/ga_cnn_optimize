@@ -1,2553 +1,2161 @@
 {
   "experiment": "ga_search",
   "config": {
-    "epochs": 25,
+    "epochs": 20,
     "learning_rate": 0.001,
     "batch_size": 64,
     "optimizer": "Adam",
     "seed": 42,
     "device": "cuda",
-    "train_val_sha256": "85ae22678d3470426d0b7af4fff268eb5e6c90ede2f110fd8fc41ff274bfdc39",
-    "training_version": 1,
-    "budget": 80,
+    "scheduler": {
+      "name": "StepLR",
+      "step_size": 15,
+      "gamma": 0.1
+    },
+    "loss": "unweighted_cross_entropy",
+    "normalization": {
+      "mean": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "std": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "architecture_space": "resnet_stage_channels_v1",
+    "train_val_sha256": "9b52e5af2a28cefe8ec8cfec61a346da000c433d23abdb650c2abe5585b41a7d",
+    "training_version": 3,
+    "budget": 60,
     "population_size": 10,
     "tournament_size": 3,
     "crossover_rate": 0.8,
     "mutation_probability": 0.15
   },
-  "evaluations": 80,
-  "generations": 7,
-  "new_trainings": 80,
+  "evaluations": 60,
+  "generations": 5,
+  "new_trainings": 60,
   "cache_hits": 0,
-  "runtime_seconds": 1763.0508521999998,
+  "runtime_seconds": 6034.423331199998,
   "pareto_front": [
     {
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "stage_blocks": [
+          2,
+          3,
+          1,
+          1
+        ],
+        "stage_channels": [
+          64,
+          32,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.942188395315009,
+      "parameter_count": 603911,
+      "pareto_rank": 0,
+      "crowding_distance": 0.6850426483079977
+    },
+    {
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          2
+        ],
+        "stage_channels": [
+          64,
+          64,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          5,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.9185661500913422,
-      "parameter_count": 37079
+      "val_macro_auc_ovr": 0.944951305574956,
+      "parameter_count": 2768199,
+      "pareto_rank": 0,
+      "crowding_distance": null
     },
     {
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "stage_channels": [
+          64,
+          32,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9421981298528428,
+      "parameter_count": 1018759,
+      "pareto_rank": 0,
+      "crowding_distance": 0.5363633084995298
+    },
+    {
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "stage_channels": [
+          64,
+          32,
+          128,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          5
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9429804228308729,
+      "parameter_count": 1459847,
+      "pareto_rank": 0,
+      "crowding_distance": 1.3149573516920023
+    },
+    {
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          1
+        ],
+        "stage_channels": [
+          64,
+          64,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
         ],
         "dropout": 0.1
       },
-      "val_macro_auc_ovr": 0.8581379196943979,
-      "parameter_count": 13063
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.9106968929763131,
-      "parameter_count": 14135
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.9087600702941288,
-      "parameter_count": 13095
+      "val_macro_auc_ovr": 0.9397642272578723,
+      "parameter_count": 537287,
+      "pareto_rank": 0,
+      "crowding_distance": null
     }
   ],
   "evaluated": [
     {
+      "evaluation": 1,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\6dd1cb05ad595d155bbd0627c1c4ae0b40732958da8cbe6abbfa95e42f588a56.json",
+      "best_auc_so_far": 0.9360189567726727,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 1,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          3,
+          1,
+          1,
+          3
+        ],
+        "stage_channels": [
+          32,
+          32,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
+        ],
+        "dropout": 0.0
+      },
+      "val_macro_auc_ovr": 0.9360189567726727,
+      "parameter_count": 1054183,
+      "pareto_rank": 5,
+      "crowding_distance": null
+    },
+    {
+      "evaluation": 2,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\661e0c69a310e003213f10263e1f1aa0ab5b5092dc9199c0a5f13669588df718.json",
+      "best_auc_so_far": 0.9389373474338759,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          1,
+          3
+        ],
+        "stage_channels": [
+          64,
+          32,
+          256,
+          128
+        ],
+        "kernel_sizes": [
+          5,
+          3,
+          5,
+          5
+        ],
+        "dropout": 0.0
+      },
+      "val_macro_auc_ovr": 0.9389373474338759,
+      "parameter_count": 4992391,
+      "pareto_rank": 6,
+      "crowding_distance": 0.8184752909623805
+    },
+    {
+      "evaluation": 3,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\a4a1dfa6758d19d5ad72a4737b4a7a00537f631e7bc932ece8072c06a655c2bf.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          3,
+          2,
+          2
+        ],
+        "stage_channels": [
+          32,
+          32,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.941722186751532,
+      "parameter_count": 2375015,
+      "pareto_rank": 2,
+      "crowding_distance": 0.15115070269435754
+    },
+    {
+      "evaluation": 4,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\9dccead76004c8c643aa25816e0c5d363297c9825e9d47baa57ed62a28eb3ce1.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          2,
+          3,
+          2,
+          1
+        ],
+        "stage_channels": [
+          64,
+          64,
+          256,
+          128
+        ],
+        "kernel_sizes": [
+          5,
+          3,
+          5,
+          5
         ],
         "dropout": 0.5
       },
-      "val_macro_auc_ovr": 0.8911848204948277,
-      "parameter_count": 82567
+      "val_macro_auc_ovr": 0.932250079127569,
+      "parameter_count": 7245127,
+      "pareto_rank": 11,
+      "crowding_distance": null
     },
     {
+      "evaluation": 5,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\b4732f1d99a4e8ee227ee2a85a5c56f3b81a01c05e4851fa5ad145f9d7753183.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 32,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          3,
+          1,
+          1
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8880057650018348,
-      "parameter_count": 51719
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_channels": [
+          64,
+          32,
+          128,
+          128
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.9035672455576977,
-      "parameter_count": 21287
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          }
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          5
         ],
         "dropout": 0.3
       },
-      "val_macro_auc_ovr": 0.8529464535668091,
-      "parameter_count": 43959
+      "val_macro_auc_ovr": 0.9378644194843604,
+      "parameter_count": 1496967,
+      "pareto_rank": 5,
+      "crowding_distance": 1.2853081894118175
     },
     {
+      "evaluation": 6,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\7590acd96c68d25df7a9edb0a4fcc1ae08cbfe6637d93dc68289d06b45228dfe.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          3,
+          2,
+          1,
+          2
         ],
-        "dropout": 0.4
+        "stage_channels": [
+          32,
+          32,
+          256,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "dropout": 0.3
       },
-      "val_macro_auc_ovr": 0.885418398418602,
-      "parameter_count": 42903
+      "val_macro_auc_ovr": 0.9369168449649863,
+      "parameter_count": 3197287,
+      "pareto_rank": 7,
+      "crowding_distance": 0.7378224324658818
     },
     {
+      "evaluation": 7,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\6a5e6c99ea23e9fbf143de088716ace65120a284be2ed099c413d09f3da41dee.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 64,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "stage_blocks": [
+          2,
+          2,
+          3,
+          3
+        ],
+        "stage_channels": [
+          64,
+          32,
+          256,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          5
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9373410855709856,
+      "parameter_count": 13134215,
+      "pareto_rank": 9,
+      "crowding_distance": null
+    },
+    {
+      "evaluation": 8,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\117951cffc17ba56e6481e3114cd5e3168657b700e1579750686f7cd83831d26.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
+      "architecture": {
+        "stage_blocks": [
+          2,
+          1,
+          1,
+          3
+        ],
+        "stage_channels": [
+          64,
+          64,
+          64,
+          512
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          5,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.8706247280357778,
-      "parameter_count": 67623
+      "val_macro_auc_ovr": 0.9412879153628853,
+      "parameter_count": 12965447,
+      "pareto_rank": 4,
+      "crowding_distance": 0.7756369344207192
     },
     {
+      "evaluation": 9,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\13c50061b2c35f00da286026f537233b92ffb1eb6d5abc196413f34b832d45b3.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 64,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          1,
+          3,
+          3
+        ],
+        "stage_channels": [
+          64,
+          64,
+          256,
+          512
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          5,
+          3
         ],
         "dropout": 0.1
       },
-      "val_macro_auc_ovr": 0.8934076490998442,
-      "parameter_count": 394599
+      "val_macro_auc_ovr": 0.9385651902652453,
+      "parameter_count": 22155719,
+      "pareto_rank": 7,
+      "crowding_distance": null
     },
     {
+      "evaluation": 10,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\b398165fe7e063f02511c413d0b4c1a6193a05a1287db5e1a2b33a95c170a01d.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          3,
+          2,
+          1,
+          1
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8395081271948195,
-      "parameter_count": 334407
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 64,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 32,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_channels": [
+          16,
+          32,
+          256,
+          128
+        ],
+        "kernel_sizes": [
+          5,
+          3,
+          5,
+          5
         ],
         "dropout": 0.5
       },
-      "val_macro_auc_ovr": 0.9088447220896326,
-      "parameter_count": 174823
+      "val_macro_auc_ovr": 0.9345906927414445,
+      "parameter_count": 3188311,
+      "pareto_rank": 9,
+      "crowding_distance": 0.866156592171408
     },
     {
+      "evaluation": 11,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\38d4504aff4bbf9fa601c9309528f137cdd7c8d868d8130447af6d96ed5c6b75.json",
+      "best_auc_so_far": 0.9432079999035209,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 4,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          3,
+          1,
+          1,
+          3
         ],
-        "dropout": 0.4
-      },
-      "val_macro_auc_ovr": 0.8777174563038586,
-      "parameter_count": 42855
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_channels": [
+          32,
+          128,
+          64,
+          512
         ],
-        "dropout": 0.4
-      },
-      "val_macro_auc_ovr": 0.8808570214683238,
-      "parameter_count": 116311
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8902102325884113,
-      "parameter_count": 256759
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.5
-      },
-      "val_macro_auc_ovr": 0.9123956496232358,
-      "parameter_count": 138359
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8785075075903565,
-      "parameter_count": 59319
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.5
-      },
-      "val_macro_auc_ovr": 0.8988010517995181,
-      "parameter_count": 332455
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          }
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          5
         ],
         "dropout": 0.3
       },
-      "val_macro_auc_ovr": 0.9048065216217561,
-      "parameter_count": 53319
+      "val_macro_auc_ovr": 0.9432079999035209,
+      "parameter_count": 34192295,
+      "pareto_rank": 3,
+      "crowding_distance": null
     },
     {
+      "evaluation": 12,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\df66ff6306801154f070ca4cdaf3959f19192de761f5fd147237ad750799e58f.json",
+      "best_auc_so_far": 0.9432079999035209,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          2,
+          3,
+          1,
+          1
         ],
-        "dropout": 0.5
-      },
-      "val_macro_auc_ovr": 0.905326912059477,
-      "parameter_count": 74823
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_channels": [
+          64,
+          32,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
         ],
         "dropout": 0.3
       },
-      "val_macro_auc_ovr": 0.9140146288700983,
-      "parameter_count": 467079
+      "val_macro_auc_ovr": 0.942188395315009,
+      "parameter_count": 603911,
+      "pareto_rank": 0,
+      "crowding_distance": 0.6850426483079977
     },
     {
+      "evaluation": 13,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\e8773cb899b63879e85877acde8f2f9ec0724f484e420f72e0944ce8ea980ec4.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          2
+        ],
+        "stage_channels": [
+          64,
+          64,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          5,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.9085213762285852,
-      "parameter_count": 37079
+      "val_macro_auc_ovr": 0.944951305574956,
+      "parameter_count": 2768199,
+      "pareto_rank": 0,
+      "crowding_distance": null
     },
     {
+      "evaluation": 14,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\bf116b3ab8bc0a18711d8677b439924a8501f5a8a660f1428cbdf6d5cff1906a.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 64,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          2,
+          1,
+          1,
+          3
         ],
-        "dropout": 0.5
-      },
-      "val_macro_auc_ovr": 0.902120494272404,
-      "parameter_count": 338535
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_channels": [
+          32,
+          64,
+          128,
+          512
         ],
-        "dropout": 0.2
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          5
+        ],
+        "dropout": 0.0
       },
-      "val_macro_auc_ovr": 0.8996280877108019,
-      "parameter_count": 146519
+      "val_macro_auc_ovr": 0.9438332943196202,
+      "parameter_count": 35201831,
+      "pareto_rank": 2,
+      "crowding_distance": null
     },
     {
+      "evaluation": 15,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\91f5ea940853612a52a5b56ae87af455680a0fe5031474e00d45f4b15f102808.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          3,
+          1,
+          1,
+          1
+        ],
+        "stage_channels": [
+          16,
+          32,
+          256,
+          128
+        ],
+        "kernel_sizes": [
+          5,
+          3,
+          3,
+          5
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.9024947872181824,
-      "parameter_count": 37111
+      "val_macro_auc_ovr": 0.9412946228032898,
+      "parameter_count": 1990103,
+      "pareto_rank": 2,
+      "crowding_distance": 0.2917861305742169
     },
     {
+      "evaluation": 16,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\d50fb88ea14dab91b40d5e108e1a5f28d70e730ffd1f61fbb4caf8af23327955.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          3,
+          2,
+          1
+        ],
+        "stage_channels": [
+          64,
+          32,
+          128,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          5,
+          5,
+          3
         ],
         "dropout": 0.1
       },
-      "val_macro_auc_ovr": 0.8926362819334553,
-      "parameter_count": 21255
+      "val_macro_auc_ovr": 0.9391064841330368,
+      "parameter_count": 2514951,
+      "pareto_rank": 5,
+      "crowding_distance": 0.4931254155534125
     },
     {
+      "evaluation": 17,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\525bf7a4294dc96053118be3a1c4902584dc8a32b9db29c465874aeb6c215c5c.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 32,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          3,
+          1,
+          2,
+          3
+        ],
+        "stage_channels": [
+          32,
+          32,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "dropout": 0.0
+      },
+      "val_macro_auc_ovr": 0.9289220248396209,
+      "parameter_count": 1029863,
+      "pareto_rank": 4,
+      "crowding_distance": null
+    },
+    {
+      "evaluation": 18,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\46f46e46c32cee60009dd9a89194768ee36e1f8f552eebc0d7a29c24989299ab.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          3,
+          3,
+          2,
+          2
+        ],
+        "stage_channels": [
+          64,
+          32,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          5,
+          5,
+          3
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.9318031507642974,
+      "parameter_count": 2704263,
+      "pareto_rank": 10,
+      "crowding_distance": null
+    },
+    {
+      "evaluation": 19,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\02b6646446b0bb6284ac96d441af0a697ee2330abbb39c4ede57bef116ae9890.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          2,
+          2,
+          2
+        ],
+        "stage_channels": [
+          32,
+          32,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.939487392924476,
+      "parameter_count": 2356455,
+      "pareto_rank": 4,
+      "crowding_distance": 0.21659500611521418
+    },
+    {
+      "evaluation": 20,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\6308b80a47f8a335ab24ba9cd537d88072c06c874d98c1723198f0fc3541c3c2.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          3,
+          2,
+          2,
+          1
+        ],
+        "stage_channels": [
+          16,
+          32,
+          256,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.933307842715623,
+      "parameter_count": 3150039,
+      "pareto_rank": 10,
+      "crowding_distance": null
+    },
+    {
+      "evaluation": 21,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\897e4cb900ffbff6d9624cdae49329586ac329f90567d496ecc743dd9434b453.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          3,
+          2,
+          2
+        ],
+        "stage_channels": [
+          32,
+          32,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          5
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.937916391857095,
+      "parameter_count": 5782887,
+      "pareto_rank": 8,
+      "crowding_distance": 1.068496739109351
+    },
+    {
+      "evaluation": 22,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\0b87ad4572be3d6c56375057c49cdc4f2a5f9e8957a24786236b82fcd1cb138d.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          2
+        ],
+        "stage_channels": [
+          32,
+          32,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          3,
+          3
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9397986169452938,
+      "parameter_count": 762855,
+      "pareto_rank": 1,
+      "crowding_distance": 0.644268599986366
+    },
+    {
+      "evaluation": 23,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\02a1fd720592eff7f5920ec7b1028a27a93474a35af3225f9a212bf7307646b6.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          2,
+          1,
+          1,
+          3
+        ],
+        "stage_channels": [
+          32,
+          32,
+          64,
+          512
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
         ],
         "dropout": 0.3
       },
-      "val_macro_auc_ovr": 0.8923872744938037,
-      "parameter_count": 245799
+      "val_macro_auc_ovr": 0.9424607981634738,
+      "parameter_count": 12348647,
+      "pareto_rank": 3,
+      "crowding_distance": 1.2141569543115884
     },
     {
+      "evaluation": 24,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\1fe02243249b533bceda001391087c699519c69392583ad05a412930f4b833f6.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          1,
+          1,
+          2
         ],
-        "dropout": 0.4
-      },
-      "val_macro_auc_ovr": 0.9014749625992268,
-      "parameter_count": 101447
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "stage_channels": [
+          64,
+          32,
+          64,
+          128
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8740389154472844,
-      "parameter_count": 34135
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "kernel_sizes": [
+          5,
+          5,
+          5,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.9185661500913422,
-      "parameter_count": 37079
+      "val_macro_auc_ovr": 0.9392260337815425,
+      "parameter_count": 968455,
+      "pareto_rank": 2,
+      "crowding_distance": null
     },
     {
+      "evaluation": 25,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\005e583f5ceea33152481bf1851046f93792f84596faf3b7dacf4ffaeda57594.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          2
+        ],
+        "stage_channels": [
+          64,
+          32,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          5,
+          3,
+          5,
+          3
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9402560850762386,
+      "parameter_count": 2535559,
+      "pareto_rank": 4,
+      "crowding_distance": 0.35625751519719623
+    },
+    {
+      "evaluation": 26,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\e91a74ed3c3a36a8a4cd4e0be52b242201dfa3026a39bdb15db20c238e967874.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          2,
+          1,
+          2,
+          3
+        ],
+        "stage_channels": [
+          32,
+          64,
+          128,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
+        ],
+        "dropout": 0.0
+      },
+      "val_macro_auc_ovr": 0.9387255143970565,
+      "parameter_count": 2442663,
+      "pareto_rank": 5,
+      "crowding_distance": 0.8984704382983394
+    },
+    {
+      "evaluation": 27,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\aa57cd80b3c3676b08119181643e667fbe43d4fd9cf48daae0abceda4aba7f10.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          3
+        ],
+        "stage_channels": [
+          16,
+          32,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          3,
+          3
+        ],
+        "dropout": 0.1
+      },
+      "val_macro_auc_ovr": 0.9379896842791392,
+      "parameter_count": 1006039,
+      "pareto_rank": 3,
+      "crowding_distance": null
+    },
+    {
+      "evaluation": 28,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\c8f99d435419856ed76460abd278c95e67ed87d2751f700657d1d25ec2824731.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          1
+        ],
+        "stage_channels": [
+          64,
+          64,
+          64,
+          512
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9447775019240856,
+      "parameter_count": 2999879,
+      "pareto_rank": 1,
+      "crowding_distance": null
+    },
+    {
+      "evaluation": 29,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\35e79c8ce1371155b84d985dd2e26cf8e0bc636dcf29cc8e6f267e5587450d36.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          3
+        ],
+        "stage_channels": [
+          32,
+          64,
+          128,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          5,
+          5,
+          3
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9435397745386126,
+      "parameter_count": 4900775,
+      "pareto_rank": 2,
+      "crowding_distance": 1.3700210750967012
+    },
+    {
+      "evaluation": 30,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\d695c43732de3383cf5b0909d44219613da7755e7e327a37fcf3d19c79ea856e.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
+      "architecture": {
+        "stage_blocks": [
+          2,
+          3,
+          1,
+          1
+        ],
+        "stage_channels": [
+          32,
+          32,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
         ],
         "dropout": 0.3
       },
-      "val_macro_auc_ovr": 0.8948331661189323,
-      "parameter_count": 208919
+      "val_macro_auc_ovr": 0.9382975913856247,
+      "parameter_count": 1007847,
+      "pareto_rank": 3,
+      "crowding_distance": 0.18983122702199764
     },
     {
+      "evaluation": 31,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\734f6e5215596112504d62db14c21e6af539306694f01771856389a1bb117dfb.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          3,
+          2,
+          1
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.894582361928482,
-      "parameter_count": 59703
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_channels": [
+          64,
+          32,
+          256,
+          128
         ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.9003307655369914,
-      "parameter_count": 467079
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.8771630047717237,
-      "parameter_count": 44199
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8987955604249677,
-      "parameter_count": 28935
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8906072631054818,
-      "parameter_count": 14167
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.891501214797645,
-      "parameter_count": 21255
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          }
+        "kernel_sizes": [
+          5,
+          5,
+          5,
+          3
         ],
         "dropout": 0.3
       },
-      "val_macro_auc_ovr": 0.8881143001444027,
-      "parameter_count": 74855
+      "val_macro_auc_ovr": 0.9379657514369081,
+      "parameter_count": 5996167,
+      "pareto_rank": 8,
+      "crowding_distance": null
     },
     {
+      "evaluation": 32,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\645e7288d8ad70b9a934aef1aa0b43902ae8848b0bfa6e8ce0cefa5daebdd5a8.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          3,
+          2,
+          2
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.862609914886513,
-      "parameter_count": 21255
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "stage_channels": [
+          64,
+          64,
+          64,
+          512
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.9015177160132506,
-      "parameter_count": 191159
+      "val_macro_auc_ovr": 0.938947409769688,
+      "parameter_count": 7868487,
+      "pareto_rank": 6,
+      "crowding_distance": null
     },
     {
+      "evaluation": 33,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\b25dfc32791fb6e84d6fbd0160c15a68fecdb5effad4dedc342855d17d2b1886.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          2,
+          1,
+          3,
+          3
         ],
-        "dropout": 0.5
-      },
-      "val_macro_auc_ovr": 0.9057199195217519,
-      "parameter_count": 22327
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_channels": [
+          64,
+          64,
+          128,
+          128
         ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.8913667665312076,
-      "parameter_count": 41143
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.8759864901024658,
-      "parameter_count": 20567
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 32,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.8925109754849478,
-      "parameter_count": 26647
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
         ],
         "dropout": 0.3
       },
-      "val_macro_auc_ovr": 0.9163580088989131,
-      "parameter_count": 467079
+      "val_macro_auc_ovr": 0.9360507682226074,
+      "parameter_count": 1952839,
+      "pareto_rank": 7,
+      "crowding_distance": null
     },
     {
+      "evaluation": 34,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\f36f593be6458505f818e87a1a10839610d1907e3a0c5b4bc909927839b561b8.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
+        "stage_blocks": [
+          1,
+          3,
+          2,
+          2
+        ],
+        "stage_channels": [
+          64,
+          128,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          5,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.8940340748142598,
-      "parameter_count": 36951
+      "val_macro_auc_ovr": 0.9361083384960391,
+      "parameter_count": 4928199,
+      "pareto_rank": 9,
+      "crowding_distance": 1.7317836006820166
     },
     {
+      "evaluation": 35,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\1fa0ed6f9fd9523288a4a306f894aa326386546860d5e1e1a10efceb465b8929.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          3,
+          2,
+          2
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8581379196943979,
-      "parameter_count": 13063
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "stage_channels": [
+          64,
+          64,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.9062388400581952,
-      "parameter_count": 17191
+      "val_macro_auc_ovr": 0.9338273935596675,
+      "parameter_count": 2654023,
+      "pareto_rank": 9,
+      "crowding_distance": null
     },
     {
+      "evaluation": 36,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\955c2473d8a897d32417f121b9dbdc44e8ba2ad4dde89bc7019aceabb587b4ec.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          1,
+          1,
+          1
         ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.8605183729159805,
-      "parameter_count": 18199
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
+        "stage_channels": [
+          64,
+          32,
+          64,
+          256
         ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.8952883943663016,
-      "parameter_count": 50503
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8735077305959457,
-      "parameter_count": 14103
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.5
-      },
-      "val_macro_auc_ovr": 0.9047507304430881,
-      "parameter_count": 41175
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8880573553889656,
-      "parameter_count": 21559
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.841501937788172,
-      "parameter_count": 40423
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8906273447007946,
-      "parameter_count": 17191
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8803147501934231,
-      "parameter_count": 17159
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.4
-      },
-      "val_macro_auc_ovr": 0.8920813695900885,
-      "parameter_count": 17159
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.9099339027412608,
-      "parameter_count": 67671
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.9106968929763131,
-      "parameter_count": 14135
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.9063684821690796,
-      "parameter_count": 96199
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8877056624692864,
-      "parameter_count": 79511
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.9074566454481834,
-      "parameter_count": 40167
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.8966835734346656,
-      "parameter_count": 20727
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8424603939166503,
-      "parameter_count": 78199
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
         ],
         "dropout": 0.3
       },
-      "val_macro_auc_ovr": 0.8977980365422257,
-      "parameter_count": 13127
+      "val_macro_auc_ovr": 0.9421981298528428,
+      "parameter_count": 1018759,
+      "pareto_rank": 0,
+      "crowding_distance": 0.5363633084995298
     },
     {
+      "evaluation": 37,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\1ad453e65d0e54fdb23ec74ec2080131424fb79a3d46d8704bfd64bef54fd6d7.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "stage_blocks": [
+          1,
+          3,
+          3,
+          1
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8818927299345141,
-      "parameter_count": 14103
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          }
+        "stage_channels": [
+          16,
+          64,
+          64,
+          128
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.9025669135578906,
-      "parameter_count": 18263
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.9095386773077269,
-      "parameter_count": 77287
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.889907166045362,
-      "parameter_count": 40103
+      "val_macro_auc_ovr": 0.9383752415839172,
+      "parameter_count": 1051031,
+      "pareto_rank": 4,
+      "crowding_distance": 0.8681055503820845
     },
     {
+      "evaluation": 38,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\b18dac7696d3cba694068ce666d175cec6640c68872e4a52bfc6cd902a0789cb.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          1,
+          1,
+          2
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8748053468356725,
-      "parameter_count": 17191
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
+        "stage_channels": [
+          64,
+          64,
+          64,
+          512
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.901109178713851,
-      "parameter_count": 13095
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "kernel_sizes": [
+          5,
+          5,
+          5,
+          5
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.9068396221477603,
-      "parameter_count": 41207
+      "val_macro_auc_ovr": 0.9420931398387572,
+      "parameter_count": 21146951,
+      "pareto_rank": 4,
+      "crowding_distance": null
     },
     {
+      "evaluation": 39,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\a980c85c7c43e1ebe9b4dc271f9c6ca591dc94f00f30339fcec04bbdbd7c042a.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
+        "stage_blocks": [
+          1,
+          2,
+          2,
+          2
+        ],
+        "stage_channels": [
+          64,
+          64,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          5
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.8467716243354568,
-      "parameter_count": 319063
+      "val_macro_auc_ovr": 0.9370333017299287,
+      "parameter_count": 2086343,
+      "pareto_rank": 6,
+      "crowding_distance": 1.1815247090376195
     },
     {
+      "evaluation": 40,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\e46cf181f284ab12e24ca63b80f79afb5c1d2e648365ea1d07c7a86c691dfba6.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 64,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "stage_blocks": [
+          3,
+          1,
+          1,
+          3
+        ],
+        "stage_channels": [
+          16,
+          32,
+          256,
+          128
+        ],
+        "kernel_sizes": [
+          5,
+          3,
+          5,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.9027263496430072,
-      "parameter_count": 33159
+      "val_macro_auc_ovr": 0.9367294080628845,
+      "parameter_count": 2974167,
+      "pareto_rank": 7,
+      "crowding_distance": 0.31266498844470414
     },
     {
+      "evaluation": 41,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\8ad2b58e38a5bceaa4fc2bde432d8e6b8919085b0eca8a226610761a2675096e.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "stage_blocks": [
+          2,
+          3,
+          1,
+          1
         ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.884059376899038,
-      "parameter_count": 137095
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_channels": [
+          64,
+          32,
+          128,
+          128
         ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8931345002036929,
-      "parameter_count": 79479
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": true
-          }
-        ],
-        "dropout": 0.2
-      },
-      "val_macro_auc_ovr": 0.9087600702941288,
-      "parameter_count": 13095
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
-        ],
-        "dropout": 0.1
-      },
-      "val_macro_auc_ovr": 0.8970675850887667,
-      "parameter_count": 70727
-    },
-    {
-      "architecture": {
-        "blocks": [
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "kernel_sizes": [
+          3,
+          5,
+          5,
+          3
         ],
         "dropout": 0.3
       },
-      "val_macro_auc_ovr": 0.8591687749207777,
-      "parameter_count": 728967
+      "val_macro_auc_ovr": 0.9366065653859273,
+      "parameter_count": 1161351,
+      "pareto_rank": 5,
+      "crowding_distance": 0.7535797358365246
     },
     {
+      "evaluation": 42,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\5dfdfe1871d3f8ce0d5d81cc89557a96d6ab9407c6b969d3181c1c5398564db1.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 32,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          }
+        "stage_blocks": [
+          1,
+          1,
+          3,
+          2
+        ],
+        "stage_channels": [
+          64,
+          64,
+          64,
+          512
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9406192879334281,
+      "parameter_count": 7794503,
+      "pareto_rank": 4,
+      "crowding_distance": 0.5967995229194009
+    },
+    {
+      "evaluation": 43,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\325886c80590c35163504830bb0153e30567a2506437882b50b4424a3a35d3c7.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
+      "architecture": {
+        "stage_blocks": [
+          3,
+          1,
+          1,
+          2
+        ],
+        "stage_channels": [
+          16,
+          32,
+          128,
+          128
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          3,
+          5
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9366206545822723,
+      "parameter_count": 1924311,
+      "pareto_rank": 6,
+      "crowding_distance": null
+    },
+    {
+      "evaluation": 44,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\4bd30fa3eeaa3f1907b9a74b80bb2159059c83c276aa328594caec20371ccc7a.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          3,
+          2,
+          3
+        ],
+        "stage_channels": [
+          16,
+          32,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          5,
+          3
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9368557584483075,
+      "parameter_count": 3634519,
+      "pareto_rank": 8,
+      "crowding_distance": 1.9238312922151644
+    },
+    {
+      "evaluation": 45,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\f72d1cab3b9a5f7499903063df118f591370f6be115c460f4ee08e7d216ccbf1.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
+      "architecture": {
+        "stage_blocks": [
+          2,
+          1,
+          3,
+          1
+        ],
+        "stage_channels": [
+          32,
+          32,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          5
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9404536518174905,
+      "parameter_count": 1248103,
+      "pareto_rank": 3,
+      "crowding_distance": 0.596011818666414
+    },
+    {
+      "evaluation": 46,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\db75b5d5603c61cc53b07b882edc3a546c7fa1bb921e5646a8c2afecccd6cae8.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          2,
+          1,
+          2
+        ],
+        "stage_channels": [
+          64,
+          32,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9354625001011312,
+      "parameter_count": 2217991,
+      "pareto_rank": 8,
+      "crowding_distance": null
+    },
+    {
+      "evaluation": 47,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\953f074848b84fc013e8a77ab99e7efd185c61796853c595920abad055c78e02.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          3,
+          1,
+          1
+        ],
+        "stage_channels": [
+          64,
+          32,
+          64,
+          512
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9396167676653151,
+      "parameter_count": 2894215,
+      "pareto_rank": 5,
+      "crowding_distance": null
+    },
+    {
+      "evaluation": 48,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\dc183a732f9e0c2d03d7ff9275d219d4fb4829d3af0ad7d4df7c6d761d9e19c9.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 4,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "stage_channels": [
+          64,
+          32,
+          128,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          5
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9429804228308729,
+      "parameter_count": 1459847,
+      "pareto_rank": 0,
+      "crowding_distance": 1.3149573516920023
+    },
+    {
+      "evaluation": 49,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\78ede4c28e0d391dd4afd9978f21ef64d0ff520181b4f8cd8f4e03e5ed6effab.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 4,
+      "architecture": {
+        "stage_blocks": [
+          3,
+          1,
+          2,
+          1
+        ],
+        "stage_channels": [
+          64,
+          128,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          5,
+          3,
+          3
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9422284459172996,
+      "parameter_count": 1797319,
+      "pareto_rank": 1,
+      "crowding_distance": 1.2812982209840564
+    },
+    {
+      "evaluation": 50,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\ec84f6845d4bfe03d811026679f05b9430b7513ed70c1b7f7e383d83f48a7f4a.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 4,
+      "architecture": {
+        "stage_blocks": [
+          2,
+          1,
+          2,
+          1
+        ],
+        "stage_channels": [
+          64,
+          32,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          5,
+          3,
+          3,
+          5
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9405362820157585,
+      "parameter_count": 1197831,
+      "pareto_rank": 2,
+      "crowding_distance": 0.4788282222089414
+    },
+    {
+      "evaluation": 51,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\ce0b5b54b0c4279a69c86f3f4ebc9d260cea551598f34bc9f35e44155bf5aca4.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 4,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          1
+        ],
+        "stage_channels": [
+          64,
+          64,
+          128,
+          512
+        ],
+        "kernel_sizes": [
+          3,
+          5,
+          3,
+          3
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9416460968554884,
+      "parameter_count": 3832007,
+      "pareto_rank": 3,
+      "crowding_distance": 0.7191271138645576
+    },
+    {
+      "evaluation": 52,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\1f639ce982776eb2afb4bba00f23ff79293ed0e44f4b4ed61799b02cc0126797.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          1
+        ],
+        "stage_channels": [
+          64,
+          64,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
         ],
         "dropout": 0.1
       },
-      "val_macro_auc_ovr": 0.8948848209229908,
-      "parameter_count": 17687
+      "val_macro_auc_ovr": 0.9397642272578723,
+      "parameter_count": 537287,
+      "pareto_rank": 0,
+      "crowding_distance": null
     },
     {
+      "evaluation": 53,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\b3c6e2cf43c288a63cd422e349de683cbbae7c37bfc86f16522b7c3ee8070413.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 128,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          }
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          2
+        ],
+        "stage_channels": [
+          64,
+          128,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          5,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.8824304833882588,
-      "parameter_count": 112007
+      "val_macro_auc_ovr": 0.941816233155628,
+      "parameter_count": 3288775,
+      "pareto_rank": 2,
+      "crowding_distance": 0.46828573027758574
     },
     {
+      "evaluation": 54,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\4264faa9abc207377929e2f19d2e304afde740482529db3dd4ad8a93f6c3820c.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 32,
-            "kernel_size": 5,
-            "pooling": "avg",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 32,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 64,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "stage_blocks": [
+          2,
+          3,
+          2,
+          1
+        ],
+        "stage_channels": [
+          16,
+          64,
+          64,
+          512
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.9134248106386762,
-      "parameter_count": 45751
+      "val_macro_auc_ovr": 0.9389287112671544,
+      "parameter_count": 3051095,
+      "pareto_rank": 6,
+      "crowding_distance": 1.3072165837944927
     },
     {
+      "evaluation": 55,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\80251b41e4caf08a2a2b743d4196e3f24d329cdb6bdd93075b535cd70b9bd9fd.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5,
       "architecture": {
-        "blocks": [
-          {
-            "filters": 64,
-            "kernel_size": 5,
-            "pooling": "max",
-            "batch_norm": true
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "avg",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": false
-          },
-          {
-            "filters": 16,
-            "kernel_size": 3,
-            "pooling": "max",
-            "batch_norm": true
-          }
+        "stage_blocks": [
+          1,
+          3,
+          2,
+          2
+        ],
+        "stage_channels": [
+          64,
+          32,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          5,
+          3
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9361941371524102,
+      "parameter_count": 2687367,
+      "pareto_rank": 7,
+      "crowding_distance": 0.320452522950651
+    },
+    {
+      "evaluation": 56,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\9c85effa291a23743825c8b7b58ffe5061326874306535a2dbbe69c53c0ac4e9.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "stage_channels": [
+          32,
+          64,
+          64,
+          256
+        ],
+        "kernel_sizes": [
+          3,
+          5,
+          5,
+          3
         ],
         "dropout": 0.2
       },
-      "val_macro_auc_ovr": 0.9074807621149565,
-      "parameter_count": 20695
+      "val_macro_auc_ovr": 0.9419545037454442,
+      "parameter_count": 1141799,
+      "pareto_rank": 1,
+      "crowding_distance": 0.8734813379220074
+    },
+    {
+      "evaluation": 57,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\247650f66b59fdb817c376bb84f27d6e3a0e35119248fd5a307ca6fb26a10026.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "stage_channels": [
+          64,
+          128,
+          256,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          5,
+          5,
+          3
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9384982626476875,
+      "parameter_count": 3667911,
+      "pareto_rank": 7,
+      "crowding_distance": 1.5939587811264628
+    },
+    {
+      "evaluation": 58,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\1e75e3eadc554a6a47e1f9ccb8ad63ba26d63d52d7b0f673c59edc343b208ddd.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5,
+      "architecture": {
+        "stage_blocks": [
+          2,
+          3,
+          1,
+          1
+        ],
+        "stage_channels": [
+          64,
+          32,
+          128,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          5,
+          3
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9389738956862438,
+      "parameter_count": 1046663,
+      "pareto_rank": 3,
+      "crowding_distance": 0.42041134158817983
+    },
+    {
+      "evaluation": 59,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\515121ff19ff4817ff4e06ac414b750d79ff5e8a3ca44245a32f6d0276b0990e.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          2,
+          1
+        ],
+        "stage_channels": [
+          64,
+          64,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "dropout": 0.2
+      },
+      "val_macro_auc_ovr": 0.9394184928949271,
+      "parameter_count": 537287,
+      "pareto_rank": 1,
+      "crowding_distance": null
+    },
+    {
+      "evaluation": 60,
+      "status": "trained",
+      "result": "results\\ga_search\\seed_42\\evaluations\\accc7a4d86e3bda8fd11ac8f3eae68dbbc8a979245de2af301cca00fc8b228db.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5,
+      "architecture": {
+        "stage_blocks": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "stage_channels": [
+          64,
+          32,
+          64,
+          128
+        ],
+        "kernel_sizes": [
+          5,
+          5,
+          3,
+          3
+        ],
+        "dropout": 0.3
+      },
+      "val_macro_auc_ovr": 0.9397359053176627,
+      "parameter_count": 574727,
+      "pareto_rank": 1,
+      "crowding_distance": 0.16252957630977508
     }
   ]
 }

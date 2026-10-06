@@ -119,8 +119,8 @@ def run_nsga2(
             raise ValueError(f"{name} must be a positive integer")
     if not 0 <= crossover_rate <= 1 or not 0 <= mutation_probability <= 1:
         raise ValueError("crossover and mutation probabilities must be in [0, 1]")
-    # 32 possible blocks, 2-4 blocks, 5 dropout choices.
-    if evaluation_budget > 5 * sum(32 ** length for length in (2, 3, 4)):
+    # 3^4 block counts, 3^4 channel layouts, 2^4 kernels and 5 dropout values.
+    if evaluation_budget > (3**4) * (3**4) * (2**4) * 5:
         raise ValueError("evaluation budget exceeds the number of unique architectures")
     rng = random.Random(seed)
     evaluated = {}

@@ -1,18 +1,26 @@
+"""Run NSGA-II architecture search with measured ResNet validation fitness."""
+
 import argparse
 import json
 from pathlib import Path
 
 from src.nsga2 import run_nsga2
-from src.search_runtime import SearchEvaluator, save_json, serialize_evaluated, serialize_individual
-from src.train import DEFAULT_EPOCHS, PROJECT_ROOT
+from src.search_runtime import (
+    SEARCH_EPOCHS,
+    SearchEvaluator,
+    save_json,
+    serialize_evaluated,
+    serialize_individual,
+)
+from src.train import PROJECT_ROOT
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--budget", type=int, default=80)
+    parser.add_argument("--budget", type=int, default=60)
     parser.add_argument("--population-size", type=int, default=10)
-    parser.add_argument("--epochs", type=int, default=DEFAULT_EPOCHS)
+    parser.add_argument("--epochs", type=int, default=SEARCH_EPOCHS)
     parser.add_argument("--device", default="auto")
     parser.add_argument("--output-dir", type=Path, default=PROJECT_ROOT / "results" / "ga_search")
     args = parser.parse_args()
@@ -26,8 +34,15 @@ def main():
     evaluator = SearchEvaluator(
         args, experiment="ga_search", label="GA-NAS", search_config=search_config,
     )
-    result = run_nsga2(evaluator, seed=args.seed, evaluation_budget=args.budget,
-                       population_size=args.population_size)
+    result = run_nsga2(
+        evaluator,
+        seed=args.seed,
+        evaluation_budget=args.budget,
+        population_size=args.population_size,
+        tournament_size=search_config["tournament_size"],
+        crossover_rate=search_config["crossover_rate"],
+        mutation_probability=search_config["mutation_probability"],
+    )
     assert result["evaluations"] == len(evaluator.records) == evaluator.trained + evaluator.hits == args.budget
 
     summary = {

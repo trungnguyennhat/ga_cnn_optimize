@@ -1,74 +1,87 @@
-"""CNN baseline and architecture builder for DermaMNIST GA-NAS."""
+"""ResNet-18 baseline and ResNet architecture builder for DermaMNIST."""
 
 from copy import deepcopy
 
 from torch import nn
+
 from src.search_space import validate_architecture
 
+
 BASELINE_ARCHITECTURE = {
-    "blocks": [
-        {"filters": 32, "kernel_size": 3, "pooling": "max", "batch_norm": False},
-        {"filters": 64, "kernel_size": 3, "pooling": "max", "batch_norm": False},
-        {"filters": 128, "kernel_size": 3, "pooling": "max", "batch_norm": False},
-    ],
-    "dropout": 0.3,
+    "stage_blocks": [2, 2, 2, 2],
+    "stage_channels": [64, 128, 256, 512],
+    "kernel_sizes": [3, 3, 3, 3],
+    "dropout": 0.0,
 }
 
 
-class ArchitectureCNN(nn.Module):
-    def __init__(self, architecture: dict, *, validate: bool = True) -> None:
+class BasicBlock(nn.Module):
+    def __init__(self, in_channels: int, out_channels: int, kernel_size: int, stride: int) -> None:
         super().__init__()
-        if validate:
-            validate_architecture(architecture)
-        self.architecture = deepcopy(architecture)
-
-        layers = []
-        in_channels = 3
-        for block in architecture["blocks"]:
-            out_channels = block["filters"]
-            kernel_size = block["kernel_size"]
-            layers.append(
-                nn.Conv2d(
-                    in_channels,
-                    out_channels,
-                    kernel_size=kernel_size,
-                    padding=kernel_size // 2,
-                )
-            )
-            if block["batch_norm"]:
-                layers.append(nn.BatchNorm2d(out_channels))
-            layers.append(nn.ReLU())
-            pool = nn.MaxPool2d if block["pooling"] == "max" else nn.AvgPool2d
-            layers.append(pool(2))
-            in_channels = out_channels
-
-        spatial_size = 64 // (2 ** len(architecture["blocks"]))
-        self.features = nn.Sequential(*layers)
-        self.classifier = nn.Sequential(
-            nn.Flatten(),
-            nn.Dropout(architecture["dropout"]),
-            nn.Linear(in_channels * spatial_size * spatial_size, 7),
+        padding = kernel_size // 2
+        self.residual = nn.Sequential(
+            nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding, bias=False),
+            nn.BatchNorm2d(out_channels),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(out_channels, out_channels, kernel_size, 1, padding, bias=False),
+            nn.BatchNorm2d(out_channels),
         )
+        self.shortcut = (
+            nn.Identity()
+            if stride == 1 and in_channels == out_channels
+            else nn.Sequential(
+                nn.Conv2d(in_channels, out_channels, 1, stride, bias=False),
+                nn.BatchNorm2d(out_channels),
+            )
+        )
+        self.relu = nn.ReLU(inplace=True)
+
+    def forward(self, inputs):
+        return self.relu(self.residual(inputs) + self.shortcut(inputs))
+
+
+class ArchitectureResNet(nn.Module):
+    def __init__(self, architecture: dict) -> None:
+        super().__init__()
+        validate_architecture(architecture)
+        self.architecture = deepcopy(architecture)
+        first_channels = architecture["stage_channels"][0]
+        self.stem = nn.Sequential(
+            nn.Conv2d(3, first_channels, 3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(first_channels),
+            nn.ReLU(inplace=True),
+        )
+        stages = []
+        in_channels = first_channels
+        for index, (block_count, out_channels, kernel_size) in enumerate(
+            zip(
+                architecture["stage_blocks"],
+                architecture["stage_channels"],
+                architecture["kernel_sizes"],
+            )
+        ):
+            blocks = [BasicBlock(in_channels, out_channels, kernel_size, 1 if index == 0 else 2)]
+            blocks.extend(BasicBlock(out_channels, out_channels, kernel_size, 1) for _ in range(block_count - 1))
+            stages.append(nn.Sequential(*blocks))
+            in_channels = out_channels
+        self.stages = nn.Sequential(*stages)
+        self.pool = nn.AdaptiveAvgPool2d(1)
+        self.dropout = nn.Dropout(architecture["dropout"])
+        self.classifier = nn.Linear(in_channels, 7)
 
     def forward(self, images):
-        return self.classifier(self.features(images))
+        features = self.stages(self.stem(images))
+        features = self.pool(features).flatten(1)
+        return self.classifier(self.dropout(features))
 
 
-class BaselineCNN(ArchitectureCNN):
-    def __init__(self, filters: int = 32, dropout: float = 0.3) -> None:
-        if filters <= 0:
-            raise ValueError("filters must be positive")
-        if not 0.0 <= dropout < 1.0:
-            raise ValueError("dropout must be in [0, 1)")
-        architecture = deepcopy(BASELINE_ARCHITECTURE)
-        architecture["dropout"] = dropout
-        for index, block in enumerate(architecture["blocks"]):
-            block["filters"] = filters * (2**index)
-        super().__init__(architecture, validate=False)
+class BaselineResNet(ArchitectureResNet):
+    def __init__(self) -> None:
+        super().__init__(deepcopy(BASELINE_ARCHITECTURE))
 
 
-def build_model(architecture: dict) -> ArchitectureCNN:
-    return ArchitectureCNN(architecture)
+def build_model(architecture: dict) -> ArchitectureResNet:
+    return ArchitectureResNet(architecture)
 
 
 def count_parameters(model: nn.Module) -> int:

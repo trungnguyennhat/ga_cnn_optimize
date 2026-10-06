@@ -1,416 +1,521 @@
 {
+  "experiment": "ga_search",
   "config": {
-    "epochs": 25,
+    "epochs": 20,
     "learning_rate": 0.001,
     "batch_size": 64,
     "optimizer": "Adam",
     "seed": 42,
     "device": "cuda",
-    "train_val_sha256": "85ae22678d3470426d0b7af4fff268eb5e6c90ede2f110fd8fc41ff274bfdc39",
-    "training_version": 1
+    "scheduler": {
+      "name": "StepLR",
+      "step_size": 15,
+      "gamma": 0.1
+    },
+    "loss": "unweighted_cross_entropy",
+    "normalization": {
+      "mean": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "std": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "architecture_space": "resnet_stage_channels_v1",
+    "train_val_sha256": "9b52e5af2a28cefe8ec8cfec61a346da000c433d23abdb650c2abe5585b41a7d",
+    "training_version": 3,
+    "budget": 60,
+    "population_size": 10,
+    "tournament_size": 3,
+    "crossover_rate": 0.8,
+    "mutation_probability": 0.15
   },
-  "new_trainings": 80,
+  "new_trainings": 60,
   "cache_hits": 0,
   "evaluations": [
     {
       "evaluation": 1,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\a57f9b21d04a669b48a361de6fa29382eb7c0d1b50a170c216c5ae53c2e836fc.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\6dd1cb05ad595d155bbd0627c1c4ae0b40732958da8cbe6abbfa95e42f588a56.json",
+      "best_auc_so_far": 0.9360189567726727,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 1
     },
     {
       "evaluation": 2,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\7ec866ab76ec8a41a0087bd203ac1d651b6b31040c117eada02092fdda0da65c.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\661e0c69a310e003213f10263e1f1aa0ab5b5092dc9199c0a5f13669588df718.json",
+      "best_auc_so_far": 0.9389373474338759,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 3,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\1847e5ac8497580401eab6ca19f3e37a8078e45ef55c97f81cdbf01ad109ea7c.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\a4a1dfa6758d19d5ad72a4737b4a7a00537f631e7bc932ece8072c06a655c2bf.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 4,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\29797ba63af3ae75110bd2de27911c248050135c537c3226761046881d60e623.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\9dccead76004c8c643aa25816e0c5d363297c9825e9d47baa57ed62a28eb3ce1.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 5,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\e4ad07fb689f8d63f576ab48eb6012dc8f084dea4fe7fd141182b718cb3fbb82.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\b4732f1d99a4e8ee227ee2a85a5c56f3b81a01c05e4851fa5ad145f9d7753183.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 6,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\ac171b95205b1b5e0c4296271757ca46588ada7571e7ecf6e42c841e7eba6614.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\7590acd96c68d25df7a9edb0a4fcc1ae08cbfe6637d93dc68289d06b45228dfe.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 7,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\a0c190ec09063bbc6c70d3e30a489c3cfb1d34f9c9bbc4f49d5070fc9f78418d.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\6a5e6c99ea23e9fbf143de088716ace65120a284be2ed099c413d09f3da41dee.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 8,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\32690828e25f3125d959c833eaeab40f890ffbf54badbd78aff05de79163a9e0.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\117951cffc17ba56e6481e3114cd5e3168657b700e1579750686f7cd83831d26.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 9,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\b809610645af24002db5d6c914f4b1181324190dd88710ce0912f37b0719acdd.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\13c50061b2c35f00da286026f537233b92ffb1eb6d5abc196413f34b832d45b3.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 10,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\012dade90b12ea608c2a34505b0fd84114465872b11c141b1be5c42f3736cdc4.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\b398165fe7e063f02511c413d0b4c1a6193a05a1287db5e1a2b33a95c170a01d.json",
+      "best_auc_so_far": 0.941722186751532,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 11,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\4c764970bada576f897122d993431433162f3d52b41b0f00ed77701a684afa07.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\38d4504aff4bbf9fa601c9309528f137cdd7c8d868d8130447af6d96ed5c6b75.json",
+      "best_auc_so_far": 0.9432079999035209,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 4
     },
     {
       "evaluation": 12,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\72c2efb85a3af8f278769fcd0375d37fba9207c509679d463e774b8754536bc0.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\df66ff6306801154f070ca4cdaf3959f19192de761f5fd147237ad750799e58f.json",
+      "best_auc_so_far": 0.9432079999035209,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 13,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\2860076852323c01b71393b1a584cd2054e0156ee0a367581d66a7e78506bd46.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\e8773cb899b63879e85877acde8f2f9ec0724f484e420f72e0944ce8ea980ec4.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 14,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\652890e8b07236cf578ad8b4dbe3c951479971815c13e834ebc1a6c19455a9a6.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\bf116b3ab8bc0a18711d8677b439924a8501f5a8a660f1428cbdf6d5cff1906a.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 15,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\e4b65fa6651a8a306f2734e20eb210d021903b871d753236e596dac9562def6b.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\91f5ea940853612a52a5b56ae87af455680a0fe5031474e00d45f4b15f102808.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 16,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\73b57a8a817b5f7db8c85a9b361f0efe3bb4c7ebe2c86469bb7d51aced6428cf.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\d50fb88ea14dab91b40d5e108e1a5f28d70e730ffd1f61fbb4caf8af23327955.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 17,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\810ff6589aad1a92f7a3ed3b760a83e6be2e74615f95f13fde9aa88f9ae0e0ff.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\525bf7a4294dc96053118be3a1c4902584dc8a32b9db29c465874aeb6c215c5c.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 18,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\74658f56754a48a92058609223cda577e06fa213e3a4d49ad476bbfa9278e5bf.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\46f46e46c32cee60009dd9a89194768ee36e1f8f552eebc0d7a29c24989299ab.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 19,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\d038f178251ff7d439ff02d85d341b186fdbd434e137afd6d306aaaba7f3b6c8.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\02b6646446b0bb6284ac96d441af0a697ee2330abbb39c4ede57bef116ae9890.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 20,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\e1915d7de7fbac3bb33e116585bfa13806d8983c8332dfc9f0099315873a6430.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\6308b80a47f8a335ab24ba9cd537d88072c06c874d98c1723198f0fc3541c3c2.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 21,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\7ed1e16f76db176fa1c83622862f949047a6b5ead7a969d41a4c8dc2a93667ed.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\897e4cb900ffbff6d9624cdae49329586ac329f90567d496ecc743dd9434b453.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 22,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\fa9f9aa8d0f1ddb97a5ac39160c693139a6b87c934cca602e5b9fd809380bb5b.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\0b87ad4572be3d6c56375057c49cdc4f2a5f9e8957a24786236b82fcd1cb138d.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 23,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\16d05367c9615c79b1568371819d6dd803d9666fa0c429aa71ee8116daf4d7cb.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\02a1fd720592eff7f5920ec7b1028a27a93474a35af3225f9a212bf7307646b6.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 24,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\ff05c40f2a7159aac4bcf6b18d6d382f6865abd1c8b330d85e9a3930d11cd13c.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\1fe02243249b533bceda001391087c699519c69392583ad05a412930f4b833f6.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 25,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\363f12c1de467b3565691323a9d97db25af17fa3da4d31856b136b512cc6f8ec.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\005e583f5ceea33152481bf1851046f93792f84596faf3b7dacf4ffaeda57594.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 26,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\d59bdd17f01a3e50fffcc79b2700ae826df455459fe87215404a688554ee5004.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\e91a74ed3c3a36a8a4cd4e0be52b242201dfa3026a39bdb15db20c238e967874.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 27,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\a6432af771cedc6a022fe5b3fd3f22988118aded701dc6c940b147b725d4b0c1.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\aa57cd80b3c3676b08119181643e667fbe43d4fd9cf48daae0abceda4aba7f10.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 28,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\cdcd89733cf441745792d8523efa335dc72ff54c7c9a7461cc994409173cd8d2.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\c8f99d435419856ed76460abd278c95e67ed87d2751f700657d1d25ec2824731.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 29,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\1453a149581303c40689f1deae4416f9a24258b1e03f616d55ede806fbc10f4c.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\35e79c8ce1371155b84d985dd2e26cf8e0bc636dcf29cc8e6f267e5587450d36.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 30,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\fe85d453d331e8193b8568e144109499298a07b98cc6c9b4700a5fb08fed2624.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\d695c43732de3383cf5b0909d44219613da7755e7e327a37fcf3d19c79ea856e.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 31,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\71e6bcfb9127034dcae02cda55223c37965a4457672120b69c94e2b9e7680248.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\734f6e5215596112504d62db14c21e6af539306694f01771856389a1bb117dfb.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 32,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\9decb929ae44e42668a29f2e158156b6846a2095ae389bb2a2268e5728a78207.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\645e7288d8ad70b9a934aef1aa0b43902ae8848b0bfa6e8ce0cefa5daebdd5a8.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 33,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\006c9ddca28db1e4876f56771ba250189e0fa7243d91343e1636baa961487269.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\b25dfc32791fb6e84d6fbd0160c15a68fecdb5effad4dedc342855d17d2b1886.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 34,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\e4a2e199063ff165ea251fe815ec4cf9e76aa3b06c850a37ebe46595a61a368e.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\f36f593be6458505f818e87a1a10839610d1907e3a0c5b4bc909927839b561b8.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 35,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\6c0713e7765073575d88578fc5ba1bdfc3e8f576d239bb15beeeb64e10fa6c45.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\1fa0ed6f9fd9523288a4a306f894aa326386546860d5e1e1a10efceb465b8929.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 2
     },
     {
       "evaluation": 36,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\c481988a5ae3ed0f8cdb2ea64e838626eadbb8e783ef506563d2335c945fbe76.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\955c2473d8a897d32417f121b9dbdc44e8ba2ad4dde89bc7019aceabb587b4ec.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 37,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\2f0b2b1bfed13cd5f0173e515ebdd5769e1fcdcae35dad304f7bc77042af1956.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\1ad453e65d0e54fdb23ec74ec2080131424fb79a3d46d8704bfd64bef54fd6d7.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 38,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\d808b875de008f9e108f6a85274c1121325e78c1c845082ebbb520526a7f9e4c.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\b18dac7696d3cba694068ce666d175cec6640c68872e4a52bfc6cd902a0789cb.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 39,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\2930900ca71d320ec10fb22514c791d599b99c14cecb4a3a85a371d667f0cf81.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\a980c85c7c43e1ebe9b4dc271f9c6ca591dc94f00f30339fcec04bbdbd7c042a.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 40,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\f01f66c90f68fac01c9a6d660fc226734c058455dd360a868d72c674ae17e360.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\e46cf181f284ab12e24ca63b80f79afb5c1d2e648365ea1d07c7a86c691dfba6.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 41,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\f8b874773101eb67f0b19979106ce660bfca8a5d7d46a32a23baa1206231fa8c.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\8ad2b58e38a5bceaa4fc2bde432d8e6b8919085b0eca8a226610761a2675096e.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 42,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\9bd05ca346efc6a6b9c462b480fe263db1cf08e72cff589dfd4ccccae43abe81.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\5dfdfe1871d3f8ce0d5d81cc89557a96d6ab9407c6b969d3181c1c5398564db1.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 43,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\bc9cdfcbc16f495260fb05bc307a9fc114cba6a82d81a13213daacbfe83f504d.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\325886c80590c35163504830bb0153e30567a2506437882b50b4424a3a35d3c7.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 44,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\7cf5f29d1f4b168643c8883afa9f4c333d5f7d00ccfb595d550f14c791358c59.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\4bd30fa3eeaa3f1907b9a74b80bb2159059c83c276aa328594caec20371ccc7a.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 45,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\7093351ecbf51965d26a394b71fc6a05b262578a5bbef0d6940f19f812ef0cd8.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\f72d1cab3b9a5f7499903063df118f591370f6be115c460f4ee08e7d216ccbf1.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 46,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\d8154c70154fcf2eaaf31cb8ef331c115c975939fd9a5809badc332e4568ff37.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\db75b5d5603c61cc53b07b882edc3a546c7fa1bb921e5646a8c2afecccd6cae8.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 47,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\68566acf8278f97c521efa63487aac5c178f58ea32f99a875a4d6cab07429d20.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\953f074848b84fc013e8a77ab99e7efd185c61796853c595920abad055c78e02.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 3
     },
     {
       "evaluation": 48,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\9411b94059551a43f35c07472aff0c03080a72555567d4fb2eb1dc6c0343518f.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\dc183a732f9e0c2d03d7ff9275d219d4fb4829d3af0ad7d4df7c6d761d9e19c9.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 4
     },
     {
       "evaluation": 49,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\07608287c72615a35f400d52427cf92b4dcc0e5c92d930be8b40d040650a7aac.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\78ede4c28e0d391dd4afd9978f21ef64d0ff520181b4f8cd8f4e03e5ed6effab.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 4
     },
     {
       "evaluation": 50,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\36fdb0eb7de7c7b3b175648c07966252aa3837487cbe7f49507931cc496b9887.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\ec84f6845d4bfe03d811026679f05b9430b7513ed70c1b7f7e383d83f48a7f4a.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 4
     },
     {
       "evaluation": 51,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\dc4268d4a32cb1f6197d61753652100b3759e867f5807e70769082872a5b9d76.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\ce0b5b54b0c4279a69c86f3f4ebc9d260cea551598f34bc9f35e44155bf5aca4.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 603911,
+      "pareto_size_so_far": 4
     },
     {
       "evaluation": 52,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\a1e2ebb743f3a27cc2cc7c9376389e2142f14f41661015a63910c96882e0005e.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\1f639ce982776eb2afb4bba00f23ff79293ed0e44f4b4ed61799b02cc0126797.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5
     },
     {
       "evaluation": 53,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\5fac694a5776bb36ef8859884674c26737e0030c69ebff6484a8b59949c1868d.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\b3c6e2cf43c288a63cd422e349de683cbbae7c37bfc86f16522b7c3ee8070413.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5
     },
     {
       "evaluation": 54,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\9459df469cf812e175f83f1b51a4cab83303958490774a3917db1ea81b97f91b.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\4264faa9abc207377929e2f19d2e304afde740482529db3dd4ad8a93f6c3820c.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5
     },
     {
       "evaluation": 55,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\81365ad14054a6c8aa0e1f242bbd0e5ec039aec77b839bf6dfa0f0199e4ac6f2.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\80251b41e4caf08a2a2b743d4196e3f24d329cdb6bdd93075b535cd70b9bd9fd.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5
     },
     {
       "evaluation": 56,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\729d0fd0e393d4520385a4ccd4b13bbab46a4ff1a41364a73dff66c6fcbdedc0.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\9c85effa291a23743825c8b7b58ffe5061326874306535a2dbbe69c53c0ac4e9.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5
     },
     {
       "evaluation": 57,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\f203ee1f6381c10827b60bef918fcbd3fac27249ec9a9b0da7b6bd5f8a9d6db3.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\247650f66b59fdb817c376bb84f27d6e3a0e35119248fd5a307ca6fb26a10026.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5
     },
     {
       "evaluation": 58,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\d7f9099a47a5a321c49df2a0927ee3bc499e958bc8ae058977487aab27c68b40.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\1e75e3eadc554a6a47e1f9ccb8ad63ba26d63d52d7b0f673c59edc343b208ddd.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5
     },
     {
       "evaluation": 59,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\c38fc5573180523379541b1118085ff1a6a94ac5e72cf185b07d3e0a922ec56b.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\515121ff19ff4817ff4e06ac414b750d79ff5e8a3ca44245a32f6d0276b0990e.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5
     },
     {
       "evaluation": 60,
       "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\6a0052c5c3617f521a77ed8724dbef1633a6d4bf92c27de4b274c2275de9a5b9.json"
-    },
-    {
-      "evaluation": 61,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\353b5a25e60749953d924f5052fcfbc8d97acd5962434616169bf5572b8a9d6a.json"
-    },
-    {
-      "evaluation": 62,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\71e0586aa70e8400fdade17bac7ab203cc99a94fd8cf3a9cd57ad5878e10849c.json"
-    },
-    {
-      "evaluation": 63,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\fb583a3dba104a21ee6c3a9805223c804a68472af66d645b09a5079c6cb0400c.json"
-    },
-    {
-      "evaluation": 64,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\6d4201d101ac4f3f39a94559725b4a26f359b0696ef956ae6366956103b5581b.json"
-    },
-    {
-      "evaluation": 65,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\18e244f7d6e8ebde88a26d349ba5de824aad0fb98e6291ee54806a7b21395541.json"
-    },
-    {
-      "evaluation": 66,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\91379bcec1aeb842c97b1bd0391672783ecd2fc05001553ed38df41d2120d72f.json"
-    },
-    {
-      "evaluation": 67,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\26e6b48f16198e3cb0782a0259f2de372b0221c67f10878500ec945538f1ed46.json"
-    },
-    {
-      "evaluation": 68,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\27f113905b895f1a58a1c4ce6d8cb9a967ce7090bf50955a4b871dfd070b2424.json"
-    },
-    {
-      "evaluation": 69,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\11089eabd00fad47f1e566cf5b19205cf3e45273fe7b32f25a24efe11a4cf099.json"
-    },
-    {
-      "evaluation": 70,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\70468f4fc56e8dce193afbfbb4c5be15511efabd596d9e77dff6d38dc56bb178.json"
-    },
-    {
-      "evaluation": 71,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\c29699d717f23e52b634af1c41792c0d72085dd333cebd37d3514f8bdcccf593.json"
-    },
-    {
-      "evaluation": 72,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\7b05f7c8cec6d218d5eb197dd1190a5e15aa48bc576b9c3bf806a690d587b910.json"
-    },
-    {
-      "evaluation": 73,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\1155f4d6fe8058b6a9c9fdccc14f94d73871d2cd9614aea77a4845303844770b.json"
-    },
-    {
-      "evaluation": 74,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\07d0925a3eca54428ad572a1d55d0fc200b2342ff234f2839cf1c427147573f0.json"
-    },
-    {
-      "evaluation": 75,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\40c69aed16b38625c6867af9ceaae14a8a917d133668edc64cac9d8dafcb6dea.json"
-    },
-    {
-      "evaluation": 76,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\cfdf7d9e4e3c91bacc45e6a1036455d22098e4bdf702f057a08761998abef52b.json"
-    },
-    {
-      "evaluation": 77,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\d8620a50fbc2ab664f2922bfc470a26e90150d181343f46ec9ae156cc007a908.json"
-    },
-    {
-      "evaluation": 78,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\c3703621dc874a84e764751ca55e4dd435da4dd654efba7e04421537f5742710.json"
-    },
-    {
-      "evaluation": 79,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\b90ec8e4e201ace1b2020f8cea0086976c076d9c7dca994d8c0f13f2baad77b1.json"
-    },
-    {
-      "evaluation": 80,
-      "status": "trained",
-      "result": "results\\ga_search\\seed_42\\evaluations\\bee2c07d4c3644a94958600fb9f45ed516734f86451ff845dec744d6ab8affe9.json"
+      "result": "results\\ga_search\\seed_42\\evaluations\\accc7a4d86e3bda8fd11ac8f3eae68dbbc8a979245de2af301cca00fc8b228db.json",
+      "best_auc_so_far": 0.944951305574956,
+      "smallest_parameters_so_far": 537287,
+      "pareto_size_so_far": 5
     }
   ]
 }

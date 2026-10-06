@@ -1,4 +1,4 @@
-"""Uniform random architecture search with the same CNN fitness as GA-NAS."""
+"""Uniform random architecture search with the same ResNet fitness as GA-NAS."""
 
 import argparse
 import json
@@ -6,15 +6,21 @@ import random
 from pathlib import Path
 
 from src.nsga2 import Individual, crowding_distance, nondominated_sort
-from src.search_runtime import SearchEvaluator, save_json, serialize_evaluated, serialize_individual
+from src.search_runtime import (
+    SEARCH_EPOCHS,
+    SearchEvaluator,
+    save_json,
+    serialize_evaluated,
+    serialize_individual,
+)
 from src.search_space import canonical_architecture, random_architecture
-from src.train import DEFAULT_EPOCHS, PROJECT_ROOT
+from src.train import PROJECT_ROOT
 
 
 def run_random_search(fitness_callback, *, evaluation_budget: int, seed: int):
     if type(evaluation_budget) is not int or evaluation_budget <= 0:
         raise ValueError("evaluation_budget must be a positive integer")
-    if evaluation_budget > 5 * sum(32 ** length for length in (2, 3, 4)):
+    if evaluation_budget > (3**4) * (3**4) * (2**4) * 5:
         raise ValueError("evaluation budget exceeds the number of unique architectures")
     rng = random.Random(seed)
     evaluated = {}
@@ -35,8 +41,8 @@ def run_random_search(fitness_callback, *, evaluation_budget: int, seed: int):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--budget", type=int, default=80)
-    parser.add_argument("--epochs", type=int, default=DEFAULT_EPOCHS)
+    parser.add_argument("--budget", type=int, default=60)
+    parser.add_argument("--epochs", type=int, default=SEARCH_EPOCHS)
     parser.add_argument("--device", default="auto")
     parser.add_argument(
         "--output-dir", type=Path,

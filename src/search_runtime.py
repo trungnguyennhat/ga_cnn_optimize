@@ -1,4 +1,4 @@
-"""Shared CNN evaluation, cache, and logging for architecture searches."""
+"""Shared ResNet evaluation, cache, and logging for architecture searches."""
 
 import hashlib
 import json
@@ -9,6 +9,10 @@ from src.model import build_model, count_parameters
 from src.nsga2 import dominates
 from src.search_space import canonical_architecture
 from src.train import DATA_PATH, load_data, resolve_device, set_seed, train_model
+
+
+SEARCH_EPOCHS = 20
+SEARCH_SCHEDULER_STEP = 15
 
 
 def save_json(path, value):
@@ -32,7 +36,13 @@ class SearchEvaluator:
         self.config = {
             "epochs": args.epochs, "learning_rate": 0.001, "batch_size": 64,
             "optimizer": "Adam", "seed": args.seed, "device": str(self.device),
-            "train_val_sha256": digest.hexdigest(), "training_version": 1,
+            "scheduler": {
+                "name": "StepLR", "step_size": SEARCH_SCHEDULER_STEP, "gamma": 0.1,
+            },
+            "loss": "unweighted_cross_entropy",
+            "normalization": {"mean": [0.5, 0.5, 0.5], "std": [0.5, 0.5, 0.5]},
+            "architecture_space": "resnet_stage_channels_v1",
+            "train_val_sha256": digest.hexdigest(), "training_version": 3,
         }
         self.run_config = {**self.config, **search_config}
         self.output = args.output_dir / f"seed_{args.seed}"
@@ -70,11 +80,11 @@ class SearchEvaluator:
             metrics, history, runtime = train_model(
                 model, self.loaded_data, learning_rate=0.001, batch_size=64,
                 optimizer_name="Adam", epochs=self.args.epochs, seed=seed,
-                device=self.device,
+                device=self.device, scheduler_step_size=SEARCH_SCHEDULER_STEP,
             )
             record = {
                 "architecture": architecture, "config": self.config, "metrics": metrics,
-                "parameter_count": parameters, "history": {"train_loss": history},
+                "parameter_count": parameters, "history": history,
                 "runtime_seconds": runtime,
             }
             save_json(path, record)
