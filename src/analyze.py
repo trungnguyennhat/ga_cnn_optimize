@@ -17,6 +17,13 @@ from src.nsga2 import dominates
 from src.search_runtime import save_json
 from src.search_space import DROPOUT_CHOICES, KERNEL_CHOICES, STAGE_BLOCK_CHOICES, STAGE_CHANNEL_CHOICES
 from src.train import PROJECT_ROOT
+from src.evolution_stats import (
+    analyze_gene_frequencies,
+    compute_schotts_spacing,
+    plot_gene_distribution,
+    plot_generational_progress,
+    statistical_comparison,
+)
 
 
 METHODS = ("ga", "random")
@@ -227,6 +234,21 @@ def main():
         name: convergence(searches[name]["evaluated"], baseline_auc, min_parameters, max_parameters)
         for name in METHODS
     }
+
+    # Evolutionary computation statistics
+    spacing = {
+        name: compute_schotts_spacing(fronts[name])
+        for name in METHODS
+    }
+    stats_test = statistical_comparison(
+        searches["ga"]["evaluated"],
+        searches["random"]["evaluated"],
+    )
+    gene_stats = {
+        name: analyze_gene_frequencies(searches[name]["evaluated"], fronts[name])
+        for name in METHODS
+    }
+
     analysis = {
         "normalization": {
             "auc": {"minimum": 0.0, "maximum": 1.0},
@@ -238,6 +260,7 @@ def main():
                 "hypervolume": curves[name][-1]["hypervolume"],
                 "best_auc": max(point["val_macro_auc_ovr"] for point in searches[name]["evaluated"]),
                 "pareto_size": len(fronts[name]),
+                "schotts_spacing": spacing[name],
                 "knee_point": knee_point(fronts[name], min_parameters, max_parameters),
                 "smallest_model_reaching_baseline_auc": min(
                     (point for point in searches[name]["evaluated"] if point["val_macro_auc_ovr"] >= baseline_auc),
@@ -245,6 +268,7 @@ def main():
                 ),
                 "runtime_seconds": searches[name]["runtime_seconds"],
                 "convergence": curves[name],
+                "gene_analysis": gene_stats[name],
             }
             for name in METHODS
         },
@@ -252,6 +276,7 @@ def main():
             "ga_over_random": coverage(fronts["ga"], fronts["random"]),
             "random_over_ga": coverage(fronts["random"], fronts["ga"]),
         },
+        "statistical_hypothesis_testing": stats_test,
         "test_results": [{
             "model": result["model"], "parameter_count": result["parameter_count"],
             "best_epoch": result["best_epoch"], "runtime_seconds": result["runtime_seconds"],
@@ -265,7 +290,15 @@ def main():
     plot_convergence(args.output_dir / "convergence.png", curves)
     plot_test_metrics(args.output_dir / "test_metrics.png", results)
     plot_confusions(args.output_dir / "confusion_matrices.png", results)
-    print(json.dumps({"output": str(args.output_dir), "files": sorted(path.name for path in args.output_dir.iterdir())}, indent=2))
+    plot_gene_distribution(args.output_dir / "gene_distribution.png", gene_stats["ga"], gene_stats["random"])
+    plot_generational_progress(args.output_dir / "generational_progression.png", PROJECT_ROOT / "results" / "ga_search" / "seed_42" / "progress.json")
+
+    print(json.dumps({
+        "output": str(args.output_dir),
+        "files": sorted(path.name for path in args.output_dir.iterdir()),
+        "spacing": spacing,
+        "mann_whitney_u_test": stats_test,
+    }, indent=2))
 
 
 if __name__ == "__main__":
