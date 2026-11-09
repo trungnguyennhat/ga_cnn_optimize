@@ -18,6 +18,7 @@
       "hypervolume": 0.9403172206211322,
       "best_auc": 0.944951305574956,
       "pareto_size": 5,
+      "schotts_spacing": 0.22329935630619246,
       "knee_point": {
         "evaluation": 12,
         "status": "trained",
@@ -446,12 +447,59 @@
           "hypervolume": 0.9403172206211322,
           "smallest_parameters_reaching_baseline_auc": 537287
         }
-      ]
+      ],
+      "gene_analysis": {
+        "all_evaluations": {
+          "kernel_3_count": 142,
+          "kernel_5_count": 98,
+          "avg_blocks_per_stage": [
+            1.6,
+            1.75,
+            1.6833333333333333,
+            1.8166666666666667
+          ],
+          "avg_channels_per_stage": [
+            48.8,
+            50.666666666666664,
+            110.93333333333334,
+            249.6
+          ],
+          "dropout_distribution": {
+            "0.0": 5,
+            "0.2": 26,
+            "0.5": 2,
+            "0.3": 22,
+            "0.1": 5
+          }
+        },
+        "pareto_front": {
+          "kernel_3_count": 13,
+          "kernel_5_count": 7,
+          "avg_blocks_per_stage": [
+            1.2,
+            1.4,
+            1.4,
+            1.2
+          ],
+          "avg_channels_per_stage": [
+            64.0,
+            44.8,
+            76.8,
+            179.2
+          ],
+          "dropout_distribution": {
+            "0.3": 3,
+            "0.2": 1,
+            "0.1": 1
+          }
+        }
+      }
     },
     "random": {
       "hypervolume": 0.9367771779158939,
       "best_auc": 0.9439497484999507,
       "pareto_size": 4,
+      "schotts_spacing": 0.36973590210593343,
       "knee_point": {
         "evaluation": 43,
         "status": "trained",
@@ -880,12 +928,71 @@
           "hypervolume": 0.9367771779158939,
           "smallest_parameters_reaching_baseline_auc": 666007
         }
-      ]
+      ],
+      "gene_analysis": {
+        "all_evaluations": {
+          "kernel_3_count": 125,
+          "kernel_5_count": 115,
+          "avg_blocks_per_stage": [
+            2.0,
+            1.9666666666666666,
+            2.066666666666667,
+            2.0833333333333335
+          ],
+          "avg_channels_per_stage": [
+            42.4,
+            81.06666666666666,
+            137.6,
+            273.06666666666666
+          ],
+          "dropout_distribution": {
+            "0.0": 13,
+            "0.2": 12,
+            "0.5": 8,
+            "0.3": 16,
+            "0.1": 11
+          }
+        },
+        "pareto_front": {
+          "kernel_3_count": 9,
+          "kernel_5_count": 7,
+          "avg_blocks_per_stage": [
+            1.5,
+            2.25,
+            3.0,
+            2.0
+          ],
+          "avg_channels_per_stage": [
+            40.0,
+            56.0,
+            112.0,
+            128.0
+          ],
+          "dropout_distribution": {
+            "0.2": 1,
+            "0.0": 1,
+            "0.3": 1,
+            "0.1": 1
+          }
+        }
+      }
     }
   },
   "coverage": {
     "ga_over_random": 0.5,
     "random_over_ga": 0.0
+  },
+  "statistical_hypothesis_testing": {
+    "mann_whitney_u": 1956.0,
+    "p_value": 0.20719931006677605,
+    "statistically_significant_005": false,
+    "rank_biserial_effect_size": -0.08666666666666667,
+    "ga_auc_mean": 0.9389137484891455,
+    "ga_auc_std": 0.003196405449426993,
+    "random_auc_mean": 0.9382857651515208,
+    "random_auc_std": 0.0033484879092176415,
+    "ga_auc_median": 0.9389606527279659,
+    "random_auc_median": 0.9390122630994144
   },
   "test_results": [
     {
