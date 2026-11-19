@@ -5,14 +5,11 @@ import json
 from copy import deepcopy
 from pathlib import Path
 
-import torch
-from torch import nn
-
-from src.model import build_model, count_parameters
-from src.search_runtime import save_json
-from src.search_space import canonical_architecture
-from src.test_eval import evaluate, load_test_data
-from src.train import DATA_PATH, PROJECT_ROOT, load_data, resolve_device, set_seed, train_model
+from src.datasets import DATASETS, add_dataset_args, dataset_path, results_root
+from src.objectives import AUC, OBJECTIVES
+from src.search_runtime import add_protocol_args
+from src.test_eval import load_test_data, proxy_training_config, train_selected, verify_proxy_search
+from src.train import load_data, resolve_device, resolve_protocol_settings, split_digest
 
 
 def select_best_surrogate(summary_path: Path, *, expected_seed: int) -> tuple[dict, dict]:
@@ -30,10 +27,8 @@ def select_best_surrogate(summary_path: Path, *, expected_seed: int) -> tuple[di
     front = summary.get("pareto_front", [])
     if not front:
         raise ValueError("Surrogate Pareto front is empty")
-    selected = max(
-        front,
-        key=lambda item: (item["val_macro_auc_ovr"], -item["parameter_count"]),
-    )
+    objectives = summary["config"].get("objectives", OBJECTIVES["params"])
+    selected = max(front, key=lambda item: (item[AUC], *(-item[key] for key in objectives[1:])))
     return deepcopy(selected["architecture"]), {
         "rule": "maximum_validation_macro_auc_ovr",
         "source": str(summary_path),
@@ -47,101 +42,43 @@ def evaluate_selected_surrogate(args: argparse.Namespace) -> dict:
     architecture, selection = select_best_surrogate(
         args.summary, expected_seed=args.seed,
     )
-    output = args.output_dir / f"seed_{args.seed}"
-    result_path = output / "result.json"
-    checkpoint_path = output / "checkpoint.pt"
-    if result_path.is_file() and checkpoint_path.is_file():
-        result = json.loads(result_path.read_text(encoding="utf-8"))
-        if (
-            canonical_architecture(result.get("architecture"))
-            == canonical_architecture(architecture)
-            and result.get("config", {}).get("seed") == args.seed
-            and result.get("config", {}).get("epochs") == args.epochs
-        ):
-            print(f"reusing={result_path}", flush=True)
-            return result
-
-    set_seed(args.seed)
+    config = json.loads(args.summary.read_text(encoding="utf-8"))["config"]
+    settings = resolve_protocol_settings(
+        args.protocol, optimizer_name=args.optimizer, weight_decay=args.weight_decay,
+        scheduler_name=args.scheduler, augmentation=args.augmentation, loss_name=args.loss,
+        preload_gpu=args.preload_gpu, use_amp=args.amp,
+    )
+    args.data_path = dataset_path(args.dataset, args.data_path)
+    args.num_classes = DATASETS[args.dataset].num_classes
+    args.output_dir = args.output_dir or (
+        results_root(args.protocol, args.dataset) / "surrogate_search" / "test_eval"
+    )
     device = resolve_device(args.device)
-    loaded_data = load_data(args.data_path)
-    test_data = load_test_data(args.data_path)
-    model = build_model(architecture)
-    metrics, history, runtime = train_model(
-        model,
-        loaded_data,
-        learning_rate=0.001,
-        batch_size=64,
-        optimizer_name="Adam",
-        epochs=args.epochs,
-        seed=args.seed,
-        device=device,
-        scheduler_step_size=20,
+    loaded_data = load_data(args.data_path, args.dataset)
+    args.train_val_sha256 = split_digest(loaded_data)
+    verify_proxy_search(config, proxy_training_config(args, device, settings, config["epochs"]))
+    test_data = load_test_data(args.data_path, args.dataset)
+    args.test_sha256 = split_digest((test_data,))
+    result = train_selected(
+        "surrogate", architecture, selection, loaded_data, test_data, args, device, settings,
+        model_dir=args.output_dir / f"seed_{args.seed}",
     )
-
-    criterion = nn.CrossEntropyLoss()
-    validation_metrics, _, _ = evaluate(
-        model, loaded_data[1], criterion,
-        batch_size=64, device=device, prefix="val",
-    )
-    test_metrics, test_labels, test_predictions = evaluate(
-        model, test_data, criterion,
-        batch_size=64, device=device, prefix="test",
-    )
-    output.mkdir(parents=True, exist_ok=True)
-    torch.save({
-        "state_dict": {
-            key: value.detach().cpu() for key, value in model.state_dict().items()
-        },
-        "architecture": architecture,
-        "best_epoch": metrics["best_epoch"],
-        "val_macro_auc_ovr": metrics["val_macro_auc_ovr"],
-    }, checkpoint_path)
-    result = {
-        "model": "surrogate",
-        "architecture": architecture,
-        "selection": selection,
-        "config": {
-            "seed": args.seed,
-            "epochs": args.epochs,
-            "learning_rate": 0.001,
-            "batch_size": 64,
-            "optimizer": "Adam",
-            "scheduler": {"name": "StepLR", "step_size": 20, "gamma": 0.1},
-            "loss": "unweighted_cross_entropy",
-            "normalization": {
-                "mean": [0.5, 0.5, 0.5],
-                "std": [0.5, 0.5, 0.5],
-            },
-            "device": str(device),
-            "data_path": str(args.data_path),
-        },
-        "parameter_count": count_parameters(model),
-        "best_epoch": metrics["best_epoch"],
-        "history": history,
-        "validation_metrics": validation_metrics,
-        "test_metrics": test_metrics,
-        "test_labels": test_labels,
-        "test_predictions": test_predictions,
-        "checkpoint": str(checkpoint_path),
-        "runtime_seconds": runtime,
-    }
-    save_json(result_path, result)
-    print(json.dumps(result, indent=2), flush=True)
+    print(json.dumps(result["test_metrics"], indent=2), flush=True)
     return result
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--summary", type=Path, required=True)
-    parser.add_argument("--seed", type=int, choices=(42,), default=42)
-    parser.add_argument("--epochs", type=int, choices=(60,), default=60)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--epochs", type=int, default=60)
+    parser.add_argument("--scheduler-step-size", type=int, default=20)
     parser.add_argument("--device", default="auto")
-    parser.add_argument("--data-path", type=Path, default=DATA_PATH)
-    parser.add_argument(
-        "--output-dir",
-        type=Path,
-        default=PROJECT_ROOT / "results" / "surrogate_search" / "test_eval",
-    )
+    parser.add_argument("--output-dir", type=Path)
+    parser.add_argument("--latency", action="store_true")
+    parser.set_defaults(reuse_test_dir=None)
+    add_protocol_args(parser)
+    add_dataset_args(parser)
     return parser.parse_args()
 
 

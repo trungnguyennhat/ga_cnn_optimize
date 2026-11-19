@@ -58,7 +58,7 @@ class XGBoostSurrogate:
 
     @classmethod
     def encode_architecture(cls, architecture: dict) -> np.ndarray:
-        """Return the fixed 13-feature representation of one chromosome."""
+        """Encode a chromosome with a consistent feature layout within its space."""
         validate_architecture(architecture)
         values = (
             architecture["stage_blocks"]
@@ -66,6 +66,9 @@ class XGBoostSurrogate:
             + architecture["kernel_sizes"]
             + [architecture["dropout"]]
         )
+        if "block_types" in architecture:
+            values += [kind == "mbconv" for kind in architecture["block_types"]]
+            values += architecture["use_se"] + [architecture["activation"] == "silu"]
         return np.asarray(values, dtype=float)
 
     @classmethod

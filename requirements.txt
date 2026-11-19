@@ -5,4 +5,5 @@ torchvision==0.22.1+cu128
 numpy==2.2.6
 matplotlib==3.10.3
 scikit-learn==1.6.1
+scipy==1.15.3
 medmnist==3.0.2

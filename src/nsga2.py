@@ -9,6 +9,7 @@ from src.search_space import (
     canonical_architecture,
     mutate_architecture,
     random_architecture,
+    space_size,
     uniform_crossover,
 )
 
@@ -16,14 +17,28 @@ from src.search_space import (
 @dataclass
 class Individual:
     architecture: dict
-    fitness: tuple[float, int]  # Maximize AUC, minimize parameter count.
-    rank: int = 0
+    fitness: tuple[float | int, ...]  # Maximize AUC and minimize the remaining costs.
+    rank: int | None = 0
     crowding: float = 0.0
 
 
 def dominates(first, second) -> bool:
-    return (first[0] >= second[0] and first[1] <= second[1]
-            and (first[0] > second[0] or first[1] < second[1]))
+    if len(first) != len(second):
+        raise ValueError("Fitness dimensions must match")
+    return (
+        first[0] >= second[0]
+        and all(a <= b for a, b in zip(first[1:], second[1:]))
+        and any(a != b for a, b in zip(first, second))
+    )
+
+
+def validate_fitness(fitness) -> tuple[float | int, ...]:
+    auc, *costs = fitness
+    if not math.isfinite(auc) or not 0 <= auc <= 1:
+        raise ValueError("fitness AUC must be finite and in [0, 1]")
+    if not costs or any(type(cost) is not int or cost <= 0 for cost in costs):
+        raise ValueError("fitness costs must be positive integers")
+    return float(auc), *costs
 
 
 def nondominated_sort(population: list[Individual]) -> list[list[Individual]]:
@@ -63,7 +78,7 @@ def crowding_distance(front: list[Individual]) -> None:
         for individual in front:
             individual.crowding = math.inf
         return
-    for objective in (0, 1):
+    for objective in range(len(front[0].fitness)):
         ordered = sorted(front, key=lambda item: item.fitness[objective])
         span = ordered[-1].fitness[objective] - ordered[0].fitness[objective]
         if span == 0:
@@ -106,8 +121,9 @@ def run_nsga2(
     crossover_rate: float = 0.8,
     mutation_probability: float = 0.15,
     seed: int = 1,
+    space: str = "v1",
 ) -> dict:
-    """Callback(architecture, seed) returns (AUC, positive integer parameters).
+    """Callback(architecture, seed) returns AUC followed by positive integer costs.
 
     Only unseen architectures invoke the callback. The budget counts successful
     callback calls, including the initial population and a partial final generation.
@@ -119,8 +135,7 @@ def run_nsga2(
             raise ValueError(f"{name} must be a positive integer")
     if not 0 <= crossover_rate <= 1 or not 0 <= mutation_probability <= 1:
         raise ValueError("crossover and mutation probabilities must be in [0, 1]")
-    # 3^4 block counts, 3^4 channel layouts, 2^4 kernels and 5 dropout values.
-    if evaluation_budget > (3**4) * (3**4) * (2**4) * 5:
+    if evaluation_budget > space_size(space):
         raise ValueError("evaluation budget exceeds the number of unique architectures")
     rng = random.Random(seed)
     evaluated = {}
@@ -129,12 +144,8 @@ def run_nsga2(
         key = canonical_architecture(architecture)
         if key in evaluated:
             return None
-        auc, parameters = fitness_callback(deepcopy(architecture), seed)
-        if not math.isfinite(auc) or not 0 <= auc <= 1:
-            raise ValueError("fitness AUC must be finite and in [0, 1]")
-        if type(parameters) is not int or parameters <= 0:
-            raise ValueError("fitness parameter count must be a positive integer")
-        individual = Individual(deepcopy(architecture), (float(auc), parameters))
+        fitness = validate_fitness(fitness_callback(deepcopy(architecture), seed))
+        individual = Individual(deepcopy(architecture), fitness)
         evaluated[key] = individual
         return individual
 
@@ -148,7 +159,7 @@ def run_nsga2(
                 child = mutate_architecture(child, rng, mutation_probability)
             else:
                 # ponytail: random fallback prevents duplicate-only stalls; enumerate if near exhaustion.
-                child = random_architecture(rng)
+                child = random_architecture(rng, space)
             individual = evaluate(child)
             if individual is not None:
                 return individual
