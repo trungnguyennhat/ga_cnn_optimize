@@ -22,7 +22,7 @@ Mọi mô hình train from scratch, không dùng pretrained weights. Baseline v�
 
 Kết quả ResNet-18 baseline được ghi tại `results/baseline/seed_42/result.json` và checkpoint tại `results/baseline/seed_42/checkpoint.pt`.
 
-`src/model.py` và `src/train.py` triển khai ResNet-18 baseline. `src/search_space.py` và `src/nsga2.py` triển khai search space cùng NSGA-II; `src/ga_search.py` nối NSGA-II với validation fitness thật của ResNet. `src/random_search.py` dùng cùng bộ sinh kiến trúc và validation fitness để làm đối chứng cùng budget.
+`src/model.py` và `src/train.py` triển khai ResNet-18 baseline. `src/search_space.py` và `src/ga_search/nsga2.py` triển khai search space cùng NSGA-II; `src/ga_search/run_search.py` nối NSGA-II với validation fitness thật của ResNet. `src/random_search/run_search.py` dùng cùng bộ sinh kiến trúc và validation fitness để làm đối chứng cùng budget.
 
 ## Không gian kiến trúc
 

@@ -5,8 +5,9 @@ import json
 import random
 from pathlib import Path
 
-from src.nsga2 import Individual, crowding_distance, nondominated_sort
+from src.ga_search.nsga2 import DEFAULT_DIRECTIONS, Individual, crowding_distance, nondominated_sort
 from src.search_runtime import (
+    HARDWARE_RESULTS,
     SEARCH_EPOCHS,
     SearchEvaluator,
     save_json,
@@ -17,7 +18,8 @@ from src.search_space import canonical_architecture, random_architecture
 from src.train import PROJECT_ROOT
 
 
-def run_random_search(fitness_callback, *, evaluation_budget: int, seed: int):
+def run_random_search(fitness_callback, *, evaluation_budget: int, seed: int,
+                      directions=DEFAULT_DIRECTIONS):
     if type(evaluation_budget) is not int or evaluation_budget <= 0:
         raise ValueError("evaluation_budget must be a positive integer")
     if evaluation_budget > (3**4) * (3**4) * (2**4) * 5:
@@ -29,10 +31,12 @@ def run_random_search(fitness_callback, *, evaluation_budget: int, seed: int):
         key = canonical_architecture(architecture)
         if key in evaluated:
             continue
-        auc, parameters = fitness_callback(architecture, seed)
-        evaluated[key] = Individual(architecture, (float(auc), parameters))
+        auc, *costs = fitness_callback(architecture, seed)
+        if len(costs) + 1 != len(directions):
+            raise ValueError("fitness lengths must match the objective directions")
+        evaluated[key] = Individual(architecture, (float(auc), *costs))
     archive = list(evaluated.values())
-    fronts = nondominated_sort(archive)
+    fronts = nondominated_sort(archive, directions)
     for front in fronts:
         crowding_distance(front)
     return {"evaluated": archive, "pareto_front": fronts[0]}
@@ -44,20 +48,23 @@ def main():
     parser.add_argument("--budget", type=int, default=60)
     parser.add_argument("--epochs", type=int, default=SEARCH_EPOCHS)
     parser.add_argument("--device", default="auto")
-    parser.add_argument(
-        "--output-dir", type=Path,
-        default=PROJECT_ROOT / "results" / "random_search",
-    )
+    parser.add_argument("--hardware-aware", action="store_true", help="Add MACs as a third objective")
+    parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
     if args.budget <= 0 or args.epochs <= 0:
         parser.error("budget and epochs must be positive")
+    if args.output_dir is None:
+        root = PROJECT_ROOT / "results"
+        args.output_dir = (root / HARDWARE_RESULTS if args.hardware_aware else root) / "random_search"
 
     evaluator = SearchEvaluator(
         args, experiment="random_search", label="Random Search",
         search_config={"budget": args.budget, "sampling": "uniform_without_replacement"},
+        hardware_aware=args.hardware_aware,
     )
     result = run_random_search(
         evaluator, evaluation_budget=args.budget, seed=args.seed,
+        directions=evaluator.directions,
     )
     assert len(result["evaluated"]) == len(evaluator.records) == evaluator.trained + evaluator.hits == args.budget
     summary = {

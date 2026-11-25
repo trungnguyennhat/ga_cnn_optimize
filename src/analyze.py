@@ -13,7 +13,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from src.model import build_model, count_parameters
-from src.nsga2 import dominates
+from src.ga_search.nsga2 import dominates
 from src.search_runtime import save_json
 from src.search_space import DROPOUT_CHOICES, KERNEL_CHOICES, STAGE_BLOCK_CHOICES, STAGE_CHANNEL_CHOICES
 from src.train import PROJECT_ROOT

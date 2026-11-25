@@ -4,7 +4,7 @@ import math
 import random
 from copy import deepcopy
 
-from src.nsga2 import Individual, crowding_distance, nondominated_sort, select_survivors
+from src.ga_search.nsga2 import Individual, crowding_distance, nondominated_sort, select_survivors
 from src.search_space import (
     canonical_architecture,
     mutate_architecture,

@@ -4,8 +4,9 @@ import argparse
 import json
 from pathlib import Path
 
-from src.nsga2 import run_nsga2
+from src.ga_search.nsga2 import run_nsga2
 from src.search_runtime import (
+    HARDWARE_RESULTS,
     SEARCH_EPOCHS,
     SearchEvaluator,
     save_json,
@@ -22,10 +23,14 @@ def main():
     parser.add_argument("--population-size", type=int, default=10)
     parser.add_argument("--epochs", type=int, default=SEARCH_EPOCHS)
     parser.add_argument("--device", default="auto")
-    parser.add_argument("--output-dir", type=Path, default=PROJECT_ROOT / "results" / "ga_search")
+    parser.add_argument("--hardware-aware", action="store_true", help="Add MACs as a third objective")
+    parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
     if args.budget <= 0 or args.population_size <= 0 or args.epochs <= 0:
         parser.error("budget, population-size and epochs must be positive")
+    if args.output_dir is None:
+        root = PROJECT_ROOT / "results"
+        args.output_dir = (root / HARDWARE_RESULTS if args.hardware_aware else root) / "ga_search"
     search_config = {
         "budget": args.budget, "population_size": args.population_size,
         "tournament_size": 3, "crossover_rate": 0.8,
@@ -33,6 +38,7 @@ def main():
     }
     evaluator = SearchEvaluator(
         args, experiment="ga_search", label="GA-NAS", search_config=search_config,
+        hardware_aware=args.hardware_aware,
     )
     result = run_nsga2(
         evaluator,
@@ -42,6 +48,7 @@ def main():
         tournament_size=search_config["tournament_size"],
         crossover_rate=search_config["crossover_rate"],
         mutation_probability=search_config["mutation_probability"],
+        directions=evaluator.directions,
     )
     assert result["evaluations"] == len(evaluator.records) == evaluator.trained + evaluator.hits == args.budget
 
