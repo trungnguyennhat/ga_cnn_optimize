@@ -218,10 +218,11 @@ Kết quả hợp lệ khi có đúng ba model `ga`, `random`, `baseline`; mỗi
 
 ## 8. Stage 6 — Phân tích GA-ResNet
 
-Stage 6 chỉ đọc kết quả đã có, không train hoặc chạy inference lại. Chạy:
+Stage 6 chỉ đọc kết quả đã có, không train hoặc chạy inference lại. Để phân tích lại run hai mục tiêu đã lưu, chạy:
 
 ```powershell
-.\.venv\Scripts\python.exe -m src.analyze --output-dir "results\visualizations"
+$archive = "results\archive_before_hardware_aware_2026-11-25"
+.\.venv\Scripts\python.exe -m src.analyze --ga-summary "$archive\ga_search\seed_42\summary.json" --random-summary "$archive\random_search\seed_42\summary.json" --baseline-result "$archive\baseline\seed_42\result.json" --test-dir "$archive\test_eval" --output-dir "results\visualizations"
 ```
 
 Output gồm:
@@ -232,6 +233,7 @@ Output gồm:
 - `convergence.png`: best AUC, Hypervolume và model nhỏ nhất đạt AUC baseline theo evaluation.
 - `test_metrics.png`: so sánh các metrics test.
 - `confusion_matrices.png`: confusion matrix test của ba mô hình.
+- `generational_progression.png` hiển thị AUC và số tham số theo thế hệ, khoảng cách Hamming trung bình và bản đồ nhiệt độ đa dạng của 13 vị trí gene. Mục `ga_generations` trong `analysis.json` lưu ID cá thể sống sót và tần suất gene. Với 60 lượt và quần thể 10, kết quả có G0 đến G5.
 
 Kiểm tra thủ công:
 
@@ -244,7 +246,7 @@ Import-Csv "results\visualizations\test_metrics.csv" | Format-Table
 Get-ChildItem "results\visualizations" -File
 ```
 
-Stage 6 đạt yêu cầu khi có đủ sáu file trên, Hypervolume của hai phương pháp dùng cùng normalization/reference point và Coverage được tính trên Pareto front cuối.
+Stage 6 đạt yêu cầu khi có đủ các file trên, Hypervolume của hai phương pháp dùng cùng normalization/reference point và Coverage được tính trên Pareto front cuối.
 
 ## 9. Stage 7 — Hoàn thiện và bàn giao
 
@@ -288,6 +290,8 @@ Tổng hợp lại từ log validation. Có thể đối chiếu GA hai mục ti
 ```
 
 Thư mục `results/hardware_aware/analysis/` có `search_metrics.csv`, `analysis.json`, `pareto_projections.png` và `hypervolume_convergence.png`. Báo cáo ghi Hypervolume 3D với cận chi phí cố định từ search space và điểm tham chiếu `(0, 0, 0)` sau chuẩn hóa. Bảng có Coverage hai chiều, AUC tốt nhất và chi phí của kiến trúc đó. JSON có tần suất kernel `5×5` ở từng stage trên Pareto front, thống kê `mean ± sample std` qua các seed và chênh lệch GA trừ Random theo cặp seed. Dải trên biểu đồ hội tụ là một độ lệch chuẩn mẫu mỗi phía. Đối chiếu với GA cũ chỉ có seed 42.
+
+Mỗi seed GA có thêm `generational_progression_seed_<seed>.png` và mục `by_seed.<seed>.ga_search.ga_generations` trong JSON. Quần thể sống sót được tái dựng từ thứ tự đánh giá và đủ ba mục tiêu, kể cả MACs. Độ đa dạng tại mỗi vị trí gene là tỷ lệ cặp cá thể mang giá trị khác nhau. Trung bình 13 tỷ lệ là khoảng cách Hamming chuẩn hóa của quần thể.
 
 Sau khi đã chốt seed, giao thức và tiêu chí chọn bằng validation, chạy đánh giá cuối bằng lệnh riêng. Mỗi phương pháp chọn kiến trúc theo validation AUC cao nhất, ưu tiên ít tham số khi hòa, rồi train lại 60 epoch. ResNet-18 được train theo cùng seed nếu chưa có checkpoint trong thư mục mới. Test split chỉ được đọc ở pha đánh giá cuối:
 

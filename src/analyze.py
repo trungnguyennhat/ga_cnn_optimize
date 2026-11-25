@@ -12,6 +12,7 @@ from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+from src.evolution_stats import analyze_generations, plot_generational_progress
 from src.model import build_model, count_parameters
 from src.ga_search.nsga2 import dominates
 from src.search_runtime import save_json
@@ -227,6 +228,7 @@ def main():
         name: convergence(searches[name]["evaluated"], baseline_auc, min_parameters, max_parameters)
         for name in METHODS
     }
+    ga_generations = analyze_generations(searches["ga"])
     analysis = {
         "normalization": {
             "auc": {"minimum": 0.0, "maximum": 1.0},
@@ -252,6 +254,7 @@ def main():
             "ga_over_random": coverage(fronts["ga"], fronts["random"]),
             "random_over_ga": coverage(fronts["random"], fronts["ga"]),
         },
+        "ga_generations": ga_generations,
         "test_results": [{
             "model": result["model"], "parameter_count": result["parameter_count"],
             "best_epoch": result["best_epoch"], "runtime_seconds": result["runtime_seconds"],
@@ -265,6 +268,9 @@ def main():
     plot_convergence(args.output_dir / "convergence.png", curves)
     plot_test_metrics(args.output_dir / "test_metrics.png", results)
     plot_confusions(args.output_dir / "confusion_matrices.png", results)
+    plot_generational_progress(
+        args.output_dir / "generational_progression.png", searches["ga"]["evaluated"], ga_generations,
+    )
     print(json.dumps({"output": str(args.output_dir), "files": sorted(path.name for path in args.output_dir.iterdir())}, indent=2))
 
 
