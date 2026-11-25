@@ -10,6 +10,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from src.analyze import load_json
+from src.evolution_stats import analyze_generations, plot_generational_progress
 from src.ga_search.nsga2 import HARDWARE_DIRECTIONS, dominates
 from src.model import BASELINE_ARCHITECTURE, architecture_cost
 from src.search_runtime import HARDWARE_CACHE_VERSION, HARDWARE_OBJECTIVES, MAC_CONVENTION, save_json
@@ -213,6 +214,7 @@ def write_search_report(output, searches, legacy_path=None):
     rows = []
     for seed, summaries in searches.items():
         by_seed[seed] = {method: summarize_search(summaries[method]["evaluated"], bounds) for method in METHODS}
+        by_seed[seed]["ga_search"]["ga_generations"] = analyze_generations(summaries["ga_search"])
         for method, other in (METHODS, METHODS[::-1]):
             run = by_seed[seed][method]
             metrics = run["metrics"]
@@ -244,6 +246,12 @@ def write_search_report(output, searches, legacy_path=None):
     write_csv(output / "search_metrics.csv", rows)
     plot_search(output / "pareto_projections.png", by_seed, baseline)
     plot_convergence(output / "hypervolume_convergence.png", by_seed)
+    for seed, summaries in searches.items():
+        plot_generational_progress(
+            output / f"generational_progression_seed_{seed}.png",
+            summaries["ga_search"]["evaluated"],
+            by_seed[seed]["ga_search"]["ga_generations"],
+        )
 
 
 def write_test_report(root, output, seeds):
