@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 
+import torch
 from torch import nn
 
 from src.search_space import validate_architecture
@@ -86,3 +87,41 @@ def build_model(architecture: dict) -> ArchitectureResNet:
 
 def count_parameters(model: nn.Module) -> int:
     return sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad)
+
+
+def count_macs(model: nn.Module, input_shape=(1, 3, 64, 64)) -> int:
+    """Count Conv2d and Linear multiply-accumulates, excluding bias and other ops."""
+    total = 0
+
+    def count(layer, inputs, output):
+        nonlocal total
+        if isinstance(layer, nn.Conv2d):
+            height, width = layer.kernel_size
+            products = (layer.in_channels // layer.groups) * height * width
+        else:
+            products = layer.in_features
+        total += output.numel() * products
+
+    modes = [(layer, layer.training) for layer in model.modules()]
+    handles = []
+    parameter = next(model.parameters())
+    try:
+        model.eval()
+        for layer, _ in modes:
+            if isinstance(layer, (nn.Conv2d, nn.Linear)):
+                handles.append(layer.register_forward_hook(count))
+        with torch.inference_mode():
+            model(parameter.new_zeros(input_shape))
+    finally:
+        for handle in handles:
+            handle.remove()
+        for layer, was_training in modes:
+            layer.training = was_training
+    return total
+
+
+def architecture_cost(architecture: dict) -> tuple[int, int]:
+    """Return trainable parameters and MACs per image using shapes alone."""
+    with torch.device("meta"):
+        model = build_model(architecture)
+    return count_parameters(model), count_macs(model)

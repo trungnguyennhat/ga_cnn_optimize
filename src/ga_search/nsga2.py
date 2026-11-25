@@ -13,30 +13,44 @@ from src.search_space import (
 )
 
 
+DEFAULT_DIRECTIONS = ("max", "min")
+HARDWARE_DIRECTIONS = (*DEFAULT_DIRECTIONS, "min")
+
+
 @dataclass
 class Individual:
     architecture: dict
-    fitness: tuple[float, int]  # Maximize AUC, minimize parameter count.
+    fitness: tuple[float | int, ...]
     rank: int = 0
     crowding: float = 0.0
 
 
-def dominates(first, second) -> bool:
-    return (first[0] >= second[0] and first[1] <= second[1]
-            and (first[0] > second[0] or first[1] < second[1]))
+def dominates(first, second, directions=DEFAULT_DIRECTIONS) -> bool:
+    if len(first) != len(second) or len(first) != len(directions):
+        raise ValueError("fitness lengths must match the objective directions")
+    improved = False
+    for left, right, direction in zip(first, second, directions):
+        if direction == "min":
+            left, right = right, left
+        elif direction != "max":
+            raise ValueError(f"Invalid objective direction: {direction}")
+        if left < right:
+            return False
+        improved |= left > right
+    return improved
 
 
-def nondominated_sort(population: list[Individual]) -> list[list[Individual]]:
+def nondominated_sort(population: list[Individual], directions=DEFAULT_DIRECTIONS) -> list[list[Individual]]:
     # ponytail: quadratic sorting is enough for populations of 10; optimize if scaled up.
     dominated = [[] for _ in population]
     counts = [0] * len(population)
     for i, first in enumerate(population):
         for j in range(i + 1, len(population)):
             second = population[j]
-            if dominates(first.fitness, second.fitness):
+            if dominates(first.fitness, second.fitness, directions):
                 dominated[i].append(j)
                 counts[j] += 1
-            elif dominates(second.fitness, first.fitness):
+            elif dominates(second.fitness, first.fitness, directions):
                 dominated[j].append(i)
                 counts[i] += 1
     current = [i for i, count in enumerate(counts) if count == 0]
@@ -63,7 +77,7 @@ def crowding_distance(front: list[Individual]) -> None:
         for individual in front:
             individual.crowding = math.inf
         return
-    for objective in (0, 1):
+    for objective in range(len(front[0].fitness)):
         ordered = sorted(front, key=lambda item: item.fitness[objective])
         span = ordered[-1].fitness[objective] - ordered[0].fitness[objective]
         if span == 0:
@@ -75,13 +89,13 @@ def crowding_distance(front: list[Individual]) -> None:
             ) / span
 
 
-def select_survivors(population: list[Individual], size: int) -> list[Individual]:
+def select_survivors(population: list[Individual], size: int, directions=DEFAULT_DIRECTIONS) -> list[Individual]:
     if type(size) is not int or not 0 <= size <= len(population):
         raise ValueError("survivor size must be an integer between 0 and population length")
     if size == 0:
         return []
     survivors = []
-    for front in nondominated_sort(population):
+    for front in nondominated_sort(population, directions):
         crowding_distance(front)
         remaining = size - len(survivors)
         survivors.extend(sorted(front, key=lambda item: item.crowding, reverse=True)[:remaining])
@@ -106,8 +120,9 @@ def run_nsga2(
     crossover_rate: float = 0.8,
     mutation_probability: float = 0.15,
     seed: int = 1,
+    directions=DEFAULT_DIRECTIONS,
 ) -> dict:
-    """Callback(architecture, seed) returns (AUC, positive integer parameters).
+    """Callback(architecture, seed) returns AUC and one or more integer costs.
 
     Only unseen architectures invoke the callback. The budget counts successful
     callback calls, including the initial population and a partial final generation.
@@ -129,12 +144,12 @@ def run_nsga2(
         key = canonical_architecture(architecture)
         if key in evaluated:
             return None
-        auc, parameters = fitness_callback(deepcopy(architecture), seed)
+        auc, *costs = fitness_callback(deepcopy(architecture), seed)
         if not math.isfinite(auc) or not 0 <= auc <= 1:
             raise ValueError("fitness AUC must be finite and in [0, 1]")
-        if type(parameters) is not int or parameters <= 0:
-            raise ValueError("fitness parameter count must be a positive integer")
-        individual = Individual(deepcopy(architecture), (float(auc), parameters))
+        if len(costs) + 1 != len(directions) or any(type(cost) is not int or cost <= 0 for cost in costs):
+            raise ValueError("fitness must have one positive integer per cost objective")
+        individual = Individual(deepcopy(architecture), (float(auc), *costs))
         evaluated[key] = individual
         return individual
 
@@ -156,16 +171,16 @@ def run_nsga2(
 
     size = min(population_size, evaluation_budget)
     population = [unseen_candidate([]) for _ in range(size)]
-    population = select_survivors(population, size)
+    population = select_survivors(population, size, directions)
     generations = 0
     while len(evaluated) < evaluation_budget:
         remaining = min(size, evaluation_budget - len(evaluated))
         offspring = [unseen_candidate(population) for _ in range(remaining)]
-        population = select_survivors(population + offspring, size)
+        population = select_survivors(population + offspring, size, directions)
         generations += 1
     # Archive Pareto front covers all evaluations, including discarded individuals.
     archive = deepcopy(list(evaluated.values()))
-    fronts = nondominated_sort(archive)
+    fronts = nondominated_sort(archive, directions)
     for front in fronts:
         crowding_distance(front)
     pareto = fronts[0]

@@ -12,8 +12,8 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
-from src.model import BASELINE_ARCHITECTURE, build_model, count_parameters
-from src.search_runtime import save_json
+from src.model import BASELINE_ARCHITECTURE, architecture_cost, build_model, count_parameters
+from src.search_runtime import HARDWARE_RESULTS, MAC_CONVENTION, save_json
 from src.search_space import canonical_architecture
 from src.train import DATA_PATH, DEFAULT_EPOCHS, PROJECT_ROOT, load_data, resolve_device, set_seed, train_model
 
@@ -61,22 +61,25 @@ def evaluate(model, dataset, criterion, *, batch_size, device, prefix):
     return metrics, labels.tolist(), predictions.tolist()
 
 
-def select_best_auc(summary_path: Path):
+def select_best_auc(summary_path: Path, seed: int = 42):
     if not summary_path.is_file():
         raise FileNotFoundError(f"Search summary not found: {summary_path}")
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
-    if summary.get("evaluations") != 60 or summary.get("config", {}).get("seed") != 42:
-        raise ValueError(f"Expected a completed 60-evaluation seed-42 search: {summary_path}")
+    if summary.get("evaluations") != 60 or summary.get("config", {}).get("seed") != seed:
+        raise ValueError(f"Expected a completed 60-evaluation seed-{seed} search: {summary_path}")
     front = summary.get("pareto_front", [])
     if not front:
         raise ValueError(f"Pareto front is empty: {summary_path}")
     selected = max(front, key=lambda item: (item["val_macro_auc_ovr"], -item["parameter_count"]))
-    return deepcopy(selected["architecture"]), {
+    selection = {
         "rule": "maximum_validation_macro_auc_ovr",
         "source": str(summary_path),
         "search_val_macro_auc_ovr": selected["val_macro_auc_ovr"],
         "search_parameter_count": selected["parameter_count"],
     }
+    if "macs" in selected:
+        selection["search_macs"] = selected["macs"]
+    return deepcopy(selected["architecture"]), selection
 
 
 def finish_result(name, model, architecture, selection, history, best_epoch, runtime,
@@ -108,6 +111,9 @@ def finish_result(name, model, architecture, selection, history, best_epoch, run
         "checkpoint": str(checkpoint_path),
         "runtime_seconds": runtime,
     }
+    if getattr(args, "hardware_aware", False):
+        _, result["macs"] = architecture_cost(architecture)
+        result["mac_convention"] = MAC_CONVENTION
     save_json(checkpoint_path.parent / "result.json", result)
     return result
 
@@ -122,6 +128,12 @@ def train_selected(name, architecture, selection, loaded_data, test_data, args, 
             canonical_architecture(result.get("architecture")) == canonical_architecture(architecture)
             and result.get("config", {}).get("seed") == args.seed
             and result.get("config", {}).get("epochs") == args.epochs
+            and (not getattr(args, "hardware_aware", False) or (
+                result.get("selection") == selection
+                and result.get("mac_convention") == MAC_CONVENTION
+                and result.get("config", {}).get("data_path") == str(args.data_path)
+                and result.get("config", {}).get("device") == str(device)
+            ))
         ):
             print(f"model={name} reusing={result_path}", flush=True)
             return result
@@ -157,6 +169,13 @@ def evaluate_saved_baseline(loaded_data, test_data, args, device):
         or config.get("epochs") != args.epochs
         or config.get("loss") != "unweighted_cross_entropy"
         or config.get("scheduler", {}).get("step_size") != 20
+        or (getattr(args, "hardware_aware", False) and (
+            config.get("learning_rate") != 0.001 or config.get("batch_size") != 64
+            or config.get("optimizer") != "Adam"
+            or config.get("scheduler") != {"name": "StepLR", "step_size": 20, "gamma": 0.1}
+            or config.get("normalization") != {"mean": [0.5] * 3, "std": [0.5] * 3}
+            or config.get("device") != str(device) or config.get("data_path") != str(args.data_path)
+        ))
         or canonical_architecture(source_result.get("architecture")) != canonical_architecture(BASELINE_ARCHITECTURE)
     ):
         raise ValueError("Saved baseline does not match the Stage 5 protocol")
@@ -179,18 +198,32 @@ def evaluate_saved_baseline(loaded_data, test_data, args, device):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--seed", type=int, choices=(42,), default=42)
+    parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--epochs", type=int, choices=(60,), default=DEFAULT_EPOCHS)
     parser.add_argument("--device", default="auto")
+    parser.add_argument("--hardware-aware", action="store_true", help="Include MAC counts in test results")
     parser.add_argument("--data-path", type=Path, default=DATA_PATH)
-    parser.add_argument("--ga-summary", type=Path, default=PROJECT_ROOT / "results" / "ga_search" / "seed_42" / "summary.json")
-    parser.add_argument("--random-summary", type=Path, default=PROJECT_ROOT / "results" / "random_search" / "seed_42" / "summary.json")
-    parser.add_argument("--baseline-dir", type=Path, default=PROJECT_ROOT / "results" / "baseline" / "seed_42")
-    parser.add_argument("--output-dir", type=Path, default=PROJECT_ROOT / "results" / "test_eval")
+    parser.add_argument("--ga-summary", type=Path)
+    parser.add_argument("--random-summary", type=Path)
+    parser.add_argument("--baseline-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
+    results_root = PROJECT_ROOT / "results"
+    seed_dir = f"seed_{args.seed}"
+    if args.hardware_aware:
+        results_root /= HARDWARE_RESULTS
+    args.ga_summary = args.ga_summary or results_root / "ga_search" / seed_dir / "summary.json"
+    args.random_summary = args.random_summary or results_root / "random_search" / seed_dir / "summary.json"
+    args.baseline_dir = args.baseline_dir or results_root / "baseline" / seed_dir
+    if args.output_dir is None:
+        args.output_dir = results_root / "test_eval"
+        if args.hardware_aware or args.seed != 42:
+            args.output_dir /= seed_dir
 
-    ga_architecture, ga_selection = select_best_auc(args.ga_summary)
-    random_architecture, random_selection = select_best_auc(args.random_summary)
+    ga_architecture, ga_selection = select_best_auc(args.ga_summary, args.seed)
+    random_architecture, random_selection = select_best_auc(args.random_summary, args.seed)
+    if args.hardware_aware and any("search_macs" not in selection for selection in (ga_selection, random_selection)):
+        parser.error("hardware-aware test evaluation requires hardware-aware search summaries")
     device = resolve_device(args.device)
     loaded_data = load_data(args.data_path)
     test_data = load_test_data(args.data_path)
@@ -207,6 +240,7 @@ def main():
             "model": result["model"], "parameter_count": result["parameter_count"],
             "best_epoch": result["best_epoch"], "validation_metrics": result["validation_metrics"],
             "test_metrics": result["test_metrics"],
+            **({"macs": result["macs"]} if args.hardware_aware else {}),
             "result": str(args.output_dir / result["model"] / f"seed_{args.seed}" / "result.json"),
         } for result in results],
     }

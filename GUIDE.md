@@ -2,6 +2,8 @@
 
 AI agent cập nhật phần tương ứng sau mỗi stage nhưng không tự chạy huấn luyện hoặc kiểm thử.
 
+Quy trình mới nằm ở [mục 10](#10-hướng-1--nas-ba-mục-tiêu-và-thực-nghiệm-đa-seed). Kết quả của quy trình cũ đã được lưu ở `results/archive_before_hardware_aware_2026-11-25/`. Các đường dẫn `results/baseline/`, `results/ga_search/`, `results/random_search/` và `results/test_eval/` ở các mục trước mô tả layout của lần chạy cũ.
+
 > **Thiết kế hiện tại từ 2026-10-04:** dự án bắt đầu lại với ResNet-18. Stage 1–6 đã có code và lệnh ResNet thực tế.
 
 ## Kế hoạch GA-ResNet mới
@@ -115,7 +117,7 @@ Kiểm tra thủ công search space và NSGA-II với budget nhỏ:
 
 ```powershell
 .\.venv\Scripts\python.exe -c "import random; from src.search_space import random_architecture, validate_architecture, uniform_crossover, mutate_architecture; r=random.Random(42); a=random_architecture(r); b=random_architecture(r); c=mutate_architecture(uniform_crossover(a,b,r),r); validate_architecture(c); print(a); print(b); print(c)"
-.\.venv\Scripts\python.exe -c "from src.nsga2 import run_nsga2; from src.search_space import canonical_architecture; f=lambda a,s:(sum(a['stage_blocks'])/12, sum(a['stage_channels'])); x=run_nsga2(f,evaluation_budget=20,seed=42); print('evaluations:',x['evaluations']); print('generations:',x['generations']); print('pareto:',len(x['pareto_front'])); print('unique:',len({canonical_architecture(i.architecture) for i in x['evaluated']}))"
+.\.venv\Scripts\python.exe -c "from src.ga_search.nsga2 import run_nsga2; from src.search_space import canonical_architecture; f=lambda a,s:(sum(a['stage_blocks'])/12, sum(a['stage_channels'])); x=run_nsga2(f,evaluation_budget=20,seed=42); print('evaluations:',x['evaluations']); print('generations:',x['generations']); print('pareto:',len(x['pareto_front'])); print('unique:',len({canonical_architecture(i.architecture) for i in x['evaluated']}))"
 ```
 
 Kết quả hợp lệ khi mọi chromosome có đúng bốn gene đã chốt, không có kiến trúc trùng trong `evaluated`, và cả `evaluations` lẫn `unique` đều bằng `20`. Chờ người dùng xác nhận trước khi chuyển Stage 3.
@@ -131,7 +133,7 @@ Remove-Item -LiteralPath "results\ga_search\seed_42" -Recurse -Force -ErrorActio
 Chạy GA-ResNet:
 
 ```powershell
-.\.venv\Scripts\python.exe -m src.ga_search --epochs 20 --seed 42 --budget 60 --population-size 10 --device auto --output-dir "results\ga_search"
+.\.venv\Scripts\python.exe -m src.ga_search.run_search --epochs 20 --seed 42 --budget 60 --population-size 10 --device auto --output-dir "results\ga_search"
 ```
 
 Lệnh dùng NSGA-II với population 10, budget 60 kiến trúc khác nhau, tournament 3, crossover 0.8 và mutation 0.15. Mỗi ResNet train 20 epoch theo proxy protocol; đây là điểm dùng để xếp hạng kiến trúc, không phải kết quả cuối để so trực tiếp với baseline 60 epoch. Chương trình chỉ đọc train/validation chính thức từ `data/dermamnist_64.npz`, không tải dữ liệu và không đọc test arrays.
@@ -154,7 +156,7 @@ Random Architecture Search phải dùng đúng bộ sinh `random_architecture` c
 
 ```powershell
 Remove-Item -LiteralPath "results\random_search\seed_42" -Recurse -Force -ErrorAction SilentlyContinue
-.\.venv\Scripts\python.exe -m src.random_search --epochs 20 --seed 42 --budget 60 --device auto --output-dir "results\random_search"
+.\.venv\Scripts\python.exe -m src.random_search.run_search --epochs 20 --seed 42 --budget 60 --device auto --output-dir "results\random_search"
 ```
 
 Kết quả GA đã có trong `results/ga_search/seed_42/` được giữ nguyên; không cần chạy lại GA. Lệnh đầu chỉ xóa output Random Search cũ, sau đó Random Search lưu kết quả mới vào `results/random_search/seed_42/`.
@@ -247,3 +249,52 @@ Stage 6 đạt yêu cầu khi có đủ sáu file trên, Hypervolume của hai p
 ## 9. Stage 7 — Hoàn thiện và bàn giao
 
 Stage 7 sẽ rà soát toàn bộ dependency, lệnh, input, output và tính tái lập.
+
+## 10. Hướng 1 — NAS ba mục tiêu và thực nghiệm đa seed
+
+NSGA-II tối đa hóa validation macro AUC, tối thiểu hóa số tham số và MACs. Random Search lấy mẫu từ cùng search space và xếp hạng trên cùng ba mục tiêu. MACs được đếm cho một ảnh RGB `64×64`, gồm Conv2d (kể cả shortcut) và Linear. Cột `gflops_conv_linear` quy đổi một MAC thành hai FLOPs. Quy ước này loại trừ bias, BatchNorm, activation, pooling và các phép cộng residual. MACs đo số phép tính theo kiến trúc. Latency cần một phép đo riêng trên thiết bị đích.
+
+Các lệnh sau chạy từ thư mục gốc dự án với `data/dermamnist_64.npz` đã có sẵn. Search dùng split train/validation chính thức và giữ protocol proxy 20 epoch, Adam, StepLR 15 của thực nghiệm trước.
+
+Kiểm tra thủ công với hai seed, ba kiến trúc mỗi phương pháp và một epoch. Kết quả smoke test có thư mục riêng:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.run_multiseed --seeds 42 43 --budget 3 --epochs 1 --population-size 2 --device auto --output-dir "results\hardware_aware_smoke"
+Import-Csv "results\hardware_aware_smoke\analysis\search_metrics.csv" | Format-Table
+```
+
+Kiểm tra bảng có bốn dòng, mỗi summary ghi `evaluations: 3`, mỗi evaluation có `macs` dương và Hypervolume nằm trong `[0, 1]`. Trong `analysis.json`, MACs của ResNet-18 theo quy ước này phải bằng `2221673984`.
+
+Chạy thực nghiệm chính với ba seed. Mỗi seed dùng budget 60 cho GA và Random, tổng cộng 360 lượt đánh giá kiến trúc:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.run_multiseed --seeds 42 43 44 --budget 60 --epochs 20 --population-size 10 --device auto
+```
+
+Chạy lại cùng lệnh với cùng thiết bị để tiếp tục từ các evaluation đã lưu. Kết quả chuẩn ở `results/hardware_aware/`, với `ga_search/seed_<seed>/` và `random_search/seed_<seed>/` chứa cache, progress và summary. Cache ba mục tiêu dùng `training_version: 4`. Dùng `--output-dir` riêng cho budget hoặc protocol khác.
+
+Nếu cần chạy riêng một phương pháp hoặc bổ sung một seed:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.ga_search.run_search --hardware-aware --seed 44 --budget 60 --epochs 20 --population-size 10 --device auto
+.\.venv\Scripts\python.exe -m src.random_search.run_search --hardware-aware --seed 44 --budget 60 --epochs 20 --device auto
+```
+
+Tổng hợp lại từ log validation. Có thể đối chiếu GA hai mục tiêu đã lưu bằng cách đếm lại MACs của toàn bộ kiến trúc cũ và chấm trên cùng không gian ba mục tiêu. Lệnh thứ hai yêu cầu protocol và thiết bị trong log seed 42 khớp với bản lưu trữ:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.run_multiseed --phase analysis --seeds 42 43 44
+.\.venv\Scripts\python.exe -m src.run_multiseed --phase analysis --seeds 42 43 44 --legacy-ga-summary "results\archive_before_hardware_aware_2026-11-25\ga_search\seed_42\summary.json"
+```
+
+Thư mục `results/hardware_aware/analysis/` có `search_metrics.csv`, `analysis.json`, `pareto_projections.png` và `hypervolume_convergence.png`. Báo cáo ghi Hypervolume 3D với cận chi phí cố định từ search space và điểm tham chiếu `(0, 0, 0)` sau chuẩn hóa. Bảng có Coverage hai chiều, AUC tốt nhất và chi phí của kiến trúc đó. JSON có tần suất kernel `5×5` ở từng stage trên Pareto front, thống kê `mean ± sample std` qua các seed và chênh lệch GA trừ Random theo cặp seed. Dải trên biểu đồ hội tụ là một độ lệch chuẩn mẫu mỗi phía. Đối chiếu với GA cũ chỉ có seed 42.
+
+Sau khi đã chốt seed, giao thức và tiêu chí chọn bằng validation, chạy đánh giá cuối bằng lệnh riêng. Mỗi phương pháp chọn kiến trúc theo validation AUC cao nhất, ưu tiên ít tham số khi hòa, rồi train lại 60 epoch. ResNet-18 được train theo cùng seed nếu chưa có checkpoint trong thư mục mới. Test split chỉ được đọc ở pha đánh giá cuối:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.run_multiseed --phase test --seeds 42 43 44 --device auto
+Import-Csv "results\hardware_aware\analysis\test_metrics.csv" | Format-Table
+Get-Content -Raw "results\hardware_aware\analysis\test_analysis.json" | ConvertFrom-Json
+```
+
+Các file `test_metrics.csv` và `test_analysis.json` ghi kết quả test theo seed và thống kê gộp cho GA, Random và baseline, gồm test AUC, macro F1, Params, MACs và GFLOPs theo quy ước trên. Đây là thống kê mô tả cho các seed trên cùng split DermaMNIST.

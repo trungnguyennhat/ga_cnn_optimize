@@ -5,14 +5,18 @@ import json
 import math
 import time
 
-from src.model import build_model, count_parameters
-from src.nsga2 import dominates
+from src.ga_search.nsga2 import DEFAULT_DIRECTIONS, HARDWARE_DIRECTIONS, dominates
+from src.model import architecture_cost, build_model, count_parameters
 from src.search_space import canonical_architecture
 from src.train import DATA_PATH, load_data, resolve_device, set_seed, train_model
 
 
 SEARCH_EPOCHS = 20
 SEARCH_SCHEDULER_STEP = 15
+HARDWARE_RESULTS = "hardware_aware"
+HARDWARE_OBJECTIVES = ("val_macro_auc_ovr", "parameter_count", "macs")
+HARDWARE_CACHE_VERSION = 4
+MAC_CONVENTION = "conv2d_linear_macs_per_64x64_rgb_image_no_bias"
 
 
 def save_json(path, value):
@@ -22,10 +26,13 @@ def save_json(path, value):
 
 
 class SearchEvaluator:
-    def __init__(self, args, *, experiment: str, label: str, search_config: dict) -> None:
+    def __init__(self, args, *, experiment: str, label: str, search_config: dict,
+                 hardware_aware: bool = False) -> None:
         self.args = args
         self.experiment = experiment
         self.label = label
+        self.hardware_aware = hardware_aware
+        self.directions = HARDWARE_DIRECTIONS if hardware_aware else DEFAULT_DIRECTIONS
         self.started = time.perf_counter()
         self.device = resolve_device(args.device)
         self.loaded_data = load_data(DATA_PATH)
@@ -44,6 +51,12 @@ class SearchEvaluator:
             "architecture_space": "resnet_stage_channels_v1",
             "train_val_sha256": digest.hexdigest(), "training_version": 3,
         }
+        if hardware_aware:
+            self.config.update({
+                "training_version": HARDWARE_CACHE_VERSION,
+                "objectives": dict(zip(HARDWARE_OBJECTIVES, self.directions)),
+                "mac_convention": MAC_CONVENTION,
+            })
         self.run_config = {**self.config, **search_config}
         self.output = args.output_dir / f"seed_{args.seed}"
         self.cache = self.output / "evaluations"
@@ -77,6 +90,8 @@ class SearchEvaluator:
             set_seed(seed)
             model = build_model(architecture)
             parameters = count_parameters(model)
+            if self.hardware_aware:
+                _, macs = architecture_cost(architecture)
             metrics, history, runtime = train_model(
                 model, self.loaded_data, learning_rate=0.001, batch_size=64,
                 optimizer_name="Adam", epochs=self.args.epochs, seed=seed,
@@ -87,6 +102,8 @@ class SearchEvaluator:
                 "parameter_count": parameters, "history": history,
                 "runtime_seconds": runtime,
             }
+            if self.hardware_aware:
+                record["macs"] = macs
             save_json(path, record)
             self.trained += 1
             status = "trained"
@@ -95,9 +112,17 @@ class SearchEvaluator:
         parameters = record["parameter_count"]
         if not math.isfinite(auc) or not 0 <= auc <= 1 or type(parameters) is not int or parameters <= 0:
             raise ValueError(f"Invalid measured fitness: {path}")
-        self.fitnesses.append((float(auc), parameters))
+        fitness = (float(auc), parameters)
+        mac_log = ""
+        if self.hardware_aware:
+            macs = record.get("macs")
+            if type(macs) is not int or macs <= 0:
+                raise ValueError(f"Invalid MAC count: {path}")
+            fitness += (macs,)
+            mac_log = f" macs={macs}"
+        self.fitnesses.append(fitness)
         pareto_size = sum(
-            not any(dominates(other, candidate) for other in self.fitnesses)
+            not any(dominates(other, candidate, self.directions) for other in self.fitnesses)
             for candidate in self.fitnesses
         )
         self.records.append({
@@ -108,6 +133,9 @@ class SearchEvaluator:
             "smallest_parameters_so_far": min(item[1] for item in self.fitnesses),
             "pareto_size_so_far": pareto_size,
         })
+        if self.hardware_aware:
+            self.records[-1]["macs"] = macs
+            self.records[-1]["smallest_macs_so_far"] = min(item[2] for item in self.fitnesses)
         save_json(self.output / "progress.json", {
             "experiment": self.experiment,
             "config": self.run_config,
@@ -117,9 +145,9 @@ class SearchEvaluator:
         })
         print(
             f"evaluation={len(self.records)}/{self.args.budget} {status} "
-            f"val_auc={auc:.6f} parameters={parameters}", flush=True,
+            f"val_auc={auc:.6f} parameters={parameters}{mac_log}", flush=True,
         )
-        return auc, parameters
+        return fitness
 
     @property
     def runtime_seconds(self):
@@ -127,13 +155,16 @@ class SearchEvaluator:
 
 
 def serialize_individual(individual):
-    return {
+    result = {
         "architecture": individual.architecture,
         "val_macro_auc_ovr": individual.fitness[0],
         "parameter_count": individual.fitness[1],
         "pareto_rank": individual.rank,
         "crowding_distance": None if math.isinf(individual.crowding) else individual.crowding,
     }
+    if len(individual.fitness) == len(HARDWARE_OBJECTIVES):
+        result["macs"] = individual.fitness[2]
+    return result
 
 
 def serialize_evaluated(individuals, records):
