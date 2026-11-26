@@ -1,0 +1,107 @@
+{
+  "experiment": "test_evaluation",
+  "seed": 42,
+  "selection_uses": "validation_only",
+  "test_uses": "test_evaluation_only",
+  "results": [
+    {
+      "model": "ga_best_auc",
+      "parameter_count": 1216231,
+      "selection": {
+        "rule": "best_auc",
+        "criteria": [
+          "best_auc"
+        ],
+        "source": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\ga_search\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9435277040991968,
+        "search_parameter_count": 1216231,
+        "search_macs": 605422464
+      },
+      "best_epoch": 12,
+      "validation_metrics": {
+        "val_loss": 0.6492628790326751,
+        "val_accuracy": 0.7756729810568295,
+        "val_macro_precision": 0.5410572879696122,
+        "val_macro_recall": 0.5475344707194824,
+        "val_macro_f1": 0.5421646286490436,
+        "val_macro_auc_ovr": 0.9360897960606822
+      },
+      "test_metrics": {
+        "test_loss": 0.6581212536355207,
+        "test_accuracy": 0.7531172069825436,
+        "test_macro_precision": 0.5153949080787769,
+        "test_macro_recall": 0.5093691854332614,
+        "test_macro_f1": 0.5085227586559985,
+        "test_macro_auc_ovr": 0.9232870048801445
+      },
+      "macs": 605422464,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\ga\\ga_best_auc\\seed_42\\result.json"
+    },
+    {
+      "model": "ga_min_parameters",
+      "parameter_count": 740199,
+      "selection": {
+        "rule": "min_parameters",
+        "criteria": [
+          "min_parameters"
+        ],
+        "source": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\ga_search\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9396030637309805,
+        "search_parameter_count": 740199,
+        "search_macs": 524682112
+      },
+      "best_epoch": 17,
+      "validation_metrics": {
+        "val_loss": 0.6385157337098393,
+        "val_accuracy": 0.7597208374875374,
+        "val_macro_precision": 0.4856319600691368,
+        "val_macro_recall": 0.4936366964470009,
+        "val_macro_f1": 0.48024065830058743,
+        "val_macro_auc_ovr": 0.9330227832911475
+      },
+      "test_metrics": {
+        "test_loss": 0.6461227009718555,
+        "test_accuracy": 0.7576059850374065,
+        "test_macro_precision": 0.5830089303811359,
+        "test_macro_recall": 0.5077044800330375,
+        "test_macro_f1": 0.5102828292271644,
+        "test_macro_auc_ovr": 0.9262224108661986
+      },
+      "macs": 524682112,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\ga\\ga_min_parameters\\seed_42\\result.json"
+    },
+    {
+      "model": "ga_min_macs",
+      "parameter_count": 862871,
+      "selection": {
+        "rule": "min_macs",
+        "criteria": [
+          "min_macs"
+        ],
+        "source": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\ga_search\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9316741475388545,
+        "search_parameter_count": 862871,
+        "search_macs": 233505664
+      },
+      "best_epoch": 12,
+      "validation_metrics": {
+        "val_loss": 0.6309059148177074,
+        "val_accuracy": 0.7706879361914257,
+        "val_macro_precision": 0.5440288465092642,
+        "val_macro_recall": 0.47074192659672753,
+        "val_macro_f1": 0.4992400816636722,
+        "val_macro_auc_ovr": 0.935351036498404
+      },
+      "test_metrics": {
+        "test_loss": 0.63680022966832,
+        "test_accuracy": 0.7566084788029925,
+        "test_macro_precision": 0.5152753994913019,
+        "test_macro_recall": 0.46476999589798534,
+        "test_macro_f1": 0.4823681366830565,
+        "test_macro_auc_ovr": 0.9273443190263062
+      },
+      "macs": 233505664,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\ga\\ga_min_macs\\seed_42\\result.json"
+    }
+  ]
+}

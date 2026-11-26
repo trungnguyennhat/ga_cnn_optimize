@@ -1,0 +1,108 @@
+{
+  "experiment": "test_evaluation",
+  "seed": 42,
+  "selection_uses": "validation_only",
+  "test_uses": "test_evaluation_only",
+  "results": [
+    {
+      "model": "surrogate_best_auc",
+      "parameter_count": 9265767,
+      "selection": {
+        "rule": "best_auc",
+        "criteria": [
+          "best_auc"
+        ],
+        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9434486638771477,
+        "search_parameter_count": 9265767,
+        "search_macs": 946210560
+      },
+      "best_epoch": 21,
+      "validation_metrics": {
+        "val_loss": 0.6146399813777547,
+        "val_accuracy": 0.7796610169491526,
+        "val_macro_precision": 0.6895484634023354,
+        "val_macro_recall": 0.5564103723354309,
+        "val_macro_f1": 0.5645122024927461,
+        "val_macro_auc_ovr": 0.9371964058746082
+      },
+      "test_metrics": {
+        "test_loss": 0.607160284988898,
+        "test_accuracy": 0.7725685785536159,
+        "test_macro_precision": 0.6239125579172599,
+        "test_macro_recall": 0.5454857915311431,
+        "test_macro_f1": 0.562959272335162,
+        "test_macro_auc_ovr": 0.9357252233722689
+      },
+      "macs": 946210560,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_best_auc\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_min_parameters",
+      "parameter_count": 308439,
+      "selection": {
+        "rule": "min_parameters",
+        "criteria": [
+          "min_parameters",
+          "min_macs"
+        ],
+        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9361528664732732,
+        "search_parameter_count": 308439,
+        "search_macs": 64684928
+      },
+      "best_epoch": 19,
+      "validation_metrics": {
+        "val_loss": 0.6478653283917892,
+        "val_accuracy": 0.7746759720837487,
+        "val_macro_precision": 0.4995357130665367,
+        "val_macro_recall": 0.46295037641641856,
+        "val_macro_f1": 0.4571072654925317,
+        "val_macro_auc_ovr": 0.9335015366317764
+      },
+      "test_metrics": {
+        "test_loss": 0.6576966106445712,
+        "test_accuracy": 0.7546134663341646,
+        "test_macro_precision": 0.49396066198362937,
+        "test_macro_recall": 0.44607978559484934,
+        "test_macro_f1": 0.4537322272727743,
+        "test_macro_auc_ovr": 0.9268250202554865
+      },
+      "macs": 64684928,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_min_parameters\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_balanced_1",
+      "parameter_count": 1496967,
+      "selection": {
+        "rule": "balanced_1",
+        "criteria": [
+          "balanced_1"
+        ],
+        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9427722620767419,
+        "search_parameter_count": 1496967,
+        "search_macs": 562824064
+      },
+      "best_epoch": 13,
+      "validation_metrics": {
+        "val_loss": 0.6563386021558927,
+        "val_accuracy": 0.7547357926221336,
+        "val_macro_precision": 0.659718924901367,
+        "val_macro_recall": 0.47218152335248353,
+        "val_macro_f1": 0.49111414891714295,
+        "val_macro_auc_ovr": 0.9306420045956129
+      },
+      "test_metrics": {
+        "test_loss": 0.6508560627030018,
+        "test_accuracy": 0.7650872817955112,
+        "test_macro_precision": 0.7192233799436945,
+        "test_macro_recall": 0.476331835287316,
+        "test_macro_f1": 0.5090301116832029,
+        "test_macro_auc_ovr": 0.9260899845434435
+      },
+      "macs": 562824064,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_balanced_1\\seed_42\\result.json"
+    }
+  ]
+}
