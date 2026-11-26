@@ -11,7 +11,7 @@ from torch import nn
 from src.model import build_model, count_parameters
 from src.search_runtime import save_json
 from src.search_space import canonical_architecture
-from src.test_eval import evaluate, load_test_data, select_three_architectures, train_selected
+from src.test_eval import evaluate, load_test_data, select_pareto_architectures, train_selected
 from src.train import DATA_PATH, PROJECT_ROOT, load_data, resolve_device, set_seed, train_model
 
 
@@ -45,7 +45,7 @@ def select_best_surrogate(summary_path: Path, *, expected_seed: int) -> tuple[di
 
 def evaluate_selected_surrogate(args: argparse.Namespace) -> dict:
     if getattr(args, "hardware_aware", False):
-        candidates = select_three_architectures(args.summary, args.seed, "surrogate_search")
+        candidates = select_pareto_architectures(args.summary, args.seed, "surrogate_search")
         device = resolve_device(args.device)
         loaded_data = load_data(args.data_path)
         test_data = load_test_data(args.data_path)
@@ -161,7 +161,7 @@ def evaluate_selected_surrogate(args: argparse.Namespace) -> dict:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--summary", type=Path, required=True)
-    parser.add_argument("--hardware-aware", action="store_true", help="Retrain three Pareto architectures")
+    parser.add_argument("--hardware-aware", action="store_true", help="Retrain all Pareto architectures")
     parser.add_argument("--seed", type=int, choices=(42,), default=42)
     parser.add_argument("--epochs", type=int, choices=(60,), default=60)
     parser.add_argument("--device", default="auto")

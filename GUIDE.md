@@ -289,7 +289,7 @@ Tổng hợp lại từ log validation. Có thể đối chiếu GA hai mục ti
 
 Thư mục `results/hardware_aware/analysis/` có `search_metrics.csv`, `analysis.json`, `pareto_projections.png` và `hypervolume_convergence.png`. Báo cáo ghi Hypervolume 3D với cận chi phí cố định từ search space và điểm tham chiếu `(0, 0, 0)` sau chuẩn hóa. Bảng có Coverage hai chiều, AUC tốt nhất và chi phí của kiến trúc đó. JSON có tần suất kernel `5×5` ở từng stage trên Pareto front, thống kê `mean ± sample std` qua các seed và chênh lệch GA trừ Random theo cặp seed. Dải trên biểu đồ hội tụ là một độ lệch chuẩn mẫu mỗi phía. Đối chiếu với GA cũ chỉ có seed 42.
 
-Sau khi đã chốt seed, giao thức và tiêu chí chọn bằng validation, chạy đánh giá cuối bằng lệnh riêng. Mỗi phương pháp chọn kiến trúc theo validation AUC cao nhất, ưu tiên ít tham số khi hòa, rồi train lại 60 epoch. ResNet-18 được train theo cùng seed nếu chưa có checkpoint trong thư mục mới. Test split chỉ được đọc ở pha đánh giá cuối:
+Sau khi đã chốt seed, giao thức và tiêu chí chọn bằng validation, chạy đánh giá cuối bằng lệnh riêng. Mỗi phương pháp train lại 60 epoch cho từng kiến trúc khác nhau trên Pareto front của seed tương ứng. ResNet-18 được train theo cùng seed nếu chưa có checkpoint trong thư mục mới. Test split chỉ được đọc ở pha đánh giá cuối:
 
 ```powershell
 .\.venv\Scripts\python.exe -m src.run_multiseed --phase test --seeds 42 43 44 --device auto
