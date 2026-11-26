@@ -6,6 +6,7 @@ from datetime import datetime
 from pathlib import Path
 
 from src.search_runtime import (
+    HARDWARE_RESULTS,
     SEARCH_EPOCHS,
     SearchEvaluator,
     save_json,
@@ -35,13 +36,15 @@ def main():
     parser.add_argument("--epochs", type=int, default=SEARCH_EPOCHS)
     parser.add_argument("--device", default="auto")
     parser.add_argument(
-        "--output-dir",
-        type=Path,
-        default=PROJECT_ROOT / "results" / "surrogate_search",
+        "--hardware-aware", action="store_true", help="Add MACs as a third objective"
     )
+    parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
     if args.budget < args.warmup_size:
         parser.error("budget must be at least warmup-size")
+    if args.output_dir is None:
+        root = PROJECT_ROOT / "results"
+        args.output_dir = (root / HARDWARE_RESULTS if args.hardware_aware else root) / "surrogate_search"
 
     # A new timestamped directory prevents SearchEvaluator from seeing cache
     # files produced by any earlier GA, random, or surrogate-search run.
@@ -62,9 +65,11 @@ def main():
         experiment="surrogate_search",
         label="XGBoost Surrogate NAS",
         search_config=search_config,
+        hardware_aware=args.hardware_aware,
     )
     search = SurrogateAssistedSearch(
         evaluator,
+        hardware_aware=args.hardware_aware,
         surrogate=XGBoostSurrogate(random_state=args.seed),
         warmup_size=args.warmup_size,
         acquisition_batch_size=args.acquisition_batch_size,

@@ -4,7 +4,14 @@ import math
 import random
 from copy import deepcopy
 
-from src.ga_search.nsga2 import Individual, crowding_distance, nondominated_sort, select_survivors
+from src.ga_search.nsga2 import (
+    DEFAULT_DIRECTIONS,
+    HARDWARE_DIRECTIONS,
+    Individual,
+    crowding_distance,
+    nondominated_sort,
+    select_survivors,
+)
 from src.search_space import (
     canonical_architecture,
     mutate_architecture,
@@ -28,6 +35,7 @@ class SurrogateAssistedSearch:
         *,
         surrogate=None,
         parameter_counter=None,
+        hardware_aware: bool = False,
         warmup_size: int = 20,
         acquisition_batch_size: int = 5,
         candidate_pool_size: int = 100,
@@ -60,6 +68,8 @@ class SurrogateAssistedSearch:
         self.real_fitness_callback = real_fitness_callback
         self.surrogate = surrogate or XGBoostSurrogate(random_state=seed)
         self.parameter_counter = parameter_counter or self._default_parameter_counter
+        self.hardware_aware = hardware_aware
+        self.directions = HARDWARE_DIRECTIONS if hardware_aware else DEFAULT_DIRECTIONS
         self.warmup_size = warmup_size
         self.acquisition_batch_size = acquisition_batch_size
         self.candidate_pool_size = candidate_pool_size
@@ -82,13 +92,19 @@ class SurrogateAssistedSearch:
             key = canonical_architecture(architecture)
             if key in self._evaluated:
                 continue
-            auc, parameters = self.real_fitness_callback(deepcopy(architecture), self.seed)
+            auc, parameters, *costs = self.real_fitness_callback(
+                deepcopy(architecture), self.seed
+            )
             if not math.isfinite(auc) or not 0 <= auc <= 1:
                 raise ValueError("real fitness AUC must be finite and in [0, 1]")
             if type(parameters) is not int or parameters <= 0:
                 raise ValueError("real parameter count must be a positive integer")
+            if len(costs) != len(self.directions) - 2:
+                raise ValueError("real fitness must match the configured objectives")
+            if self.hardware_aware and (type(costs[0]) is not int or costs[0] <= 0):
+                raise ValueError("real MAC count must be a positive integer")
             self._evaluated[key] = Individual(
-                deepcopy(architecture), (float(auc), parameters)
+                deepcopy(architecture), (float(auc), parameters, *costs)
             )
 
     def _training_records(self) -> list[dict]:
@@ -140,16 +156,18 @@ class SurrogateAssistedSearch:
         return list(candidates.values())
 
     def _select_candidates(self, candidates: list[dict], count: int) -> list[dict]:
+        from src.model import architecture_cost
+
         predictions = self.surrogate.predict(candidates)
-        predicted = [
-            Individual(
-                deepcopy(architecture),
-                (float(auc), self.parameter_counter(architecture)),
+        predicted = []
+        for architecture, auc in zip(candidates, predictions):
+            costs = (
+                architecture_cost(architecture)
+                if self.hardware_aware else (self.parameter_counter(architecture),)
             )
-            for architecture, auc in zip(candidates, predictions)
-        ]
+            predicted.append(Individual(deepcopy(architecture), (float(auc), *costs)))
         ranked = []
-        for front in nondominated_sort(predicted):
+        for front in nondominated_sort(predicted, self.directions):
             crowding_distance(front)
             ranked.extend(sorted(front, key=lambda item: item.crowding, reverse=True))
 
@@ -177,6 +195,7 @@ class SurrogateAssistedSearch:
         population = select_survivors(
             list(self._evaluated.values()),
             min(self.population_size, len(self._evaluated)),
+            self.directions,
         )
         iterations = 0
 
@@ -192,11 +211,12 @@ class SurrogateAssistedSearch:
             population = select_survivors(
                 list(self._evaluated.values()),
                 min(self.population_size, len(self._evaluated)),
+                self.directions,
             )
             iterations += 1
 
         archive = list(self._evaluated.values())
-        fronts = nondominated_sort(archive)
+        fronts = nondominated_sort(archive, self.directions)
         for front in fronts:
             crowding_distance(front)
         return {

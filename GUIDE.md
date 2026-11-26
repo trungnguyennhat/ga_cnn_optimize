@@ -298,3 +298,25 @@ Get-Content -Raw "results\hardware_aware\analysis\test_analysis.json" | ConvertF
 ```
 
 Các file `test_metrics.csv` và `test_analysis.json` ghi kết quả test theo seed và thống kê gộp cho GA, Random và baseline, gồm test AUC, macro F1, Params, MACs và GFLOPs theo quy ước trên. Đây là thống kê mô tả cho các seed trên cùng split DermaMNIST.
+
+### Surrogate search ba mục tiêu
+
+Dùng `--hardware-aware` để tối đa hóa validation macro AUC, đồng thời tối thiểu hóa số tham số và MACs. XGBoost dự đoán AUC để sàng lọc ứng viên. Số tham số và MACs được tính từ kiến trúc. Pareto front cuối dùng AUC đo được sau khi train. Quy đổi sang GFLOPs bằng `2 * macs / 1e9`.
+
+```powershell
+.\.venv\Scripts\python.exe -m src.surrogate_search.run_search --hardware-aware --seed 42 --budget 60 --epochs 20 --device auto
+```
+
+Kiểm thử thủ công với budget 3 gồm 2 warm-up và 1 ứng viên do vòng surrogate chọn. Kết quả kiểm thử được lưu riêng.
+
+```powershell
+.\.venv\Scripts\python.exe -m src.surrogate_search.run_search --hardware-aware --seed 42 --budget 3 --warmup-size 2 --acquisition-batch-size 1 --candidate-pool-size 4 --population-size 2 --exploration-fraction 0 --epochs 1 --output-dir "results\surrogate_hardware_smoke"
+$run = Get-ChildItem "results\surrogate_hardware_smoke" -Directory -Filter "run_*" | Sort-Object Name -Descending | Select-Object -First 1
+$summary = Get-Content -Raw (Join-Path $run.FullName "seed_42\summary.json") | ConvertFrom-Json
+$summary | Select-Object evaluations, warmup_evaluations, surrogate_iterations
+$summary.config.objectives
+$summary.evaluated | Select-Object val_macro_auc_ovr, parameter_count, macs
+$summary.pareto_front | Select-Object val_macro_auc_ovr, parameter_count, macs
+```
+
+Kiểm tra summary có 3 evaluation, 2 warm-up, 1 vòng surrogate và MACs dương trong cả `evaluated` lẫn `pareto_front`. Kết quả mặc định của chế độ ba mục tiêu nằm tại `results/hardware_aware/surrogate_search/run_<timestamp>/seed_<seed>/`.
