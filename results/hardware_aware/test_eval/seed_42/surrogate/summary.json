@@ -5,80 +5,40 @@
   "test_uses": "test_evaluation_only",
   "results": [
     {
-      "model": "surrogate_best_auc",
-      "parameter_count": 9265767,
+      "model": "surrogate_pareto_4ffd382e78f737ab12f8fd47319529dd0fb57541c531e0b80d13e1355e5103ee",
+      "parameter_count": 2375015,
       "selection": {
-        "rule": "best_auc",
-        "criteria": [
-          "best_auc"
-        ],
+        "rule": "pareto_front",
         "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
-        "search_val_macro_auc_ovr": 0.9434486638771477,
-        "search_parameter_count": 9265767,
-        "search_macs": 946210560
+        "search_val_macro_auc_ovr": 0.9401623719457695,
+        "search_parameter_count": 2375015,
+        "search_macs": 352716544
       },
-      "best_epoch": 21,
+      "best_epoch": 13,
       "validation_metrics": {
-        "val_loss": 0.6146399813777547,
-        "val_accuracy": 0.7796610169491526,
-        "val_macro_precision": 0.6895484634023354,
-        "val_macro_recall": 0.5564103723354309,
-        "val_macro_f1": 0.5645122024927461,
-        "val_macro_auc_ovr": 0.9371964058746082
+        "val_loss": 0.6159727838436366,
+        "val_accuracy": 0.7706879361914257,
+        "val_macro_precision": 0.5172414528699386,
+        "val_macro_recall": 0.4757165382458122,
+        "val_macro_f1": 0.4917170622038057,
+        "val_macro_auc_ovr": 0.9372827753056484
       },
       "test_metrics": {
-        "test_loss": 0.607160284988898,
-        "test_accuracy": 0.7725685785536159,
-        "test_macro_precision": 0.6239125579172599,
-        "test_macro_recall": 0.5454857915311431,
-        "test_macro_f1": 0.562959272335162,
-        "test_macro_auc_ovr": 0.9357252233722689
+        "test_loss": 0.6266316548547245,
+        "test_accuracy": 0.773067331670823,
+        "test_macro_precision": 0.6182321039806622,
+        "test_macro_recall": 0.4963714130903791,
+        "test_macro_f1": 0.5224657643866887,
+        "test_macro_auc_ovr": 0.9289217295806563
       },
-      "macs": 946210560,
-      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_best_auc\\seed_42\\result.json"
+      "macs": 352716544,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_pareto_4ffd382e78f737ab12f8fd47319529dd0fb57541c531e0b80d13e1355e5103ee\\seed_42\\result.json"
     },
     {
-      "model": "surrogate_min_parameters",
-      "parameter_count": 308439,
-      "selection": {
-        "rule": "min_parameters",
-        "criteria": [
-          "min_parameters",
-          "min_macs"
-        ],
-        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
-        "search_val_macro_auc_ovr": 0.9361528664732732,
-        "search_parameter_count": 308439,
-        "search_macs": 64684928
-      },
-      "best_epoch": 19,
-      "validation_metrics": {
-        "val_loss": 0.6478653283917892,
-        "val_accuracy": 0.7746759720837487,
-        "val_macro_precision": 0.4995357130665367,
-        "val_macro_recall": 0.46295037641641856,
-        "val_macro_f1": 0.4571072654925317,
-        "val_macro_auc_ovr": 0.9335015366317764
-      },
-      "test_metrics": {
-        "test_loss": 0.6576966106445712,
-        "test_accuracy": 0.7546134663341646,
-        "test_macro_precision": 0.49396066198362937,
-        "test_macro_recall": 0.44607978559484934,
-        "test_macro_f1": 0.4537322272727743,
-        "test_macro_auc_ovr": 0.9268250202554865
-      },
-      "macs": 64684928,
-      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_min_parameters\\seed_42\\result.json"
-    },
-    {
-      "model": "surrogate_balanced_1",
+      "model": "surrogate_pareto_841e1042c921511c04b221a787784faf6aaf6129b4caa46cde129fdf842a1e72",
       "parameter_count": 1496967,
       "selection": {
-        "rule": "balanced_1",
-        "criteria": [
-          "balanced_1"
-        ],
+        "rule": "pareto_front",
         "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
         "search_val_macro_auc_ovr": 0.9427722620767419,
         "search_parameter_count": 1496967,
@@ -102,7 +62,247 @@
         "test_macro_auc_ovr": 0.9260899845434435
       },
       "macs": 562824064,
-      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_balanced_1\\seed_42\\result.json"
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_pareto_841e1042c921511c04b221a787784faf6aaf6129b4caa46cde129fdf842a1e72\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_4c9602d5d32c0fa7ddad3d3ce155cdd425391158e06899494c1748da3ee8beba",
+      "parameter_count": 1139031,
+      "selection": {
+        "rule": "pareto_front",
+        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9391500577981271,
+        "search_parameter_count": 1139031,
+        "search_macs": 266011520
+      },
+      "best_epoch": 12,
+      "validation_metrics": {
+        "val_loss": 0.6463205815550099,
+        "val_accuracy": 0.7716849451645065,
+        "val_macro_precision": 0.5439868093556618,
+        "val_macro_recall": 0.4776437489552244,
+        "val_macro_f1": 0.5008010148013607,
+        "val_macro_auc_ovr": 0.9319040437758879
+      },
+      "test_metrics": {
+        "test_loss": 0.6486224592177945,
+        "test_accuracy": 0.7496259351620947,
+        "test_macro_precision": 0.5299047281367094,
+        "test_macro_recall": 0.4732439570715023,
+        "test_macro_f1": 0.4938072872993944,
+        "test_macro_auc_ovr": 0.922826341076232
+      },
+      "macs": 266011520,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_pareto_4c9602d5d32c0fa7ddad3d3ce155cdd425391158e06899494c1748da3ee8beba\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_5ea3f3283079bc64da567f4e389d2fb8cde638a2a1d9b573c935ad3ce3e9060b",
+      "parameter_count": 427799,
+      "selection": {
+        "rule": "pareto_front",
+        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9390818597226177,
+        "search_parameter_count": 427799,
+        "search_macs": 175833984
+      },
+      "best_epoch": 21,
+      "validation_metrics": {
+        "val_loss": 0.6030491620807324,
+        "val_accuracy": 0.7896311066799602,
+        "val_macro_precision": 0.6924232134627043,
+        "val_macro_recall": 0.5473665731276972,
+        "val_macro_f1": 0.5588025061657556,
+        "val_macro_auc_ovr": 0.9369925920593326
+      },
+      "test_metrics": {
+        "test_loss": 0.5954037607310716,
+        "test_accuracy": 0.7850374064837905,
+        "test_macro_precision": 0.696932040201219,
+        "test_macro_recall": 0.5297464928119127,
+        "test_macro_f1": 0.5542660942460401,
+        "test_macro_auc_ovr": 0.9355035443311804
+      },
+      "macs": 175833984,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_pareto_5ea3f3283079bc64da567f4e389d2fb8cde638a2a1d9b573c935ad3ce3e9060b\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_94683941994c3485805eacb82aebce9973c890a63465424efc7d6a5da993509e",
+      "parameter_count": 3760743,
+      "selection": {
+        "rule": "pareto_front",
+        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9430277800472572,
+        "search_parameter_count": 3760743,
+        "search_macs": 593889024
+      },
+      "best_epoch": 16,
+      "validation_metrics": {
+        "val_loss": 0.6455695160245848,
+        "val_accuracy": 0.7666999002991027,
+        "val_macro_precision": 0.5121930294635205,
+        "val_macro_recall": 0.5132567940530469,
+        "val_macro_f1": 0.5053522021547533,
+        "val_macro_auc_ovr": 0.9368315372835536
+      },
+      "test_metrics": {
+        "test_loss": 0.6401899974839645,
+        "test_accuracy": 0.7551122194513715,
+        "test_macro_precision": 0.4974083537743775,
+        "test_macro_recall": 0.4938894500446687,
+        "test_macro_f1": 0.4875519711593679,
+        "test_macro_auc_ovr": 0.9304780404607642
+      },
+      "macs": 593889024,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_pareto_94683941994c3485805eacb82aebce9973c890a63465424efc7d6a5da993509e\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_48557b41a887b64374d12248af7d425eb2d557b85d695bef43187a174e18efd1",
+      "parameter_count": 1222151,
+      "selection": {
+        "rule": "pareto_front",
+        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9413703814424462,
+        "search_parameter_count": 1222151,
+        "search_macs": 1794900864
+      },
+      "best_epoch": 26,
+      "validation_metrics": {
+        "val_loss": 0.5818633127545312,
+        "val_accuracy": 0.7956131605184447,
+        "val_macro_precision": 0.6900036025246462,
+        "val_macro_recall": 0.5578209983362209,
+        "val_macro_f1": 0.5644525984004963,
+        "val_macro_auc_ovr": 0.9445063162441855
+      },
+      "test_metrics": {
+        "test_loss": 0.5905575720300699,
+        "test_accuracy": 0.7920199501246883,
+        "test_macro_precision": 0.6421891388916275,
+        "test_macro_recall": 0.5472562341522946,
+        "test_macro_f1": 0.5700708083502005,
+        "test_macro_auc_ovr": 0.938814801639813
+      },
+      "macs": 1794900864,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_pareto_48557b41a887b64374d12248af7d425eb2d557b85d695bef43187a174e18efd1\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_36550dda5a83a306fdba0713c711ffea9ce259f229677716445aba6d0b8a3f8a",
+      "parameter_count": 365031,
+      "selection": {
+        "rule": "pareto_front",
+        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9379930619799498,
+        "search_parameter_count": 365031,
+        "search_macs": 166069120
+      },
+      "best_epoch": 21,
+      "validation_metrics": {
+        "val_loss": 0.5955429631002166,
+        "val_accuracy": 0.7916251246261217,
+        "val_macro_precision": 0.5558290811426205,
+        "val_macro_recall": 0.5239130144282369,
+        "val_macro_f1": 0.5381870745599376,
+        "val_macro_auc_ovr": 0.9401466240128155
+      },
+      "test_metrics": {
+        "test_loss": 0.602215662918186,
+        "test_accuracy": 0.7700748129675811,
+        "test_macro_precision": 0.5372886835768823,
+        "test_macro_recall": 0.5024731155504595,
+        "test_macro_f1": 0.5177139268747756,
+        "test_macro_auc_ovr": 0.933158666574632
+      },
+      "macs": 166069120,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_pareto_36550dda5a83a306fdba0713c711ffea9ce259f229677716445aba6d0b8a3f8a\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_bf784b9afc60e1fac2d80b3fd87ac6ef3c93167ee25dc02bee5f4a8a8e8641ae",
+      "parameter_count": 308439,
+      "selection": {
+        "rule": "pareto_front",
+        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9361528664732732,
+        "search_parameter_count": 308439,
+        "search_macs": 64684928
+      },
+      "best_epoch": 19,
+      "validation_metrics": {
+        "val_loss": 0.6478653283917892,
+        "val_accuracy": 0.7746759720837487,
+        "val_macro_precision": 0.4995357130665367,
+        "val_macro_recall": 0.46295037641641856,
+        "val_macro_f1": 0.4571072654925317,
+        "val_macro_auc_ovr": 0.9335015366317764
+      },
+      "test_metrics": {
+        "test_loss": 0.6576966106445712,
+        "test_accuracy": 0.7546134663341646,
+        "test_macro_precision": 0.49396066198362937,
+        "test_macro_recall": 0.44607978559484934,
+        "test_macro_f1": 0.4537322272727743,
+        "test_macro_auc_ovr": 0.9268250202554865
+      },
+      "macs": 64684928,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_pareto_bf784b9afc60e1fac2d80b3fd87ac6ef3c93167ee25dc02bee5f4a8a8e8641ae\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_61bb1c77ab0d4304d5875534fd7c20b0339ed0ce80ce6b7dfe98bf4b33b2f52f",
+      "parameter_count": 9265767,
+      "selection": {
+        "rule": "pareto_front",
+        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9434486638771477,
+        "search_parameter_count": 9265767,
+        "search_macs": 946210560
+      },
+      "best_epoch": 21,
+      "validation_metrics": {
+        "val_loss": 0.6146399813777547,
+        "val_accuracy": 0.7796610169491526,
+        "val_macro_precision": 0.6895484634023354,
+        "val_macro_recall": 0.5564103723354309,
+        "val_macro_f1": 0.5645122024927461,
+        "val_macro_auc_ovr": 0.9371964058746082
+      },
+      "test_metrics": {
+        "test_loss": 0.607160284988898,
+        "test_accuracy": 0.7725685785536159,
+        "test_macro_precision": 0.6239125579172599,
+        "test_macro_recall": 0.5454857915311431,
+        "test_macro_f1": 0.562959272335162,
+        "test_macro_auc_ovr": 0.9357252233722689
+      },
+      "macs": 946210560,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_pareto_61bb1c77ab0d4304d5875534fd7c20b0339ed0ce80ce6b7dfe98bf4b33b2f52f\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_3fcf4d5deb061d9e9a6f9f8eed767fb1b373a5be73041aa209b9565ffdaea3d4",
+      "parameter_count": 728919,
+      "selection": {
+        "rule": "pareto_front",
+        "source": "results\\hardware_aware\\surrogate_search\\run_20261125_223530_003810\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9366188271230512,
+        "search_parameter_count": 728919,
+        "search_macs": 161153920
+      },
+      "best_epoch": 13,
+      "validation_metrics": {
+        "val_loss": 0.641461827522023,
+        "val_accuracy": 0.7686939182452642,
+        "val_macro_precision": 0.49575415474934914,
+        "val_macro_recall": 0.48975624139558566,
+        "val_macro_f1": 0.489231245925955,
+        "val_macro_auc_ovr": 0.9320536045381659
+      },
+      "test_metrics": {
+        "test_loss": 0.6420144582032563,
+        "test_accuracy": 0.7605985037406484,
+        "test_macro_precision": 0.6434498474677209,
+        "test_macro_recall": 0.5138506283361626,
+        "test_macro_f1": 0.5223650683554115,
+        "test_macro_auc_ovr": 0.9269971004008454
+      },
+      "macs": 161153920,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\surrogate\\surrogate_pareto_3fcf4d5deb061d9e9a6f9f8eed767fb1b373a5be73041aa209b9565ffdaea3d4\\seed_42\\result.json"
     }
   ]
 }
