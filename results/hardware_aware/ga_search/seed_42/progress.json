@@ -1,0 +1,647 @@
+{
+  "experiment": "ga_search",
+  "config": {
+    "epochs": 20,
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "optimizer": "Adam",
+    "seed": 42,
+    "device": "cuda",
+    "scheduler": {
+      "name": "StepLR",
+      "step_size": 15,
+      "gamma": 0.1
+    },
+    "loss": "unweighted_cross_entropy",
+    "normalization": {
+      "mean": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "std": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "architecture_space": "resnet_stage_channels_v1",
+    "train_val_sha256": "9b52e5af2a28cefe8ec8cfec61a346da000c433d23abdb650c2abe5585b41a7d",
+    "training_version": 4,
+    "objectives": {
+      "val_macro_auc_ovr": "max",
+      "parameter_count": "min",
+      "macs": "min"
+    },
+    "mac_convention": "conv2d_linear_macs_per_64x64_rgb_image_no_bias",
+    "budget": 60,
+    "population_size": 10,
+    "tournament_size": 3,
+    "crossover_rate": 0.8,
+    "mutation_probability": 0.15
+  },
+  "new_trainings": 60,
+  "cache_hits": 0,
+  "evaluations": [
+    {
+      "evaluation": 1,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\a85c417c19879c59e72deb92c054b195b47e1a52dc99c51ba0e349f8730aea97.json",
+      "best_auc_so_far": 0.9410722108126209,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 1,
+      "macs": 342229888,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 2,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\647f38b01a32b359dc49ddddb9eb8797736f64a48cc60c57de2dca9fa44e7697.json",
+      "best_auc_so_far": 0.9412210392473123,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2,
+      "macs": 1535902592,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 3,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\da1e04c251495512232a30bcc6c22a50d7873dd90c8c7cc56518154a1810307a.json",
+      "best_auc_so_far": 0.9412210392473123,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2,
+      "macs": 352716544,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 4,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\01b5048184315abe03f06744d9e98f5420960a76dbc794008d50fa80921adc29.json",
+      "best_auc_so_far": 0.9412210392473123,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2,
+      "macs": 3363570560,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 5,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\3aab77e4092b5686d341bb899420932a31968b9521231b58f5e98be6ac855b25.json",
+      "best_auc_so_far": 0.9412210392473123,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
+      "macs": 562824064,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 6,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\f037edb633e25bd6a7e64b2cd1c30617f32c448aef93394422051cb90054c2f7.json",
+      "best_auc_so_far": 0.9412210392473123,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
+      "macs": 595986176,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 7,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\79e10dadb40dfe952e05e16c4473c036083611a6126f64fc783f7f96fc417de0.json",
+      "best_auc_so_far": 0.9412210392473123,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
+      "macs": 2069628672,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 8,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\78415bb386dd86d2e5e39ef53fd8a85323b6ffab2b60a17b2be489b510792e12.json",
+      "best_auc_so_far": 0.9424796139904575,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 4,
+      "macs": 2728136192,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 9,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\c934892fb437ec2e960154cb651c339536aef5d622275c55691a8dda19071584.json",
+      "best_auc_so_far": 0.9424796139904575,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 4,
+      "macs": 4104916480,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 10,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\b8a9026e3c40af2f4d5cab83b3bd210a5daf031bc7e65091df04ee52a3130a1b.json",
+      "best_auc_so_far": 0.9424796139904575,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 4,
+      "macs": 747307904,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 11,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\c7fc16beddb6556d9ab8b135883ecb6730acf504523546075a61a2a73355bf32.json",
+      "best_auc_so_far": 0.9424796139904575,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 4,
+      "macs": 2707820032,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 12,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\676a9dd7c79121ddbdb880bbe77a7903c47a3541a0c64fd043414165d4e5ba06.json",
+      "best_auc_so_far": 0.9424796139904575,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 4,
+      "macs": 1910244224,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 13,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\ad4837a2b8b262974af42e6e5c36d5d21efc842862f6ccddc8981bd3758600df.json",
+      "best_auc_so_far": 0.9424796139904575,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 4,
+      "macs": 2998668800,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 14,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\f260bb01d79946b76c7cc6776b23f4c5b72d9c033343dbc4a829f205aa403a92.json",
+      "best_auc_so_far": 0.9424796139904575,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 4,
+      "macs": 419824512,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 15,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\93cf7b46a4dda09882a8c52b526f7d16baf8bf6300bfb816d41ab4a19db6c90a.json",
+      "best_auc_so_far": 0.9424796139904575,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 4,
+      "macs": 913048448,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 16,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\e740ebf5b3cbfc499f851410fe55f353ef520dbefead2f57f34a70df7abf29cf.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 5,
+      "macs": 2694581760,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 17,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\dc6706ef62a8dfc48121137f2fac01ef883d6d5d065a0a416acdda4ead1a1aba.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 1029863,
+      "pareto_size_so_far": 6,
+      "macs": 335938432,
+      "smallest_macs_so_far": 335938432
+    },
+    {
+      "evaluation": 18,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\4b58be93c0000941679f6dafbb7cc3abd53899663e28d5306a5de78be49f43ca.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 1029863,
+      "pareto_size_so_far": 6,
+      "macs": 1520832000,
+      "smallest_macs_so_far": 335938432
+    },
+    {
+      "evaluation": 19,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\8bd4f94553de106fa29cf452791059057a69b09e30da1dfc953b857c9e8eb1c3.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 1029863,
+      "pareto_size_so_far": 6,
+      "macs": 3147566592,
+      "smallest_macs_so_far": 335938432
+    },
+    {
+      "evaluation": 20,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\5b0bb72b08011c511f39043cc716bc635e6ac70c966caf55095e31e5d226180e.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 1029863,
+      "pareto_size_so_far": 6,
+      "macs": 916852224,
+      "smallest_macs_so_far": 335938432
+    },
+    {
+      "evaluation": 21,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\1269648406b4a1d72dce1947b1ba80b266b4911b84288c9cd195a9c5ccee3e65.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 972679,
+      "pareto_size_so_far": 7,
+      "macs": 529269632,
+      "smallest_macs_so_far": 335938432
+    },
+    {
+      "evaluation": 22,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\d1837354aca88be1ff789f5fd7aa58c1589ad2068165db8a5d48abd793bfbfbe.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 7,
+      "macs": 524682112,
+      "smallest_macs_so_far": 335938432
+    },
+    {
+      "evaluation": 23,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\da31208822a7d2913c528baa686d0f3f5d9ca6ec39decc7c0820a7d81eae8acb.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 7,
+      "macs": 679871360,
+      "smallest_macs_so_far": 335938432
+    },
+    {
+      "evaluation": 24,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\647eec83b540c3c3f8663abb22f9a672e9591f5a9ea901f3e7100a6e1607d2eb.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 7,
+      "macs": 1061946240,
+      "smallest_macs_so_far": 335938432
+    },
+    {
+      "evaluation": 25,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\331cd8a5c70a8a327e0e3fcdd068213c78dc5106ddd28f44917518a87058a108.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 8,
+      "macs": 1614152576,
+      "smallest_macs_so_far": 335938432
+    },
+    {
+      "evaluation": 26,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\ccaf7098d1cc3e37b8ea0cdccdbd4fb47c8e99e85c58e3e9c0fbbc248dbb6c55.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 9,
+      "macs": 256574336,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 27,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\601aa5a5d7d10915d591ec89ac6c95f9391ef1ab52a279b366e129178720c09f.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 9,
+      "macs": 748422912,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 28,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\9778cab4b201335cb55f7b0091e930196f8650af62a4ffc524143e908ec921c2.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 9,
+      "macs": 2633764352,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 29,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\e1053e20483a938b2701a56610d8b993c714805db12910c7c9cac70065f7e5ab.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 8,
+      "macs": 688259968,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 30,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\340cb65e9a7f0d3a136936ff20fd03f46bbf72e463e3184a343244a1609707d7.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 8,
+      "macs": 2323383168,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 31,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\0c3a3552766a504b942af3547b21f970cfa202f575e0b5eab3a00f5a6df72f05.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 8,
+      "macs": 543556480,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 32,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\791b95e851e1cef414f427e6e286e954c6268a0263bfee61b59ffa65198982d2.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 8,
+      "macs": 1002832768,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 33,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\a9054a251965b16a9c5a0529f1a40737b77cfda2288d9de26d99088f34559d98.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 8,
+      "macs": 3210415616,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 34,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\a66b827ca9324953841be7319ee9584c6452f0e09deb8194d04a4b5fdd313241.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 8,
+      "macs": 1013711744,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 35,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\6531140aa1fb58f6cecd39b9f5bd6de2692ad37947ec007146cdaac3ed92a2a8.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 9,
+      "macs": 363529088,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 36,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\beb87c954ab419ca6f58025eeba6f2835d52ba7f6b13a180724e735d5a2ba4bd.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 9,
+      "macs": 1952189952,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 37,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\4cc1fbd44b2775e8448e80e82a8658bb7db9e7f53193f78eeba3c0cf0154ea43.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 10,
+      "macs": 1120603648,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 38,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\1244b840e517689359bcd0f4f26173a106e686b26759f2f17e45b34b589edc2c.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 10,
+      "macs": 3134983680,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 39,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\acf98ec213efacdd15e0a1286b50fe621c0b839bc3efa799c5512e7ff418c2cd.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 9,
+      "macs": 1074136832,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 40,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\d7f1e642270a1337674f5291bc839cab6b5c4a5148f822bed5f4578311154703.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 9,
+      "macs": 483132288,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 41,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\d9e8956050118dcae0c2bb4962eca0676e264ff3d3a41516c2632eac1006a09d.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 9,
+      "macs": 2531003904,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 42,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\f55d9efaad81ba095bfb793b2d5b8e5e55996f7542c8025d77aa70df4b4da187.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 9,
+      "macs": 1187383040,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 43,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\9e73e3294e2946db59527925dcb8de2ad77dd333ed411d8611894c84ae36b1a6.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 9,
+      "macs": 298517376,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 44,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\82f41d37ca8ad588d7555d845d5bdddcac2a1f1f400be3b60d7237e94a4f2d55.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 10,
+      "macs": 318440320,
+      "smallest_macs_so_far": 256574336
+    },
+    {
+      "evaluation": 45,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\4bf536049d8b09ee5e70f25a485bfa8df1164a408facb10d167c01a11f676bc5.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 238748544,
+      "smallest_macs_so_far": 238748544
+    },
+    {
+      "evaluation": 46,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\aa0127ae004b905fff6a55afe5d8c1827a3d8c7af7189ee80c4fd5e426226048.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 805700480,
+      "smallest_macs_so_far": 238748544
+    },
+    {
+      "evaluation": 47,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\35500be4124e32fb2214d251de6ab03f0bd1b3f7c1b609096626299109652d1f.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 734398208,
+      "smallest_macs_so_far": 238748544
+    },
+    {
+      "evaluation": 48,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\6065424113b3eb51ef39d2197fc24b74a4723125769b8c29055220410386013c.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 893781760,
+      "smallest_macs_so_far": 238748544
+    },
+    {
+      "evaluation": 49,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\26b3ae37977487b7e48e3a0aa3cff1cb46f502424ca5357cabee92ef87ebf2cf.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 2952528768,
+      "smallest_macs_so_far": 238748544
+    },
+    {
+      "evaluation": 50,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\fe17e5595c4a38db5ad494876984e6001939bd6f4cd30ead837eca5053b8bd76.json",
+      "best_auc_so_far": 0.9432625856659358,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 1664880128,
+      "smallest_macs_so_far": 238748544
+    },
+    {
+      "evaluation": 51,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\a4b2328a3c423887277a1ae2d11db136ac8ed92ae498121bb7f3eb27b8674a2e.json",
+      "best_auc_so_far": 0.9435277040991968,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 4,
+      "macs": 605422464,
+      "smallest_macs_so_far": 238748544
+    },
+    {
+      "evaluation": 52,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\fb7af969bf4b5b27b0fd463c6123312aa7aabf1f00958452fcbfc89c18d3f0aa.json",
+      "best_auc_so_far": 0.9435277040991968,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 4,
+      "macs": 1014697472,
+      "smallest_macs_so_far": 238748544
+    },
+    {
+      "evaluation": 53,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\dd39e17b01351e80322b202d0cc736efb2bbd76b725838688c58c9e563bdae11.json",
+      "best_auc_so_far": 0.9435277040991968,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 233505664,
+      "smallest_macs_so_far": 233505664
+    },
+    {
+      "evaluation": 54,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\5522ad2578352a2545716cc8553999aea7c149b8335d5ef6fafcb0526ba42801.json",
+      "best_auc_so_far": 0.9435277040991968,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 253428608,
+      "smallest_macs_so_far": 233505664
+    },
+    {
+      "evaluation": 55,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\501c229b12ee6dd39dddbf1a13225137088453739552c2bb91ae2f0782659f9d.json",
+      "best_auc_so_far": 0.9435277040991968,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 629539712,
+      "smallest_macs_so_far": 233505664
+    },
+    {
+      "evaluation": 56,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\bd17155b017af805091b53f7d2a15f7cedaa2a0965bd838b0b6f72ad517170d2.json",
+      "best_auc_so_far": 0.9435277040991968,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 1807483776,
+      "smallest_macs_so_far": 233505664
+    },
+    {
+      "evaluation": 57,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\2882bbb573a4533d3941d486367314e81e43382e14280c6d9bc8a150b8ef34fc.json",
+      "best_auc_so_far": 0.9435277040991968,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 1355154304,
+      "smallest_macs_so_far": 233505664
+    },
+    {
+      "evaluation": 58,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\7c014e23cb392298ea59ef39fc3ec7d9d360901ac1686011de9b349c2ad2e8a8.json",
+      "best_auc_so_far": 0.9435277040991968,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 2556169728,
+      "smallest_macs_so_far": 233505664
+    },
+    {
+      "evaluation": 59,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\ffef2ef5b41e64f974d0ebf645ef6166e70e70c919c2adf1c1b0b28d564b496f.json",
+      "best_auc_so_far": 0.9435277040991968,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 796591872,
+      "smallest_macs_so_far": 233505664
+    },
+    {
+      "evaluation": 60,
+      "status": "trained",
+      "result": "results\\hardware_aware\\ga_search\\seed_42\\evaluations\\18ec59cc60d6d351b6f69422448fc25bf6e023b487fc736ee2d19177a1fb2de7.json",
+      "best_auc_so_far": 0.9435277040991968,
+      "smallest_parameters_so_far": 740199,
+      "pareto_size_so_far": 5,
+      "macs": 423298816,
+      "smallest_macs_so_far": 233505664
+    }
+  ]
+}
