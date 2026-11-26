@@ -5,46 +5,10 @@
   "test_uses": "test_evaluation_only",
   "results": [
     {
-      "model": "ga_best_auc",
-      "parameter_count": 1216231,
-      "selection": {
-        "rule": "best_auc",
-        "criteria": [
-          "best_auc"
-        ],
-        "source": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\ga_search\\seed_42\\summary.json",
-        "search_val_macro_auc_ovr": 0.9435277040991968,
-        "search_parameter_count": 1216231,
-        "search_macs": 605422464
-      },
-      "best_epoch": 12,
-      "validation_metrics": {
-        "val_loss": 0.6492628790326751,
-        "val_accuracy": 0.7756729810568295,
-        "val_macro_precision": 0.5410572879696122,
-        "val_macro_recall": 0.5475344707194824,
-        "val_macro_f1": 0.5421646286490436,
-        "val_macro_auc_ovr": 0.9360897960606822
-      },
-      "test_metrics": {
-        "test_loss": 0.6581212536355207,
-        "test_accuracy": 0.7531172069825436,
-        "test_macro_precision": 0.5153949080787769,
-        "test_macro_recall": 0.5093691854332614,
-        "test_macro_f1": 0.5085227586559985,
-        "test_macro_auc_ovr": 0.9232870048801445
-      },
-      "macs": 605422464,
-      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\ga\\ga_best_auc\\seed_42\\result.json"
-    },
-    {
-      "model": "ga_min_parameters",
+      "model": "ga_pareto_cab12a726f469f0c406dbb9568c0036cd937cb88f1269119219bcebfae88f06a",
       "parameter_count": 740199,
       "selection": {
-        "rule": "min_parameters",
-        "criteria": [
-          "min_parameters"
-        ],
+        "rule": "pareto_front",
         "source": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\ga_search\\seed_42\\summary.json",
         "search_val_macro_auc_ovr": 0.9396030637309805,
         "search_parameter_count": 740199,
@@ -68,16 +32,103 @@
         "test_macro_auc_ovr": 0.9262224108661986
       },
       "macs": 524682112,
-      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\ga\\ga_min_parameters\\seed_42\\result.json"
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\ga\\ga_pareto_cab12a726f469f0c406dbb9568c0036cd937cb88f1269119219bcebfae88f06a\\seed_42\\result.json"
     },
     {
-      "model": "ga_min_macs",
+      "model": "ga_pareto_3f897c187d99e94cda96887f9afbee4f47779c78cd168e26444daf196c0d0d82",
+      "parameter_count": 847127,
+      "selection": {
+        "rule": "pareto_front",
+        "source": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\ga_search\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9337455965943989,
+        "search_parameter_count": 847127,
+        "search_macs": 363529088
+      },
+      "best_epoch": 16,
+      "validation_metrics": {
+        "val_loss": 0.6642097675669586,
+        "val_accuracy": 0.7587238285144566,
+        "val_macro_precision": 0.5270018262420276,
+        "val_macro_recall": 0.4527578093151864,
+        "val_macro_f1": 0.4784738953365193,
+        "val_macro_auc_ovr": 0.9295711041689529
+      },
+      "test_metrics": {
+        "test_loss": 0.6533302303264266,
+        "test_accuracy": 0.7640897755610973,
+        "test_macro_precision": 0.5537162525923143,
+        "test_macro_recall": 0.47606944686863556,
+        "test_macro_f1": 0.5040916812390631,
+        "test_macro_auc_ovr": 0.9277369952290261
+      },
+      "macs": 363529088,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\ga\\ga_pareto_3f897c187d99e94cda96887f9afbee4f47779c78cd168e26444daf196c0d0d82\\seed_42\\result.json"
+    },
+    {
+      "model": "ga_pareto_af7356ed6121a8ab091ff025ae561e3966d1c064c91931c6eb030293d8c5fa6c",
+      "parameter_count": 895255,
+      "selection": {
+        "rule": "pareto_front",
+        "source": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\ga_search\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9421633928139109,
+        "search_parameter_count": 895255,
+        "search_macs": 238748544
+      },
+      "best_epoch": 21,
+      "validation_metrics": {
+        "val_loss": 0.5884024270272564,
+        "val_accuracy": 0.7856430707876371,
+        "val_macro_precision": 0.6907496327519435,
+        "val_macro_recall": 0.538986613108393,
+        "val_macro_f1": 0.5564376699183227,
+        "val_macro_auc_ovr": 0.9428781086719258
+      },
+      "test_metrics": {
+        "test_loss": 0.5978213137522005,
+        "test_accuracy": 0.774064837905237,
+        "test_macro_precision": 0.6839980715774988,
+        "test_macro_recall": 0.5370102461892291,
+        "test_macro_f1": 0.5617824650319166,
+        "test_macro_auc_ovr": 0.9359714456674683
+      },
+      "macs": 238748544,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\ga\\ga_pareto_af7356ed6121a8ab091ff025ae561e3966d1c064c91931c6eb030293d8c5fa6c\\seed_42\\result.json"
+    },
+    {
+      "model": "ga_pareto_2575803a34cf66014a4e17da04b5790a87035cca2456141e058a027dafc319b5",
+      "parameter_count": 1216231,
+      "selection": {
+        "rule": "pareto_front",
+        "source": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\ga_search\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9435277040991968,
+        "search_parameter_count": 1216231,
+        "search_macs": 605422464
+      },
+      "best_epoch": 12,
+      "validation_metrics": {
+        "val_loss": 0.6492628790326751,
+        "val_accuracy": 0.7756729810568295,
+        "val_macro_precision": 0.5410572879696122,
+        "val_macro_recall": 0.5475344707194824,
+        "val_macro_f1": 0.5421646286490436,
+        "val_macro_auc_ovr": 0.9360897960606822
+      },
+      "test_metrics": {
+        "test_loss": 0.6581212536355207,
+        "test_accuracy": 0.7531172069825436,
+        "test_macro_precision": 0.5153949080787769,
+        "test_macro_recall": 0.5093691854332614,
+        "test_macro_f1": 0.5085227586559985,
+        "test_macro_auc_ovr": 0.9232870048801445
+      },
+      "macs": 605422464,
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\ga\\ga_pareto_2575803a34cf66014a4e17da04b5790a87035cca2456141e058a027dafc319b5\\seed_42\\result.json"
+    },
+    {
+      "model": "ga_pareto_0d622eea793a915d2b80c96ea72a3675751d36d6493f011a4ea52ce34e497f43",
       "parameter_count": 862871,
       "selection": {
-        "rule": "min_macs",
-        "criteria": [
-          "min_macs"
-        ],
+        "rule": "pareto_front",
         "source": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\ga_search\\seed_42\\summary.json",
         "search_val_macro_auc_ovr": 0.9316741475388545,
         "search_parameter_count": 862871,
@@ -101,7 +152,7 @@
         "test_macro_auc_ovr": 0.9273443190263062
       },
       "macs": 233505664,
-      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\ga\\ga_min_macs\\seed_42\\result.json"
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\ga\\ga_pareto_0d622eea793a915d2b80c96ea72a3675751d36d6493f011a4ea52ce34e497f43\\seed_42\\result.json"
     }
   ]
 }
