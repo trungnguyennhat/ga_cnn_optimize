@@ -1,4 +1,4 @@
-"""Retrain the selected GA and random ResNets, then test them with the saved baseline."""
+"""Retrain selected search architectures and evaluate them with the saved baseline."""
 
 import argparse
 import json
@@ -80,6 +80,62 @@ def select_best_auc(summary_path: Path, seed: int = 42):
     if "macs" in selected:
         selection["search_macs"] = selected["macs"]
     return deepcopy(selected["architecture"]), selection
+
+
+def select_three_architectures(summary_path, seed, experiment):
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    config = summary.get("config", {})
+    if (summary.get("experiment") != experiment or config.get("seed") != seed
+            or not config.get("budget") or summary.get("evaluations") != config["budget"]):
+        raise ValueError(f"Expected a completed {experiment} search for seed {seed}: {summary_path}")
+    front = {
+        canonical_architecture(item["architecture"]): item
+        for item in summary.get("pareto_front", [])
+    }
+    if len(front) < 3 or any("macs" not in item for item in front.values()):
+        raise ValueError(f"Need three distinct Pareto architectures with MACs: {summary_path}")
+    costs = {
+        key: (-item["val_macro_auc_ovr"], item["parameter_count"], item["macs"])
+        for key, item in front.items()
+    }
+
+    def rank(key, order):
+        return tuple(costs[key][index] for index in order), key
+
+    choices = {}
+    for rule, order in (
+        ("best_auc", (0, 1, 2)),
+        ("min_parameters", (1, 0, 2)),
+        ("min_macs", (2, 0, 1)),
+    ):
+        winner = min(front, key=lambda key: rank(key, order))
+        choices.setdefault(winner, []).append(rule)
+
+    bounds = [(min(axis), max(axis)) for axis in zip(*costs.values())]
+
+    def balance_rank(key):
+        distance = sum(
+            ((value - low) / (high - low)) ** 2
+            for value, (low, high) in zip(costs[key], bounds)
+            if high > low
+        )
+        return distance, rank(key, (0, 1, 2))
+
+    remaining = sorted(front.keys() - choices.keys(), key=balance_rank)
+    for index, key in enumerate(remaining[:3 - len(choices)], start=1):
+        choices[key] = [f"balanced_{index}"]
+
+    return [
+        (rules[0], deepcopy(front[key]["architecture"]), {
+            "rule": rules[0],
+            "criteria": rules,
+            "source": str(summary_path),
+            "search_val_macro_auc_ovr": front[key]["val_macro_auc_ovr"],
+            "search_parameter_count": front[key]["parameter_count"],
+            "search_macs": front[key]["macs"],
+        })
+        for key, rules in choices.items()
+    ]
 
 
 def finish_result(name, model, architecture, selection, history, best_epoch, runtime,
@@ -205,6 +261,9 @@ def main():
     parser.add_argument("--data-path", type=Path, default=DATA_PATH)
     parser.add_argument("--ga-summary", type=Path)
     parser.add_argument("--random-summary", type=Path)
+    parser.add_argument("--surrogate-summary", type=Path)
+    parser.add_argument("--method", choices=("ga", "random", "surrogate"),
+                        help="Evaluate one hardware-aware search method")
     parser.add_argument("--baseline-dir", type=Path)
     parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
@@ -219,25 +278,49 @@ def main():
         args.output_dir = results_root / "test_eval"
         if args.hardware_aware or args.seed != 42:
             args.output_dir /= seed_dir
+        if args.method:
+            args.output_dir /= args.method
 
-    ga_architecture, ga_selection = select_best_auc(args.ga_summary, args.seed)
-    random_architecture, random_selection = select_best_auc(args.random_summary, args.seed)
-    if args.hardware_aware and any("search_macs" not in selection for selection in (ga_selection, random_selection)):
-        parser.error("hardware-aware test evaluation requires hardware-aware search summaries")
+    searches = [("ga", args.ga_summary), ("random", args.random_summary)]
+    if args.surrogate_summary:
+        if not args.hardware_aware:
+            parser.error("--surrogate-summary requires --hardware-aware")
+        searches.append(("surrogate", args.surrogate_summary))
+    if args.method:
+        if not args.hardware_aware:
+            parser.error("--method requires --hardware-aware")
+        searches = [(name, path) for name, path in searches if name == args.method]
+        if not searches:
+            parser.error("--method surrogate requires --surrogate-summary")
+
+    candidates = []
+    for name, path in searches:
+        if args.hardware_aware:
+            candidates.extend(
+                (f"{name}_{role}", architecture, selection)
+                for role, architecture, selection in select_three_architectures(
+                    path, args.seed, f"{name}_search",
+                )
+            )
+        else:
+            architecture, selection = select_best_auc(path, args.seed)
+            candidates.append((name, architecture, selection))
     device = resolve_device(args.device)
     loaded_data = load_data(args.data_path)
     test_data = load_test_data(args.data_path)
     results = [
-        train_selected("ga", ga_architecture, ga_selection, loaded_data, test_data, args, device),
-        train_selected("random", random_architecture, random_selection, loaded_data, test_data, args, device),
-        evaluate_saved_baseline(loaded_data, test_data, args, device),
+        train_selected(name, architecture, selection, loaded_data, test_data, args, device)
+        for name, architecture, selection in candidates
     ]
+    if args.method is None:
+        results.append(evaluate_saved_baseline(loaded_data, test_data, args, device))
     summary = {
         "experiment": "test_evaluation", "seed": args.seed,
         "selection_uses": "validation_only", "test_uses": "test_evaluation_only",
-        "baseline_training": "reused_saved_checkpoint",
+        **({"baseline_training": "reused_saved_checkpoint"} if args.method is None else {}),
         "results": [{
             "model": result["model"], "parameter_count": result["parameter_count"],
+            "selection": result["selection"],
             "best_epoch": result["best_epoch"], "validation_metrics": result["validation_metrics"],
             "test_metrics": result["test_metrics"],
             **({"macs": result["macs"]} if args.hardware_aware else {}),

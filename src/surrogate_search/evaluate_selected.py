@@ -11,7 +11,7 @@ from torch import nn
 from src.model import build_model, count_parameters
 from src.search_runtime import save_json
 from src.search_space import canonical_architecture
-from src.test_eval import evaluate, load_test_data
+from src.test_eval import evaluate, load_test_data, select_three_architectures, train_selected
 from src.train import DATA_PATH, PROJECT_ROOT, load_data, resolve_device, set_seed, train_model
 
 
@@ -44,6 +44,34 @@ def select_best_surrogate(summary_path: Path, *, expected_seed: int) -> tuple[di
 
 
 def evaluate_selected_surrogate(args: argparse.Namespace) -> dict:
+    if getattr(args, "hardware_aware", False):
+        candidates = select_three_architectures(args.summary, args.seed, "surrogate_search")
+        device = resolve_device(args.device)
+        loaded_data = load_data(args.data_path)
+        test_data = load_test_data(args.data_path)
+        results = [
+            train_selected(
+                f"surrogate_{role}", architecture, selection,
+                loaded_data, test_data, args, device,
+            )
+            for role, architecture, selection in candidates
+        ]
+        summary = {
+            "seed": args.seed,
+            "selection_uses": "validation_only",
+            "test_uses": "test_evaluation_only",
+            "results": [{
+                "model": result["model"],
+                "selection": result["selection"],
+                "test_metrics": result["test_metrics"],
+                "result": str(Path(result["checkpoint"]).with_name("result.json")),
+            } for result in results],
+        }
+        summary_dir = args.output_dir / f"seed_{args.seed}"
+        summary_dir.mkdir(parents=True, exist_ok=True)
+        save_json(summary_dir / "summary.json", summary)
+        return summary
+
     architecture, selection = select_best_surrogate(
         args.summary, expected_seed=args.seed,
     )
@@ -133,6 +161,7 @@ def evaluate_selected_surrogate(args: argparse.Namespace) -> dict:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--summary", type=Path, required=True)
+    parser.add_argument("--hardware-aware", action="store_true", help="Retrain three Pareto architectures")
     parser.add_argument("--seed", type=int, choices=(42,), default=42)
     parser.add_argument("--epochs", type=int, choices=(60,), default=60)
     parser.add_argument("--device", default="auto")
