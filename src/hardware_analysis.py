@@ -264,6 +264,6 @@ def write_test_report(root, output, seeds):
         "across_seeds": {
             model: {key: describe([row[key] for row in rows if row["model"] == model])
                     for key in rows[0] if key not in ("seed", "model")}
-            for model in ("ga", "random", "baseline")
+            for model in dict.fromkeys(row["model"] for row in rows)
         },
     })
