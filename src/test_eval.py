@@ -2,6 +2,7 @@
 
 import argparse
 import json
+from hashlib import sha256
 import shutil
 from copy import deepcopy
 from pathlib import Path
@@ -82,7 +83,7 @@ def select_best_auc(summary_path: Path, seed: int = 42):
     return deepcopy(selected["architecture"]), selection
 
 
-def select_three_architectures(summary_path, seed, experiment):
+def select_pareto_architectures(summary_path, seed, experiment):
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
     config = summary.get("config", {})
     if (summary.get("experiment") != experiment or config.get("seed") != seed
@@ -92,49 +93,18 @@ def select_three_architectures(summary_path, seed, experiment):
         canonical_architecture(item["architecture"]): item
         for item in summary.get("pareto_front", [])
     }
-    if len(front) < 3 or any("macs" not in item for item in front.values()):
-        raise ValueError(f"Need three distinct Pareto architectures with MACs: {summary_path}")
-    costs = {
-        key: (-item["val_macro_auc_ovr"], item["parameter_count"], item["macs"])
-        for key, item in front.items()
-    }
-
-    def rank(key, order):
-        return tuple(costs[key][index] for index in order), key
-
-    choices = {}
-    for rule, order in (
-        ("best_auc", (0, 1, 2)),
-        ("min_parameters", (1, 0, 2)),
-        ("min_macs", (2, 0, 1)),
-    ):
-        winner = min(front, key=lambda key: rank(key, order))
-        choices.setdefault(winner, []).append(rule)
-
-    bounds = [(min(axis), max(axis)) for axis in zip(*costs.values())]
-
-    def balance_rank(key):
-        distance = sum(
-            ((value - low) / (high - low)) ** 2
-            for value, (low, high) in zip(costs[key], bounds)
-            if high > low
-        )
-        return distance, rank(key, (0, 1, 2))
-
-    remaining = sorted(front.keys() - choices.keys(), key=balance_rank)
-    for index, key in enumerate(remaining[:3 - len(choices)], start=1):
-        choices[key] = [f"balanced_{index}"]
+    if not front or any("macs" not in item for item in front.values()):
+        raise ValueError(f"Expected a non-empty Pareto front with MACs: {summary_path}")
 
     return [
-        (rules[0], deepcopy(front[key]["architecture"]), {
-            "rule": rules[0],
-            "criteria": rules,
+        (f"pareto_{sha256(key.encode('utf-8')).hexdigest()}", deepcopy(item["architecture"]), {
+            "rule": "pareto_front",
             "source": str(summary_path),
-            "search_val_macro_auc_ovr": front[key]["val_macro_auc_ovr"],
-            "search_parameter_count": front[key]["parameter_count"],
-            "search_macs": front[key]["macs"],
+            "search_val_macro_auc_ovr": item["val_macro_auc_ovr"],
+            "search_parameter_count": item["parameter_count"],
+            "search_macs": item["macs"],
         })
-        for key, rules in choices.items()
+        for key, item in front.items()
     ]
 
 
@@ -298,7 +268,7 @@ def main():
         if args.hardware_aware:
             candidates.extend(
                 (f"{name}_{role}", architecture, selection)
-                for role, architecture, selection in select_three_architectures(
+                for role, architecture, selection in select_pareto_architectures(
                     path, args.seed, f"{name}_search",
                 )
             )
