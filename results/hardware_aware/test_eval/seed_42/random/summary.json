@@ -1,0 +1,107 @@
+{
+  "experiment": "test_evaluation",
+  "seed": 42,
+  "selection_uses": "validation_only",
+  "test_uses": "test_evaluation_only",
+  "results": [
+    {
+      "model": "random_best_auc",
+      "parameter_count": 5820743,
+      "selection": {
+        "rule": "best_auc",
+        "criteria": [
+          "best_auc"
+        ],
+        "source": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\random_search\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9439497484999507,
+        "search_parameter_count": 5820743,
+        "search_macs": 2828796800
+      },
+      "best_epoch": 22,
+      "validation_metrics": {
+        "val_loss": 0.6220649215778111,
+        "val_accuracy": 0.7776669990029911,
+        "val_macro_precision": 0.6807818302411744,
+        "val_macro_recall": 0.5438045613689642,
+        "val_macro_f1": 0.555369291046374,
+        "val_macro_auc_ovr": 0.9380229995085213
+      },
+      "test_metrics": {
+        "test_loss": 0.5984177315621602,
+        "test_accuracy": 0.7910224438902743,
+        "test_macro_precision": 0.6980693630160545,
+        "test_macro_recall": 0.5617592612905046,
+        "test_macro_f1": 0.5866390189628502,
+        "test_macro_auc_ovr": 0.9400891376366679
+      },
+      "macs": 2828796800,
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\random\\random_best_auc\\seed_42\\result.json"
+    },
+    {
+      "model": "random_min_parameters",
+      "parameter_count": 666007,
+      "selection": {
+        "rule": "min_parameters",
+        "criteria": [
+          "min_parameters"
+        ],
+        "source": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\random_search\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9419790877398945,
+        "search_parameter_count": 666007,
+        "search_macs": 325780352
+      },
+      "best_epoch": 26,
+      "validation_metrics": {
+        "val_loss": 0.594418004883132,
+        "val_accuracy": 0.7836490528414756,
+        "val_macro_precision": 0.5361632507253914,
+        "val_macro_recall": 0.521802409038943,
+        "val_macro_f1": 0.5269331488949672,
+        "val_macro_auc_ovr": 0.9432704263737612
+      },
+      "test_metrics": {
+        "test_loss": 0.5945841704669439,
+        "test_accuracy": 0.7825436408977556,
+        "test_macro_precision": 0.6072178089341992,
+        "test_macro_recall": 0.528274038907542,
+        "test_macro_f1": 0.54964987385076,
+        "test_macro_auc_ovr": 0.9336653169225559
+      },
+      "macs": 325780352,
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\random\\random_min_parameters\\seed_42\\result.json"
+    },
+    {
+      "model": "random_min_macs",
+      "parameter_count": 1012887,
+      "selection": {
+        "rule": "min_macs",
+        "criteria": [
+          "min_macs"
+        ],
+        "source": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\random_search\\seed_42\\summary.json",
+        "search_val_macro_auc_ovr": 0.9337637098398633,
+        "search_parameter_count": 1012887,
+        "search_macs": 226165632
+      },
+      "best_epoch": 17,
+      "validation_metrics": {
+        "val_loss": 0.6510208412514608,
+        "val_accuracy": 0.7567298105682951,
+        "val_macro_precision": 0.523444501011036,
+        "val_macro_recall": 0.4466293037721609,
+        "val_macro_f1": 0.4624351526403178,
+        "val_macro_auc_ovr": 0.928844070854762
+      },
+      "test_metrics": {
+        "test_loss": 0.6460627489256443,
+        "test_accuracy": 0.7556109725685786,
+        "test_macro_precision": 0.5173951181768518,
+        "test_macro_recall": 0.4657611028383076,
+        "test_macro_f1": 0.4799606218137486,
+        "test_macro_auc_ovr": 0.922088026854255
+      },
+      "macs": 226165632,
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval\\seed_42\\random\\random_min_macs\\seed_42\\result.json"
+    }
+  ]
+}
