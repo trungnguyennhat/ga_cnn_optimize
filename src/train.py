@@ -8,7 +8,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+from sklearn.metrics import accuracy_score, f1_score, recall_score, roc_auc_score
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
@@ -83,7 +83,7 @@ def resolve_device(name: str) -> torch.device:
     return device
 
 
-def evaluate_model(model, dataset, criterion, *, batch_size, device):
+def evaluate_model(model, dataset, criterion, *, batch_size, device, per_class_recall=False):
     loader = DataLoader(dataset, batch_size=batch_size)
     model.eval()
     loss_sum = 0.0
@@ -99,7 +99,7 @@ def evaluate_model(model, dataset, criterion, *, batch_size, device):
     labels_np = np.concatenate(labels_all)
     probabilities_np = np.concatenate(probabilities_all)
     predictions_np = probabilities_np.argmax(axis=1)
-    return {
+    metrics = {
         "val_loss": loss_sum / len(dataset),
         "val_accuracy": accuracy_score(labels_np, predictions_np),
         "val_macro_f1": f1_score(labels_np, predictions_np, average="macro"),
@@ -107,11 +107,17 @@ def evaluate_model(model, dataset, criterion, *, batch_size, device):
             labels_np, probabilities_np, average="macro", multi_class="ovr"
         ),
     }
+    if per_class_recall:
+        metrics["val_recall_by_class"] = recall_score(
+            labels_np, predictions_np, labels=np.arange(probabilities_np.shape[1]),
+            average=None, zero_division=0,
+        ).tolist()
+    return metrics
 
 
 def train_model(
     model, loaded_data, *, learning_rate, batch_size, optimizer_name, epochs,
-    seed, device, scheduler_step_size=20,
+    seed, device, scheduler_step_size=20, weight_decay=None, class_weights=None,
 ):
     train_data, val_data = loaded_data
     generator = torch.Generator().manual_seed(seed)
@@ -120,11 +126,20 @@ def train_model(
     )
 
     model = model.to(device)
-    criterion = nn.CrossEntropyLoss()
+    val_criterion = nn.CrossEntropyLoss()
+    train_criterion = val_criterion
+    train_loss_denominator = len(train_data)
+    if class_weights is not None:
+        train_loss_denominator = class_weights[train_data.tensors[1]].sum().item()
+        class_weights = class_weights.to(device)
+        train_criterion = nn.CrossEntropyLoss(weight=class_weights, reduction="sum")
     optimizers = {"Adam": torch.optim.Adam, "AdamW": torch.optim.AdamW}
     if optimizer_name not in optimizers:
         raise ValueError(f"optimizer must be one of {sorted(optimizers)}")
-    optimizer = optimizers[optimizer_name](model.parameters(), lr=learning_rate)
+    optimizer_options = {"lr": learning_rate}
+    if weight_decay is not None:
+        optimizer_options["weight_decay"] = weight_decay
+    optimizer = optimizers[optimizer_name](model.parameters(), **optimizer_options)
     scheduler = torch.optim.lr_scheduler.StepLR(
         optimizer, step_size=scheduler_step_size, gamma=0.1,
     )
@@ -141,13 +156,17 @@ def train_model(
         for images, labels in train_loader:
             images, labels = images.to(device), labels.to(device)
             optimizer.zero_grad()
-            loss = criterion(model(images), labels)
+            batch_loss = train_criterion(model(images), labels)
+            if class_weights is None:
+                loss = batch_loss
+            else:
+                loss = batch_loss / class_weights[labels].sum()
             loss.backward()
             optimizer.step()
-            loss_sum += loss.item() * labels.size(0)
-        train_loss = loss_sum / len(train_data)
+            loss_sum += batch_loss.item() * (labels.size(0) if class_weights is None else 1)
+        train_loss = loss_sum / train_loss_denominator
         val_metrics = evaluate_model(
-            model, val_data, criterion, batch_size=batch_size, device=device,
+            model, val_data, val_criterion, batch_size=batch_size, device=device,
         )
         history.append({
             "epoch": epoch,
