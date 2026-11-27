@@ -1,0 +1,648 @@
+{
+  "experiment": "moead_search",
+  "config": {
+    "epochs": 20,
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "optimizer": "Adam",
+    "seed": 42,
+    "device": "cuda",
+    "scheduler": {
+      "name": "StepLR",
+      "step_size": 15,
+      "gamma": 0.1
+    },
+    "loss": "unweighted_cross_entropy",
+    "normalization": {
+      "mean": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "std": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "architecture_space": "resnet_stage_channels_v1",
+    "train_val_sha256": "9b52e5af2a28cefe8ec8cfec61a346da000c433d23abdb650c2abe5585b41a7d",
+    "training_version": 4,
+    "objectives": {
+      "val_macro_auc_ovr": "max",
+      "parameter_count": "min",
+      "macs": "min"
+    },
+    "mac_convention": "conv2d_linear_macs_per_64x64_rgb_image_no_bias",
+    "budget": 60,
+    "population_size": 10,
+    "neighborhood_size": 4,
+    "crossover_rate": 0.8,
+    "mutation_probability": 0.15,
+    "decomposition": "normalized_weighted_tchebycheff"
+  },
+  "new_trainings": 60,
+  "cache_hits": 0,
+  "evaluations": [
+    {
+      "evaluation": 1,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\a85c417c19879c59e72deb92c054b195b47e1a52dc99c51ba0e349f8730aea97.json",
+      "best_auc_so_far": 0.9347896480827018,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 1,
+      "macs": 342229888,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 2,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\647f38b01a32b359dc49ddddb9eb8797736f64a48cc60c57de2dca9fa44e7697.json",
+      "best_auc_so_far": 0.9401132845447441,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2,
+      "macs": 1535902592,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 3,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\da1e04c251495512232a30bcc6c22a50d7873dd90c8c7cc56518154a1810307a.json",
+      "best_auc_so_far": 0.9401623719457695,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2,
+      "macs": 352716544,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 4,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\01b5048184315abe03f06744d9e98f5420960a76dbc794008d50fa80921adc29.json",
+      "best_auc_so_far": 0.9401623719457695,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 2,
+      "macs": 3363570560,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 5,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\3aab77e4092b5686d341bb899420932a31968b9521231b58f5e98be6ac855b25.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
+      "macs": 562824064,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 6,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\f037edb633e25bd6a7e64b2cd1c30617f32c448aef93394422051cb90054c2f7.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
+      "macs": 595986176,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 7,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\79e10dadb40dfe952e05e16c4473c036083611a6126f64fc783f7f96fc417de0.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
+      "macs": 2069628672,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 8,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\78415bb386dd86d2e5e39ef53fd8a85323b6ffab2b60a17b2be489b510792e12.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
+      "macs": 2728136192,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 9,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\c934892fb437ec2e960154cb651c339536aef5d622275c55691a8dda19071584.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
+      "macs": 4104916480,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 10,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\b8a9026e3c40af2f4d5cab83b3bd210a5daf031bc7e65091df04ee52a3130a1b.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
+      "macs": 747307904,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 11,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\d3560715f6bb12fd87ec642ba13eab0cc056fb3ceded81c3298db6395ef18de8.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 3,
+      "macs": 504038272,
+      "smallest_macs_so_far": 342229888
+    },
+    {
+      "evaluation": 12,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\5f17d845a16dca5969ea226c8587f708d67786176a994d0650ff9ac6d414c3be.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 4,
+      "macs": 296092544,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 13,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\81fa5da4ec04f185305909806410feb26f34010c79c852b148cc1bda3b0ce554.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 5,
+      "macs": 378209152,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 14,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\4120e5a66698ff19023c1f323178c935ebca1297e1be0197801269828b3e2de2.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 5,
+      "macs": 356910848,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 15,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\1226b8b6bd916a804cfe5f0b6b529ac2f2716d98711469a1f4b4fb05e8aee2d6.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 1054183,
+      "pareto_size_so_far": 6,
+      "macs": 455476096,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 16,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\b22907e3777b0b4c9cc46ffca9edcd4e1f7f265af69f9d1239981a3ea6fa56c9.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 787175,
+      "pareto_size_so_far": 6,
+      "macs": 340132736,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 17,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\ba7c048c71ce486ad1d22d61cb6b48cb5e6a91bf9fbaecab7a0952d0a105611a.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 787175,
+      "pareto_size_so_far": 6,
+      "macs": 2128348928,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 18,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\6074b803f9db5d936075cd29e699b7d8b7ca0e6b1c3c0c631d2fff097d50f404.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 787175,
+      "pareto_size_so_far": 4,
+      "macs": 296092544,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 19,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\340fb0b4dc2367a88d51d4d91e243c337a0c2823e21ead75f6873b8c63a02188.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 787175,
+      "pareto_size_so_far": 4,
+      "macs": 359334784,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 20,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\6d4cb91acd78f6caa4a9d95216ddc5d88d03c5e4cfec0b9d3468f5623e9e3545.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 787175,
+      "pareto_size_so_far": 4,
+      "macs": 310772608,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 21,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\f3d7916c3b38a8c34e6c591a8d4536679332f2a7d0d6bd1e05efda881c4dec0c.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 787175,
+      "pareto_size_so_far": 5,
+      "macs": 428213120,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 22,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\254b1f87d84d84c7121e39ee7cc589377dcbde3fea0b1f13ab31d525e7869303.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 5,
+      "macs": 314966912,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 23,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\35fe67ae64f72b49d6c53f634116bfd1fc1475ee8d2e919185d23a7ac2e662cd.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 5,
+      "macs": 1606815232,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 24,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\ffbc73477bd03068a39e8f92d5bf751c4fd04af0886859b72c1b075271ac4bb4.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 5,
+      "macs": 1737163648,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 25,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\968104691475ff961eb12e98cebddd425cb0710c9ce999940de4e2f6ac9512ac.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 5,
+      "macs": 530973568,
+      "smallest_macs_so_far": 296092544
+    },
+    {
+      "evaluation": 26,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\8b8d85c9b0149557dac528449a389e008e171aadd5d228758ed67c9a16e09da8.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 6,
+      "macs": 258343808,
+      "smallest_macs_so_far": 258343808
+    },
+    {
+      "evaluation": 27,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\0f8c9b7337e66d0d73908ba6162267b4ca3dd3a23aa70b02de5c7698187c308e.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 6,
+      "macs": 982188928,
+      "smallest_macs_so_far": 258343808
+    },
+    {
+      "evaluation": 28,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\b03cd63ff7ed7e5485d1ead139461c3b22539d0282297a4d4482cb6b88f0a158.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 6,
+      "macs": 447087488,
+      "smallest_macs_so_far": 258343808
+    },
+    {
+      "evaluation": 29,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\b62db52b6d2527f011632a92c113bb646ef5662d22a64d3f448a6892a9f4efe9.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 7,
+      "macs": 501613440,
+      "smallest_macs_so_far": 258343808
+    },
+    {
+      "evaluation": 30,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\9dd6d3ad0f8f2c196cc0e6c5ebe70bd77d7698491da116eac7d7bbeb3d191da5.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 228983680,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 31,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\c944631a465a331bed22d68a29e9e67eb929f1f2cd917a7189783afe2178658b.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 1560675200,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 32,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\de2157c088693df28da77e767d1405a63b622a885dc47ca1531768e9d556e8d4.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 472254208,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 33,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\ee1aed99a4cec7163980accc5bcd8f7ff2a573b64e0b8a0bd1dd65e1e50ca597.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 311100288,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 34,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\92421d27c8daea57fe89095748368171a3f9e86e0347f550a28e6ff827d4db8d.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 583402368,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 35,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\a4439592d4cbb1d715c750f5fb45c156f92f3cabd6219b808031c89bd204e2a7.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 2711358976,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 36,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\86ed647e6e2d2928ae66b36f883d9999bf31d69650def36bdbd69ddf8f44926d.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 690357120,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 37,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\0f5f104d128b2cc5db20c6a6f6dd5c9596a46efcaac5099736f315814ace924b.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 430310272,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 38,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\71c043985aa2c057025c6b3b044c1503d06665f8aa9396b903d7f2f7ebd60393.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 392561536,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 39,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\05bd28e0012b8d591f68e18a197f0c83fd36754479a4bbe5463c93141cb2f39e.json",
+      "best_auc_so_far": 0.9427722620767419,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 369492864,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 40,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\44136df0ecdf81893f0d237e43e777b62b74955a7d288209f40842ef9d21909a.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 9,
+      "macs": 442894080,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 41,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\9143942d3e2f5739011c6a4fed1ae31d11ff6e39dad66d769b7a972f39d76645.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 7,
+      "macs": 409338752,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 42,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\06d3a3afebc36f11db01245e54a3c7150c0a099253db6e65e0ce04e80e0e4b63.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 394658688,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 43,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\440ed236d8f0ca8fd2bae26a5ebc2b4e2fe31180fa0068ba171aef097388b6c9.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 593889024,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 44,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\1bddb016000098a2ad212498ad7428fb90011b075db52431952312f0e42b5b05.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 369492864,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 45,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\1cbf645497954abb918128106bd8260970440f415645f557910d74a7c6fdfe44.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 1956381568,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 46,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\34a9b69e2fc53f6875221278f4f1a6f5d28553646572d4488070c8d7f86f5a23.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 388367232,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 47,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\73fb6cc1a785946c91b4a6232fd0bdc279ad6240d0068ac99f8fb5b48dc669d8.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 543556480,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 48,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\133be7c38d9077545b95fb381fa4b5e9363223df558aab3294dea7790cce46d0.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 8,
+      "macs": 1021051776,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 49,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\cdab3d7d150ba9127961d9fc2f504bc058c2b5805322a04b74fc6b7167c1c0a3.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 9,
+      "macs": 390465280,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 50,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\8eeb9d10c938881030b2d326a267ad9c92b457e48cc29b32873e9b56ef63c158.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 9,
+      "macs": 363201408,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 51,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\baf54c2610c2a8ce3d124af54dbc13498304728e5c2045ad3abc72f743550d37.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 9,
+      "macs": 333841280,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 52,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\0f2b792240f4fcbefc6ae6d778e2fe6c7a4ba8462d447fd47d302ace49b61373.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 9,
+      "macs": 577111808,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 53,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\c67ed634a414a44811d9ec0cefa268a7eef74313702f27a46063d2260acd2b2f.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 9,
+      "macs": 797311872,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 54,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\1ac89f244bea997e77e7927b02c7897ceafc070a7f7062cecc643ce80d41df96.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 9,
+      "macs": 1644561280,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 55,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\7db353ec9c9941149a06f66db6c7493aa3b2e8ee9222e9e2f91e15c4984fda06.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 9,
+      "macs": 627442560,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 56,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\811ea60f24e7f3c61c4c4d2157813c6854a03765fb747f3fbb00e8eb1b5f7f73.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 9,
+      "macs": 1181093376,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 57,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\2187ad71a177e77f72646faec5942150b7e5efdf74eb7d982a01fb34894280ab.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 9,
+      "macs": 354812800,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 58,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\887abc258376ab63659c08d00732c0e44c518a96516eea78904eb81fa8eb039b.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 688871,
+      "pareto_size_so_far": 9,
+      "macs": 438698880,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 59,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\fb8afd9fc0e75432ed84edf6aa2184d27d88df4c351cacb9c503ea50b460e4c7.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 487047,
+      "pareto_size_so_far": 10,
+      "macs": 406586240,
+      "smallest_macs_so_far": 228983680
+    },
+    {
+      "evaluation": 60,
+      "status": "trained",
+      "result": "C:\\Users\\long3\\Documents\\ga_cnn_optimize\\results\\hardware_aware\\moead_search\\seed_42\\evaluations\\696455049fa701191d7fe63b6fce02551b81e6bec93a2cac048fbc1eb6e058c6.json",
+      "best_auc_so_far": 0.9460796341002157,
+      "smallest_parameters_so_far": 487047,
+      "pareto_size_so_far": 10,
+      "macs": 862323584,
+      "smallest_macs_so_far": 228983680
+    }
+  ]
+}

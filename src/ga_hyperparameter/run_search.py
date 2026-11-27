@@ -1,7 +1,9 @@
-"""Tune ResNet18 training with AdamW and a real-valued genetic algorithm."""
+"""Tune training hyperparameters with AdamW and a real-valued genetic algorithm."""
 
 import argparse
 from datetime import datetime
+from hashlib import sha256
+import json
 import math
 from pathlib import Path
 import time
@@ -13,8 +15,9 @@ from src.ga_hyperparameter.ga import (
     BOUNDS, CROSSOVER_ETA, CROSSOVER_RATE, MUTATION_ETA, MUTATION_RATE,
     TOURNAMENT_SIZE, decode, run_ga,
 )
-from src.model import BASELINE_ARCHITECTURE, BaselineResNet
+from src.model import BASELINE_ARCHITECTURE, build_model
 from src.search_runtime import SEARCH_EPOCHS, SEARCH_SCHEDULER_STEP, save_json
+from src.search_space import canonical_architecture, validate_architecture
 from src.train import (
     DATA_PATH, DEFAULT_EPOCHS, PROJECT_ROOT, evaluate_model, load_data,
     resolve_device, set_seed, train_model,
@@ -31,7 +34,7 @@ def score(record):
     return record["metrics"][FITNESS]
 
 
-def run_search(args):
+def run_search(args, architecture=BASELINE_ARCHITECTURE, source=None):
     started = time.perf_counter()
     device = resolve_device(args.device)
     data = load_data(args.data_path)
@@ -42,12 +45,16 @@ def run_search(args):
     inverse_frequency = len(train_labels) / (len(class_counts) * class_counts)
 
     run_id = datetime.now().strftime("run_%Y%m%d_%H%M%S_%f")
-    output = args.output_dir / f"seed_{args.seed}" / run_id
+    output = args.output_dir / f"seed_{args.seed}"
+    if source is not None:
+        digest = sha256(canonical_architecture(architecture).encode("utf-8")).hexdigest()
+        output /= digest
+    output /= run_id
     output.mkdir(parents=True, exist_ok=False)
     trials = []
     finalists = []
     config = {
-        "architecture": BASELINE_ARCHITECTURE,
+        "architecture": architecture,
         "data_path": str(args.data_path.resolve()),
         "seed": args.seed,
         "device": str(device),
@@ -67,13 +74,15 @@ def run_search(args):
             "scheduler_step_size": FINAL_SCHEDULER_STEP,
         },
     }
+    if source is not None:
+        config["architecture_source"] = str(source.resolve())
     progress = {"experiment": EXPERIMENT, "config": config, "trials": trials, "finalists": finalists}
 
     def evaluate(chromosome, hyperparameters, *, optimizer, epochs, scheduler_step, checkpoint=None):
         alpha = hyperparameters["class_weight_alpha"]
         weights = inverse_frequency.pow(alpha)
         set_seed(args.seed)
-        model = BaselineResNet()
+        model = build_model(architecture)
         metrics, history, runtime = train_model(
             model, data, learning_rate=hyperparameters["learning_rate"],
             batch_size=BATCH_SIZE, optimizer_name=optimizer, epochs=epochs,
@@ -100,9 +109,9 @@ def run_search(args):
             metrics["val_recall_by_class"] = validation["val_recall_by_class"]
             torch.save({
                 "state_dict": {key: value.detach().cpu() for key, value in model.state_dict().items()},
-                "architecture": BASELINE_ARCHITECTURE,
+                "architecture": architecture,
                 "best_epoch": metrics["best_epoch"],
-                FITNESS: metrics[FITNESS],
+                FITNESS: float(metrics[FITNESS]),
                 "hyperparameters": hyperparameters,
                 "optimizer": optimizer,
             }, checkpoint)
@@ -146,12 +155,14 @@ def run_search(args):
         save_json(output / "progress.json", progress)
 
     finalists.sort(key=score, reverse=True)
+    winner = (finalists or ranked)[0]
     save_json(output / "summary.json", {
         **progress,
         "generations": generations,
         "baseline_trial": baseline["trial"],
         "proxy_ranking": [record["trial"] for record in ranked],
-        "best_trial": (finalists or ranked)[0]["trial"],
+        "best_trial": winner["trial"],
+        "best_hyperparameters": winner["hyperparameters"],
         "selection_stage": "retrain" if finalists else "proxy",
         "runtime_seconds": time.perf_counter() - started,
     })
@@ -170,12 +181,25 @@ def main():
     parser.add_argument("--device", default="auto")
     parser.add_argument("--data-path", type=Path, default=DATA_PATH)
     parser.add_argument("--output-dir", type=Path, default=PROJECT_ROOT / "results" / EXPERIMENT)
+    parser.add_argument(
+        "--architecture-result", type=Path, action="append", default=[],
+        help="Result JSON with an architecture field. Repeat to tune architectures sequentially.",
+    )
     args = parser.parse_args()
     if args.budget < 2 or args.population_size < 2:
         parser.error("budget and population-size must be at least 2")
     if args.epochs < 1 or args.retrain_epochs < 1 or args.top_k < 0:
         parser.error("epochs and retrain-epochs must be positive and top-k must be nonnegative")
-    run_search(args)
+    candidates = []
+    for source in args.architecture_result:
+        try:
+            architecture = json.loads(source.read_text(encoding="utf-8"))["architecture"]
+            validate_architecture(architecture)
+        except (OSError, KeyError, TypeError, ValueError) as exc:
+            parser.error(f"{source}: {exc}")
+        candidates.append((architecture, source))
+    for architecture, source in candidates or [(BASELINE_ARCHITECTURE, None)]:
+        run_search(args, architecture, source)
 
 
 if __name__ == "__main__":
