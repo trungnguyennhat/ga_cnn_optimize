@@ -1,0 +1,423 @@
+{
+  "experiment": "pareto_retrain_ga_hyperparam",
+  "method": "surrogate",
+  "seed": 42,
+  "hyperparameters": {
+    "learning_rate": 0.0005916699579752365,
+    "weight_decay": 4.5848155257561526e-05,
+    "class_weight_alpha": 0.29463284193795436
+  },
+  "hyperparameter_source": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\ga_hyperparameter\\seed_42\\run_20261126_203124_030102\\summary.json",
+  "results": [
+    {
+      "model": "surrogate_pareto_4ffd382e78f737ab12f8fd47319529dd0fb57541c531e0b80d13e1355e5103ee",
+      "parameter_count": 2375015,
+      "macs": 352716544,
+      "best_epoch": 16,
+      "validation_metrics": {
+        "val_loss": 0.6501377379430731,
+        "val_accuracy": 0.7676969092721835,
+        "val_macro_precision": 0.5375423519786825,
+        "val_macro_recall": 0.49009740602246454,
+        "val_macro_f1": 0.5047868879119981,
+        "val_macro_auc_ovr": 0.9371440427189437,
+        "val_recall_by_class": [
+          0.2727272727272727,
+          0.5,
+          0.6727272727272727,
+          0.0,
+          0.36036036036036034,
+          0.910581222056632,
+          0.7142857142857143
+        ]
+      },
+      "test_metrics": {
+        "test_loss": 0.6666560468828292,
+        "test_accuracy": 0.7660847880299252,
+        "test_macro_precision": 0.626165525268828,
+        "test_macro_recall": 0.5286503245308534,
+        "test_macro_f1": 0.5540824320619281,
+        "test_macro_auc_ovr": 0.9287688011288282,
+        "test_recall_by_class": [
+          0.42424242424242425,
+          0.3883495145631068,
+          0.6636363636363637,
+          0.17391304347826086,
+          0.34977578475336324,
+          0.9075316927665921,
+          0.7931034482758621
+        ]
+      },
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval_ga_hyperparam\\seed_42\\run_20261126_230147_788765\\surrogate\\pareto_4ffd382e78f737ab12f8fd47319529dd0fb57541c531e0b80d13e1355e5103ee\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_841e1042c921511c04b221a787784faf6aaf6129b4caa46cde129fdf842a1e72",
+      "parameter_count": 1496967,
+      "macs": 562824064,
+      "best_epoch": 21,
+      "validation_metrics": {
+        "val_loss": 0.6748126056472421,
+        "val_accuracy": 0.7627118644067796,
+        "val_macro_precision": 0.6168926022309602,
+        "val_macro_recall": 0.549795837852044,
+        "val_macro_f1": 0.5618319670209063,
+        "val_macro_auc_ovr": 0.9329275697669251,
+        "val_recall_by_class": [
+          0.30303030303030304,
+          0.6730769230769231,
+          0.5454545454545454,
+          0.25,
+          0.4774774774774775,
+          0.8852459016393442,
+          0.7142857142857143
+        ]
+      },
+      "test_metrics": {
+        "test_loss": 0.6623883285724611,
+        "test_accuracy": 0.771571072319202,
+        "test_macro_precision": 0.6251076033904394,
+        "test_macro_recall": 0.575564421383741,
+        "test_macro_f1": 0.5966511716904109,
+        "test_macro_auc_ovr": 0.9283638681032124,
+        "test_recall_by_class": [
+          0.4393939393939394,
+          0.5436893203883495,
+          0.5318181818181819,
+          0.2608695652173913,
+          0.49327354260089684,
+          0.8978374347501864,
+          0.8620689655172413
+        ]
+      },
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval_ga_hyperparam\\seed_42\\run_20261126_230147_788765\\surrogate\\pareto_841e1042c921511c04b221a787784faf6aaf6129b4caa46cde129fdf842a1e72\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_4c9602d5d32c0fa7ddad3d3ce155cdd425391158e06899494c1748da3ee8beba",
+      "parameter_count": 1139031,
+      "macs": 266011520,
+      "best_epoch": 21,
+      "validation_metrics": {
+        "val_loss": 0.6466662520069187,
+        "val_accuracy": 0.7666999002991027,
+        "val_macro_precision": 0.5741222404970256,
+        "val_macro_recall": 0.5743131607300226,
+        "val_macro_f1": 0.5725276765925303,
+        "val_macro_auc_ovr": 0.9368661011177755,
+        "val_recall_by_class": [
+          0.3939393939393939,
+          0.6538461538461539,
+          0.5545454545454546,
+          0.3333333333333333,
+          0.4864864864864865,
+          0.8837555886736215,
+          0.7142857142857143
+        ]
+      },
+      "test_metrics": {
+        "test_loss": 0.6279368979229297,
+        "test_accuracy": 0.7725685785536159,
+        "test_macro_precision": 0.594545152568493,
+        "test_macro_recall": 0.592872460790352,
+        "test_macro_f1": 0.5923700678597267,
+        "test_macro_auc_ovr": 0.9327472149157952,
+        "test_recall_by_class": [
+          0.5151515151515151,
+          0.6019417475728155,
+          0.5181818181818182,
+          0.30434782608695654,
+          0.48878923766816146,
+          0.8941088739746458,
+          0.8275862068965517
+        ]
+      },
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval_ga_hyperparam\\seed_42\\run_20261126_230147_788765\\surrogate\\pareto_4c9602d5d32c0fa7ddad3d3ce155cdd425391158e06899494c1748da3ee8beba\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_5ea3f3283079bc64da567f4e389d2fb8cde638a2a1d9b573c935ad3ce3e9060b",
+      "parameter_count": 427799,
+      "macs": 175833984,
+      "best_epoch": 25,
+      "validation_metrics": {
+        "val_loss": 0.6097099076833944,
+        "val_accuracy": 0.7666999002991027,
+        "val_macro_precision": 0.6118985404621123,
+        "val_macro_recall": 0.5541280438235943,
+        "val_macro_f1": 0.5612133363345443,
+        "val_macro_auc_ovr": 0.940530220596174,
+        "val_recall_by_class": [
+          0.45454545454545453,
+          0.6153846153846154,
+          0.5818181818181818,
+          0.16666666666666666,
+          0.4594594594594595,
+          0.886736214605067,
+          0.7142857142857143
+        ]
+      },
+      "test_metrics": {
+        "test_loss": 0.5988142395554635,
+        "test_accuracy": 0.7760598503740649,
+        "test_macro_precision": 0.6004889333355224,
+        "test_macro_recall": 0.5809702971416836,
+        "test_macro_f1": 0.585897727818111,
+        "test_macro_auc_ovr": 0.9398466869802399,
+        "test_recall_by_class": [
+          0.48484848484848486,
+          0.6213592233009708,
+          0.55,
+          0.21739130434782608,
+          0.5067264573991032,
+          0.8933631618195377,
+          0.7931034482758621
+        ]
+      },
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval_ga_hyperparam\\seed_42\\run_20261126_230147_788765\\surrogate\\pareto_5ea3f3283079bc64da567f4e389d2fb8cde638a2a1d9b573c935ad3ce3e9060b\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_94683941994c3485805eacb82aebce9973c890a63465424efc7d6a5da993509e",
+      "parameter_count": 3760743,
+      "macs": 593889024,
+      "best_epoch": 16,
+      "validation_metrics": {
+        "val_loss": 0.7264196560128499,
+        "val_accuracy": 0.7248255234297108,
+        "val_macro_precision": 0.5162830049794166,
+        "val_macro_recall": 0.5327755930800426,
+        "val_macro_f1": 0.4906105643976774,
+        "val_macro_auc_ovr": 0.9305967226147546,
+        "val_recall_by_class": [
+          0.30303030303030304,
+          0.2692307692307692,
+          0.6818181818181818,
+          0.4166666666666667,
+          0.43243243243243246,
+          0.8405365126676602,
+          0.7857142857142857
+        ]
+      },
+      "test_metrics": {
+        "test_loss": 0.7204243166488306,
+        "test_accuracy": 0.7436408977556109,
+        "test_macro_precision": 0.5204062904918159,
+        "test_macro_recall": 0.5642908705541633,
+        "test_macro_f1": 0.5240132429046284,
+        "test_macro_auc_ovr": 0.9263336037513756,
+        "test_recall_by_class": [
+          0.36363636363636365,
+          0.34951456310679613,
+          0.6409090909090909,
+          0.34782608695652173,
+          0.4977578475336323,
+          0.8538404175988069,
+          0.896551724137931
+        ]
+      },
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval_ga_hyperparam\\seed_42\\run_20261126_230147_788765\\surrogate\\pareto_94683941994c3485805eacb82aebce9973c890a63465424efc7d6a5da993509e\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_48557b41a887b64374d12248af7d425eb2d557b85d695bef43187a174e18efd1",
+      "parameter_count": 1222151,
+      "macs": 1794900864,
+      "best_epoch": 26,
+      "validation_metrics": {
+        "val_loss": 0.601937010483157,
+        "val_accuracy": 0.7866400797607178,
+        "val_macro_precision": 0.5802815341672937,
+        "val_macro_recall": 0.5782396359679732,
+        "val_macro_f1": 0.5692790801976166,
+        "val_macro_auc_ovr": 0.9418689836104743,
+        "val_recall_by_class": [
+          0.45454545454545453,
+          0.75,
+          0.5545454545454546,
+          0.16666666666666666,
+          0.5045045045045045,
+          0.9031296572280179,
+          0.7142857142857143
+        ]
+      },
+      "test_metrics": {
+        "test_loss": 0.6011881926856434,
+        "test_accuracy": 0.7735660847880299,
+        "test_macro_precision": 0.5708884189028459,
+        "test_macro_recall": 0.577534864497296,
+        "test_macro_f1": 0.5721728573952217,
+        "test_macro_auc_ovr": 0.93994550888423,
+        "test_recall_by_class": [
+          0.5303030303030303,
+          0.5533980582524272,
+          0.5363636363636364,
+          0.30434782608695654,
+          0.45739910313901344,
+          0.9023117076808352,
+          0.7586206896551724
+        ]
+      },
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval_ga_hyperparam\\seed_42\\run_20261126_230147_788765\\surrogate\\pareto_48557b41a887b64374d12248af7d425eb2d557b85d695bef43187a174e18efd1\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_36550dda5a83a306fdba0713c711ffea9ce259f229677716445aba6d0b8a3f8a",
+      "parameter_count": 365031,
+      "macs": 166069120,
+      "best_epoch": 21,
+      "validation_metrics": {
+        "val_loss": 0.602184136748195,
+        "val_accuracy": 0.7796610169491526,
+        "val_macro_precision": 0.6332880982415064,
+        "val_macro_recall": 0.5832668860771906,
+        "val_macro_f1": 0.589176152992682,
+        "val_macro_auc_ovr": 0.9416220777056721,
+        "val_recall_by_class": [
+          0.5151515151515151,
+          0.6730769230769231,
+          0.5181818181818182,
+          0.25,
+          0.5135135135135135,
+          0.8986587183308494,
+          0.7142857142857143
+        ]
+      },
+      "test_metrics": {
+        "test_loss": 0.6055508473716175,
+        "test_accuracy": 0.770573566084788,
+        "test_macro_precision": 0.6208200652064229,
+        "test_macro_recall": 0.6040724392626861,
+        "test_macro_f1": 0.6083607331235559,
+        "test_macro_auc_ovr": 0.9342854611930526,
+        "test_recall_by_class": [
+          0.5454545454545454,
+          0.5631067961165048,
+          0.5863636363636363,
+          0.34782608695652173,
+          0.515695067264574,
+          0.8769574944071589,
+          0.7931034482758621
+        ]
+      },
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval_ga_hyperparam\\seed_42\\run_20261126_230147_788765\\surrogate\\pareto_36550dda5a83a306fdba0713c711ffea9ce259f229677716445aba6d0b8a3f8a\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_bf784b9afc60e1fac2d80b3fd87ac6ef3c93167ee25dc02bee5f4a8a8e8641ae",
+      "parameter_count": 308439,
+      "macs": 64684928,
+      "best_epoch": 17,
+      "validation_metrics": {
+        "val_loss": 0.672764893186651,
+        "val_accuracy": 0.744765702891326,
+        "val_macro_precision": 0.5285809115563886,
+        "val_macro_recall": 0.555056247210814,
+        "val_macro_f1": 0.5221944249629665,
+        "val_macro_auc_ovr": 0.9329746298176109,
+        "val_recall_by_class": [
+          0.36363636363636365,
+          0.7115384615384616,
+          0.5181818181818182,
+          0.16666666666666666,
+          0.5675675675675675,
+          0.8435171385991058,
+          0.7142857142857143
+        ]
+      },
+      "test_metrics": {
+        "test_loss": 0.6850129409918464,
+        "test_accuracy": 0.7411471321695761,
+        "test_macro_precision": 0.5068059927547064,
+        "test_macro_recall": 0.56196066114405,
+        "test_macro_f1": 0.5114349077387109,
+        "test_macro_auc_ovr": 0.9256937773303895,
+        "test_recall_by_class": [
+          0.30303030303030304,
+          0.7087378640776699,
+          0.5,
+          0.13043478260869565,
+          0.5515695067264574,
+          0.843400447427293,
+          0.896551724137931
+        ]
+      },
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval_ga_hyperparam\\seed_42\\run_20261126_230147_788765\\surrogate\\pareto_bf784b9afc60e1fac2d80b3fd87ac6ef3c93167ee25dc02bee5f4a8a8e8641ae\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_61bb1c77ab0d4304d5875534fd7c20b0339ed0ce80ce6b7dfe98bf4b33b2f52f",
+      "parameter_count": 9265767,
+      "macs": 946210560,
+      "best_epoch": 12,
+      "validation_metrics": {
+        "val_loss": 0.6472919867378646,
+        "val_accuracy": 0.7627118644067796,
+        "val_macro_precision": 0.5260452523100849,
+        "val_macro_recall": 0.5431888796057415,
+        "val_macro_f1": 0.5275050064071787,
+        "val_macro_auc_ovr": 0.9340840429290973,
+        "val_recall_by_class": [
+          0.5454545454545454,
+          0.6730769230769231,
+          0.41818181818181815,
+          0.0,
+          0.5675675675675675,
+          0.8837555886736215,
+          0.7142857142857143
+        ]
+      },
+      "test_metrics": {
+        "test_loss": 0.6194065730173391,
+        "test_accuracy": 0.7591022443890274,
+        "test_macro_precision": 0.6431728705823403,
+        "test_macro_recall": 0.5508130297154914,
+        "test_macro_f1": 0.5627287344116308,
+        "test_macro_auc_ovr": 0.9320261720321625,
+        "test_recall_by_class": [
+          0.4696969696969697,
+          0.6213592233009708,
+          0.44545454545454544,
+          0.17391304347826086,
+          0.4977578475336323,
+          0.8888888888888888,
+          0.7586206896551724
+        ]
+      },
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval_ga_hyperparam\\seed_42\\run_20261126_230147_788765\\surrogate\\pareto_61bb1c77ab0d4304d5875534fd7c20b0339ed0ce80ce6b7dfe98bf4b33b2f52f\\seed_42\\result.json"
+    },
+    {
+      "model": "surrogate_pareto_3fcf4d5deb061d9e9a6f9f8eed767fb1b373a5be73041aa209b9565ffdaea3d4",
+      "parameter_count": 728919,
+      "macs": 161153920,
+      "best_epoch": 16,
+      "validation_metrics": {
+        "val_loss": 0.7184617937146013,
+        "val_accuracy": 0.7008973080757727,
+        "val_macro_precision": 0.5326047304944932,
+        "val_macro_recall": 0.5569750891764943,
+        "val_macro_f1": 0.527422589061102,
+        "val_macro_auc_ovr": 0.9341655578516194,
+        "val_recall_by_class": [
+          0.5151515151515151,
+          0.6346153846153846,
+          0.5909090909090909,
+          0.16666666666666666,
+          0.5855855855855856,
+          0.7630402384500745,
+          0.6428571428571429
+        ]
+      },
+      "test_metrics": {
+        "test_loss": 0.7108490384130407,
+        "test_accuracy": 0.7187032418952618,
+        "test_macro_precision": 0.5534776620516776,
+        "test_macro_recall": 0.5830397598982248,
+        "test_macro_f1": 0.5520045222334794,
+        "test_macro_auc_ovr": 0.9275954485830454,
+        "test_recall_by_class": [
+          0.6515151515151515,
+          0.5145631067961165,
+          0.6136363636363636,
+          0.17391304347826086,
+          0.5426008968609866,
+          0.7919463087248322,
+          0.7931034482758621
+        ]
+      },
+      "result": "D:\\Downloads\\code_D_disk\\ga_cnn_optimize\\results\\hardware_aware\\test_eval_ga_hyperparam\\seed_42\\run_20261126_230147_788765\\surrogate\\pareto_3fcf4d5deb061d9e9a6f9f8eed767fb1b373a5be73041aa209b9565ffdaea3d4\\seed_42\\result.json"
+    }
+  ]
+}

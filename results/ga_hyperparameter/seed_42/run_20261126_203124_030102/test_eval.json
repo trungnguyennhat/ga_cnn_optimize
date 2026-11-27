@@ -1,0 +1,92 @@
+{
+  "device": "cpu",
+  "results": [
+    {
+      "trial": 24,
+      "checkpoint": "results\\ga_hyperparameter\\seed_42\\run_20261126_203124_030102\\trial_24.pt",
+      "hyperparameters": {
+        "learning_rate": 0.0005916699579752365,
+        "weight_decay": 4.5848155257561526e-05,
+        "class_weight_alpha": 0.29463284193795436
+      },
+      "val_macro_auc_ovr": 0.9437294323342975,
+      "val_macro_f1": 0.5746712963938092,
+      "val_accuracy": 0.7836490528414756,
+      "test_metrics": {
+        "test_loss": 0.6185305379869932,
+        "test_accuracy": 0.7625935162094764,
+        "test_macro_precision": 0.5906634692308613,
+        "test_macro_recall": 0.5844433180644699,
+        "test_macro_f1": 0.5828129643523597,
+        "test_macro_auc_ovr": 0.9385537852417417,
+        "test_recall_by_class": [
+          0.5303030303030303,
+          0.5728155339805825,
+          0.5181818181818182,
+          0.2608695652173913,
+          0.5426008968609866,
+          0.8732289336316182,
+          0.7931034482758621
+        ]
+      }
+    },
+    {
+      "trial": 27,
+      "checkpoint": "results\\ga_hyperparameter\\seed_42\\run_20261126_203124_030102\\trial_27.pt",
+      "hyperparameters": {
+        "learning_rate": 0.0006381821364772267,
+        "weight_decay": 5.054956351857296e-05,
+        "class_weight_alpha": 0.2946179658067222
+      },
+      "val_macro_auc_ovr": 0.9411375600223802,
+      "val_macro_f1": 0.5890106388646829,
+      "val_accuracy": 0.7816550348953141,
+      "test_metrics": {
+        "test_loss": 0.6184715247362332,
+        "test_accuracy": 0.7635910224438903,
+        "test_macro_precision": 0.5791313323747371,
+        "test_macro_recall": 0.5897627245105533,
+        "test_macro_f1": 0.5811405357591968,
+        "test_macro_auc_ovr": 0.9352085469607357,
+        "test_recall_by_class": [
+          0.6060606060606061,
+          0.5631067961165048,
+          0.5454545454545454,
+          0.21739130434782608,
+          0.49327354260089684,
+          0.8754660700969426,
+          0.8275862068965517
+        ]
+      }
+    },
+    {
+      "trial": 25,
+      "checkpoint": "results\\ga_hyperparameter\\seed_42\\run_20261126_203124_030102\\trial_25.pt",
+      "hyperparameters": {
+        "learning_rate": 0.0006381821364772267,
+        "weight_decay": 5.176592169358959e-05,
+        "class_weight_alpha": 0.275946822834653
+      },
+      "val_macro_auc_ovr": 0.940080667841671,
+      "val_macro_f1": 0.579953018350752,
+      "val_accuracy": 0.7786640079760718,
+      "test_metrics": {
+        "test_loss": 0.6224105339097857,
+        "test_accuracy": 0.7610972568578553,
+        "test_macro_precision": 0.5757195381801237,
+        "test_macro_recall": 0.5648049279241621,
+        "test_macro_f1": 0.5630246009597735,
+        "test_macro_auc_ovr": 0.9364754081159392,
+        "test_recall_by_class": [
+          0.5151515151515151,
+          0.6019417475728155,
+          0.509090909090909,
+          0.21739130434782608,
+          0.5067264573991032,
+          0.8791946308724832,
+          0.7241379310344828
+        ]
+      }
+    }
+  ]
+}
