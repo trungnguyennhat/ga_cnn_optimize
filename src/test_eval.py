@@ -232,7 +232,8 @@ def main():
     parser.add_argument("--ga-summary", type=Path)
     parser.add_argument("--random-summary", type=Path)
     parser.add_argument("--surrogate-summary", type=Path)
-    parser.add_argument("--method", choices=("ga", "random", "surrogate"),
+    parser.add_argument("--moead-summary", type=Path)
+    parser.add_argument("--method", choices=("ga", "random", "surrogate", "moead"),
                         help="Evaluate one hardware-aware search method")
     parser.add_argument("--baseline-dir", type=Path)
     parser.add_argument("--output-dir", type=Path)
@@ -256,6 +257,12 @@ def main():
         if not args.hardware_aware:
             parser.error("--surrogate-summary requires --hardware-aware")
         searches.append(("surrogate", args.surrogate_summary))
+    if args.moead_summary or args.method == "moead":
+        if not args.hardware_aware:
+            parser.error("MOEA/D test evaluation requires --hardware-aware")
+        searches.append((
+            "moead", args.moead_summary or results_root / "moead_search" / seed_dir / "summary.json",
+        ))
     if args.method:
         if not args.hardware_aware:
             parser.error("--method requires --hardware-aware")
