@@ -1,0 +1,62 @@
+{
+  "selected_trial_by_validation": 25,
+  "results": [
+    {
+      "trial": 25,
+      "checkpoint": "results\\hardware_aware\\ga_hyperparameter\\seed_42\\5ea3f3283079bc64da567f4e389d2fb8cde638a2a1d9b573c935ad3ce3e9060b\\run_20261127_200148_409871\\trial_25.pt",
+      "best_epoch": 16,
+      "hyperparameters": {
+        "learning_rate": 0.00011066912080477322,
+        "weight_decay": 4.504373137896627e-05,
+        "class_weight_alpha": 0.26395477452198607
+      },
+      "val_macro_auc_ovr": 0.9382948392123073,
+      "test_metrics": {
+        "test_loss": 0.6373754952316569,
+        "test_accuracy": 0.7476309226932668,
+        "test_macro_precision": 0.5701284344189264,
+        "test_macro_recall": 0.5530129888652959,
+        "test_macro_f1": 0.5409748817544312,
+        "test_macro_auc_ovr": 0.9346146199639739
+      }
+    },
+    {
+      "trial": 7,
+      "checkpoint": "results\\hardware_aware\\ga_hyperparameter\\seed_42\\5ea3f3283079bc64da567f4e389d2fb8cde638a2a1d9b573c935ad3ce3e9060b\\run_20261127_200148_409871\\trial_7.pt",
+      "best_epoch": 13,
+      "hyperparameters": {
+        "learning_rate": 0.00011066597284121907,
+        "weight_decay": 4.5280782614269214e-05,
+        "class_weight_alpha": 0.2526776440516812
+      },
+      "val_macro_auc_ovr": 0.9375176071456897,
+      "test_metrics": {
+        "test_loss": 0.6322126977461532,
+        "test_accuracy": 0.7605985037406484,
+        "test_macro_precision": 0.5985631859788636,
+        "test_macro_recall": 0.5487934896352351,
+        "test_macro_f1": 0.5674486742754996,
+        "test_macro_auc_ovr": 0.9330653002159177
+      }
+    },
+    {
+      "trial": 29,
+      "checkpoint": "results\\hardware_aware\\ga_hyperparameter\\seed_42\\5ea3f3283079bc64da567f4e389d2fb8cde638a2a1d9b573c935ad3ce3e9060b\\run_20261127_200148_409871\\trial_29.pt",
+      "best_epoch": 12,
+      "hyperparameters": {
+        "learning_rate": 0.00028058194651430684,
+        "weight_decay": 4.828403300630463e-05,
+        "class_weight_alpha": 0.2526776440516812
+      },
+      "val_macro_auc_ovr": 0.9342661464691665,
+      "test_metrics": {
+        "test_loss": 0.6708892858236508,
+        "test_accuracy": 0.7271820448877806,
+        "test_macro_precision": 0.6668110638108816,
+        "test_macro_recall": 0.5159316304249237,
+        "test_macro_f1": 0.5166059522869971,
+        "test_macro_auc_ovr": 0.9279822527530384
+      }
+    }
+  ]
+}
